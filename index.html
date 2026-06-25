@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RAD Job Products</title>
+<title>RAD Products</title>
+<link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
 <style>
-:root{--green:#1D9E75;--green-dark:#0F6E56;--green-light:#E1F5EE;--green-text:#085041;--amber:#FAEEDA;--amber-text:#633806;--amber-border:#BA7517;--radius:8px;--radius-sm:5px;--border:#E2E8F0;--border-light:#F1F5F9;--text:#1A202C;--text-secondary:#64748B;--text-tertiary:#94A3B8;--bg:#FFFFFF;--bg-secondary:#F8FAFC;--shadow:0 1px 3px rgba(0,0,0,.08)}
+:root{--green:#1D9E75;--green-dark:#0F6E56;--green-light:#E1F5EE;--green-text:#085041;--amber:#FAEEDA;--amber-text:#633806;--amber-border:#BA7517;--orange:#E69138;--radius:8px;--radius-sm:5px;--border:#E2E8F0;--border-light:#F1F5F9;--text:#1A202C;--text-secondary:#64748B;--text-tertiary:#94A3B8;--bg:#FFFFFF;--bg-secondary:#F8FAFC;--shadow:0 1px 3px rgba(0,0,0,.08)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F0F4F8;min-height:100vh;padding:16px}
 .app{max-width:780px;margin:0 auto}
@@ -52,27 +53,30 @@ h1 span{color:var(--green)}
 .col-hdrs.simple{grid-template-columns:1fr 110px 28px}
 .col-hdrs.split{grid-template-columns:1fr 1fr 100px 28px}
 .col-h{font-size:11px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.04em}
-.gb{width:100%;padding:11px;background:var(--green);border:none;border-radius:var(--radius);color:#fff;font-size:14px;font-weight:600;cursor:pointer;margin-top:10px;transition:opacity .15s;font-family:inherit;letter-spacing:.01em}
+.gb{width:100%;padding:11px;background:var(--green);border:none;border-radius:var(--radius);color:#fff;font-size:14px;font-weight:600;cursor:pointer;margin-top:10px;transition:opacity .15s;font-family:inherit}
 .gb:hover{opacity:.9}
 .out{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-top:12px;display:none;box-shadow:var(--shadow)}
 .out.vis{display:block}
 .oh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .ot{font-size:15px;font-weight:600;color:var(--text)}
+.copy-btns{display:flex;gap:6px}
 .cb{padding:6px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text-secondary);font-size:12px;cursor:pointer;font-family:inherit}
 .cb:hover{background:var(--bg-secondary)}
 .badge{display:inline-block;background:var(--green-light);color:var(--green-text);font-size:11px;padding:3px 9px;border-radius:20px;margin:0 3px 4px 0;font-weight:500}
-.pl{font-size:13px;line-height:1.9;color:var(--text);white-space:pre-wrap;margin-top:8px;font-family:'SF Mono',Monaco,'Courier New',monospace}
-.sc{margin-top:12px;padding-top:12px;border-top:1px solid var(--border-light)}
-.st{font-size:11px;font-weight:600;color:var(--text-secondary);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
-.sp{display:flex;gap:9px;margin-bottom:8px;font-size:13px;line-height:1.5}
-.sn{background:var(--green);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;margin-top:1px}
 .divider{height:1px;background:var(--border-light);margin:10px 0}
-@media(max-width:500px){.area-split-grid{grid-template-columns:1fr 1fr;gap:5px}.area-split-grid .del{display:none}}
+
+/* Output styling - job sheet style */
+.out-products{font-family:'Times New Roman',Times,serif;font-size:14px;line-height:1.9;color:#000;white-space:pre-wrap;margin-top:8px}
+.out-products .missing{color:#DC2626;font-weight:600}
+.out-schedule{margin-top:12px;padding-top:12px;border-top:1px solid var(--border-light)}
+.out-schedule-inner{font-family:'Times New Roman',Times,serif;font-size:14px;line-height:2;color:#000}
+.step-label{font-family:'Questrial',sans-serif;color:var(--orange);text-decoration:underline;font-weight:normal}
 </style>
 </head>
 <body>
 <div class="app">
-<h1>🏗️ RAD <span>Job Products</span></h1>
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;"><img src="data:image/png;base64,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" style="height:40px;width:auto;" alt="RAD Concrete Coatings"><span style="font-size:20px;font-weight:600;color:#1D9E75;letter-spacing:.02em;">Products</span></div>
 
 <div class="tabs">
   <button class="tb on" onclick="sw('garage')">🏠 Garage</button>
@@ -88,8 +92,8 @@ h1 span{color:var(--green)}
   <div class="card">
     <div class="ct">Base coat system</div>
     <div class="og">
-      <button class="ob on" id="g-sys-coatary" onclick="gSys('coatary')">Coatary / Cyclone (standard)</button>
-      <button class="ob" id="g-sys-tileclad" onclick="gSys('tileclad')">Tile Clad Epoxy (St. George / hot climate)</button>
+      <button class="ob on" id="g-sys-coatary" onclick="gSys('coatary')">Northern Utah</button>
+      <button class="ob" id="g-sys-tileclad" onclick="gSys('tileclad')">Southern Utah</button>
     </div>
     <div id="g-tileclad-row" style="display:none;margin-top:8px">
       <div class="note" style="margin-bottom:6px">⚠️ Tile Clad: used for St. George and hot-climate jobs. Enter the specific SW primer color below.</div>
@@ -159,8 +163,8 @@ h1 span{color:var(--green)}
     <div class="ct">Job type</div>
     <div class="og">
       <button class="ob" id="d-jt-full" onclick="dJT('full')">Full new deck</button>
-      <button class="ob" id="d-jt-early" onclick="dJT('early')">Early waterproofing only (phase 1)</button>
-      <button class="ob" id="d-jt-finish" onclick="dJT('finish')">Finish coats only (phase 2)</button>
+      <button class="ob" id="d-jt-early" onclick="dJT('early')">Early Waterproofing</button>
+      <button class="ob" id="d-jt-finish" onclick="dJT('finish')">Finish Coats</button>
       <button class="ob" id="d-jt-reseal" onclick="dJT('reseal')">Deck resealing</button>
       <button class="ob" id="d-jt-topcoat" onclick="dJT('topcoat')">Redo top coat only</button>
     </div>
@@ -172,16 +176,16 @@ h1 span{color:var(--green)}
     <div class="fr"><span class="fl">Drip edge lin ft</span><input class="fi" type="number" id="d-drip"></div>
     <div class="fr"><span class="fl">Flashing lin ft</span><input class="fi" type="number" id="d-flash"></div>
     <div class="fr"><span class="fl">Drip edge color</span>
-      <select class="fi" id="d-drip-color"><option>Standard</option><option>Black</option><option>Pebblestone Clay</option><option>Dark Bronze</option><option>Cameo</option><option>Corten (custom — confirm at Tassie)</option><option>Other</option></select>
+      <select class="fi" id="d-drip-color"><option>Black</option><option>Dark Bronze</option><option>White</option><option>Other</option></select>
     </div>
   </div>
   <div class="card">
     <div class="ct">Coating system</div>
     <div class="og">
-      <button class="ob" id="d-coat-miracote" onclick="dCoat('miracote')">Miracote (MPC overlay)</button>
-      <button class="ob" id="d-coat-flake" onclick="dCoat('flake')">Polycoat Flake (PC-260 slurry)</button>
-      <button class="ob" id="d-coat-rock" onclick="dCoat('rock')">Pebble Rock (1/2" rock)</button>
-      <button class="ob" id="d-coat-plywood" onclick="dCoat('plywood')">Direct to Plywood waterproofing</button>
+      <button class="ob" id="d-coat-miracote" onclick="dCoat('miracote')">Miracote</button>
+      <button class="ob" id="d-coat-flake" onclick="dCoat('flake')">Polycoat Flake</button>
+      <button class="ob" id="d-coat-rock" onclick="dCoat('rock')">Polycoat 1/2" Pebble Rock</button>
+      <button class="ob" id="d-coat-plywood" onclick="dCoat('plywood')">Direct to Plywood</button>
     </div>
   </div>
   <div class="card" id="d-color-card" style="display:none">
@@ -190,40 +194,21 @@ h1 span{color:var(--green)}
   </div>
   <div class="card" id="d-grout-card" style="display:none">
     <div class="ct">Grout / 1st coat color</div>
-    <div class="og">
-      <button class="ob" id="d-grout-charcoal" onclick="dGrout('charcoal')">Charcoal (darker)</button>
+    <div class="og" style="margin-bottom:8px">
+      <button class="ob" id="d-grout-charcoal" onclick="dGrout('charcoal')">Charcoal</button>
       <button class="ob" id="d-grout-slightly" onclick="dGrout('slightly')">Slightly darker</button>
       <button class="ob" id="d-grout-same" onclick="dGrout('same')">Same color</button>
     </div>
+    <div class="ct" style="margin-top:4px;margin-bottom:5px">Or pick a specific color</div>
+    <div class="og" id="d-grout-color-grid"></div>
   </div>
   <div class="card" id="d-flake-color-card" style="display:none">
-    <div class="ct">Polycoat flake color</div>
+    <div class="ct">Flake color</div>
     <div class="og" id="d-flake-color-grid"></div>
-  </div>
-  <div class="card" id="d-design-card" style="display:none">
-    <div class="ct">Design pattern</div>
-    <div class="og">
-      <button class="ob" id="d-des-none" onclick="dDes('none')">No design</button>
-      <button class="ob" id="d-des-rb24" onclick="dDes('rb24')">Running Bond ½ Step 2'×4'</button>
-      <button class="ob" id="d-des-rb36" onclick="dDes('rb36')">Running Bond ½ Step 3'×6'</button>
-      <button class="ob" id="d-des-rb48" onclick="dDes('rb48')">Running Bond ½ Step 4'×8'</button>
-      <button class="ob" id="d-des-bluestone" onclick="dDes('bluestone')">Blue Stone (random T-intersections)</button>
-      <button class="ob" id="d-des-woodplank" onclick="dDes('woodplank')">Standard wood plank (10" planks)</button>
-      <button class="ob" id="d-des-herringbone" onclick="dDes('herringbone')">Double herringbone</button>
-      <button class="ob" id="d-des-harlequin" onclick="dDes('harlequin')">Harlequin checker (2 colors)</button>
-      <button class="ob" id="d-des-largerect" onclick="dDes('largerect')">Large rectangle stack</button>
-      <button class="ob" id="d-des-custom" onclick="dDes('custom')">Custom</button>
-    </div>
-    <div class="note" id="d-bluestone-note" style="display:none;margin-top:6px">Blue Stone: start with 12"×12" squares, randomly cut tape into different-sized rectangles. Only 'T' intersections — never 'X' intersections.</div>
-    <div class="note" id="d-harlequin-note" style="display:none;margin-top:6px">Harlequin: grout coat full area → 2nd color full area → tape half squares → 3rd color on alternating squares. Needs extra MPC for 3rd color.</div>
-    <div id="d-harlequin-color-row" style="display:none;margin-top:7px">
-      <div class="ct" style="margin-bottom:5px">3rd color (alternate squares)</div>
-      <div class="og" id="d-harlequin-color-grid"></div>
-    </div>
   </div>
   <div class="card">
     <div class="ct">Additional options</div>
-    <div class="og">
+    <div class="og" id="d-additional-opts">
       <button class="ob" id="d-tenting" onclick="tog('d-tenting')">Tenting</button>
       <button class="ob" id="d-plank" onclick="tog('d-plank')">Individual plank staining</button>
     </div>
@@ -392,12 +377,19 @@ h1 span{color:var(--green)}
 
 <!-- OUTPUT -->
 <div class="out" id="outSection">
-  <div class="oh"><span class="ot">Product & equipment list</span><button class="cb" onclick="copyOut()">📋 Copy</button></div>
+  <div class="oh">
+    <span class="ot">Product & equipment list</span>
+    <div class="copy-btns">
+      <button class="cb" onclick="copyPlain()">📋 Copy plain text</button>
+      <button class="cb" onclick="copyForDocs()">📄 Copy for Google Docs</button>
+    </div>
+  </div>
   <div id="outBadges"></div>
-  <div class="pl" id="outProducts"></div>
-  <div class="sc" id="outSched" style="display:none">
-    <div class="st">Schedule</div>
-    <div id="outSteps"></div>
+  <div class="out-products" id="outProducts"></div>
+  <div id="outSched" style="display:none">
+    <div style="height:1px;background:var(--border-light);margin:12px 0"></div>
+    <div class="ct">Schedule</div>
+    <div class="out-schedule-inner" id="outSteps"></div>
   </div>
 </div>
 </div>
@@ -419,7 +411,8 @@ const BC={Jordanelle:"Dark Gray PC848",Timpanogos:"Porcelain White PC835","Antel
 const BV={Granite:"Light Gray PC847",Dolphin:"Porcelain White PC835",Panther:"Black Bronze PC818",Sage:"Smoky Ash PC767",Almond:"Indian Sand (custom)",Battleship:"Battleship (custom)",Chocolate:"Sage Brown PC758","Dark Brown":"Desert Tan PC763","Saddle Tan":"Tantone PC752"};
 const C2={Arches:"Canyons + Sage","Deer Creek":"Deer Valley + Granite",Zion:"Wolf Mountain + Dolphin",Slickrock:"Powder Mountain + Dolphin","Sand Hollow":"Snowbird + Dolphin","Snow Canyon":"Cobalt","Capitol Reef":"Brighton + Chocolate","Flaming Gorge":"Alta + Granite","Rainbow Bridge":"Sundance + Saddle Tan"};
 const DMPC=["Dolphin Gray","Speedway Gray","Natural Gray","Bright Gray","Dodge City Tan","Sandpiper Beige","Olive Wood","Adobe","White","Provincial Tan","Dark Gray","Charcoal","Black","Ivory Cream","Toffee","Copper Kettle","Spanish Tile","Fired Brick","Redwood Tile","Slate Green"];
-const PF=["Snowbird","Powder Mountain","Snowbasin","Deer Valley","Wolf Mountain","Brighton","Canyons","Eagle Point","Alta","Sundance","Solitude"];
+// Polycoat flake colors = polycoat originals + combo flake colors from garage
+const POLYCOAT_FLAKE=["Snowbird","Powder Mountain","Snowbasin","Deer Valley","Wolf Mountain","Brighton","Canyons","Eagle Point","Alta","Sundance","Solitude","Jordanelle","Timpanogos","Antelope Island","Lake Powell","Arches","Deer Creek","Zion","Slickrock"];
 const OS=["1/4\" (.5\"–0)","3/8\" (.75\"–0)","1/2\" (1\"–0)","3/4\" (1.5\"–0)",".875\" (1.75\"–0)","1\" (2\"–0)","1.25\" (2.5\"–0)","1.5\" (3\"–0)","1.75\" (3.5\"–0)","2\" (4\"–0)"];
 const OL=["1/8\" avg","1/4\" avg","1/2\" avg","3/4\" avg","1\" avg","1.5\" avg","2\" avg","3\" avg"];
 const ML=["Aquarius","Leo","Orion","Gemini","Aries","Pegasus","Libra","Scorpius","White Star","White Marble","Aries Marble","Stainless","Element","Shadow","Angelic","Myan Gold"];
@@ -427,11 +420,14 @@ const MD={Aquarius:{e:"Dover White PC765",p:"Shimmer White & Graphite"},Leo:{e:"
 const GP=["Rectangle Stack (2'×4')","Rectangle Stack (3'×6')","Blue Stone","Chantilly Weave","Border + Drive Path","Custom"];
 
 let gSysVal='coatary',gIsSplit=false,gHasDesign=false,gSingleColor=null,gSingleType=null,gSimpleN=0,gSplitN=0;
-let dJTVal=null,dCoatVal=null,dColorVal=null,dGroutVal=null,dFlakeColorVal=null,dDesVal=null,dHarlequinColor=null;
+let dJTVal=null,dCoatVal=null,dColorVal=null,dGroutVal=null,dGroutColorVal=null,dFlakeColorVal=null;
 let oJTVal=null,oFinVal=null,oColorVal=null,oSlopeVal=null,oLevelVal=null,oStampVal=null;
 let pSvcVal=null,pFinVal=null;
 let sTypeVal=null,sColorVal=null,sBorderColorVal=null,sGlVal=null,sVerdeColorVal=null;
 let scTypeVal=null,scLinesVal=null,scLogosVal=false,scColor1=null,scColor2=null;
+
+// Stored steps/products for copy
+let lastProductsHTML='',lastScheduleHTML='',lastProductsPlain='',lastSchedulePlain='';
 
 function sw(t){['garage','deck','overlay','polish','specialty','sport'].forEach(x=>document.getElementById('tab-'+x).style.display=x===t?'block':'none');document.querySelectorAll('.tb').forEach((b,i)=>b.classList.toggle('on',['garage','deck','overlay','polish','specialty','sport'][i]===t));document.getElementById('outSection').classList.remove('vis')}
 function tog(id){document.getElementById(id).classList.toggle('on')}
@@ -442,11 +438,13 @@ function gv(id){return parseFloat(document.getElementById(id)?.value)||0}
 function sv(id){return document.getElementById(id)?.value||''}
 function getBase(c,t){if(t==='micro')return BM[c]||'matching base';if(t==='combo')return BC[c]||'matching base';if(t==='vinyl')return BV[c]||'matching base';return null}
 function getTypeForColor(c){for(const[,{colors,type}] of Object.entries(GC)){if(colors.includes(c))return type}return 'micro'}
-function flakeQty(s,t){if(t==='rock')return Math.ceil(s/700);if(t==='micro')return Math.ceil(s/300);return Math.ceil(s/500)}
-function tcQty(s,t){if(t==='rock')return Math.ceil(s/200)*2;if(t==='micro')return Math.ceil(s/150);if(t==='combo')return Math.ceil(s/150);if(t==='vinyl')return Math.ceil(s/170);return Math.ceil(s/200)}
-function epoxy(s){return Math.ceil(s/200)}
+function flakeQty(s,t){if(t==='rock')return Math.ceil(s/500);if(t==='micro')return Math.ceil(s/250);if(t==='combo')return Math.ceil(s/350);if(t==='vinyl')return Math.ceil(s/500);return Math.ceil(s/500)}
+function tcQty(s,t){if(t==='rock')return Math.ceil(s/72);if(t==='micro')return Math.ceil(s/140);if(t==='combo')return Math.ceil(s/140);if(t==='vinyl')return Math.ceil(s/170);return Math.ceil(s/140)}
+function epoxy(s){return Math.round(s/150)}
 function colorOptHTML(){return Object.entries(GC).map(([g,{colors}])=>`<optgroup label="${g}">${colors.map(c=>`<option value="${c}">${c}</option>`).join('')}</optgroup>`).join('')}
+function miss(txt){return`<span class="missing">${txt}</span>`}
 
+// Garage area management
 function gToggleSplit(){gIsSplit=!gIsSplit;document.getElementById('g-split-tog').classList.toggle('on',gIsSplit);document.getElementById('g-no-split').style.display=gIsSplit?'none':'block';document.getElementById('g-split').style.display=gIsSplit?'block':'none';document.getElementById('g-single-color-card').style.display=gIsSplit?'none':'block';updGTotal()}
 function gAddSimple(){gSimpleN++;const id='gsa-'+gSimpleN;const d=document.createElement('div');d.className='area-simple';d.id=id;d.innerHTML=`<input class="ai" placeholder="Area name (e.g. Garage)" oninput="updGTotal()"><input class="ai" type="number" placeholder="sq ft" oninput="updGTotal()"><button class="del" onclick="document.getElementById('${id}').remove();updGTotal()">×</button>`;document.getElementById('g-areas-simple').appendChild(d);updGTotal()}
 function gAddSplit(){gSplitN++;const id='gxa-'+gSplitN;const d=document.createElement('div');d.className='area-split';d.id=id;d.innerHTML=`<div class="area-split-grid"><input class="ai" placeholder="Area name" oninput="updGTotal()"><select class="csel"><option value="">Color...</option>${colorOptHTML()}</select><input class="ai" type="number" placeholder="sq ft" oninput="updGTotal()"><button class="del" onclick="document.getElementById('${id}').remove();updGTotal()">×</button></div>`;document.getElementById('g-areas-split').appendChild(d);updGTotal()}
@@ -454,10 +452,35 @@ function updGTotal(){if(!gIsSplit){const t=[...document.getElementById('g-areas-
 
 function gSys(v){gSysVal=v;one('g-sys-',['coatary','tileclad'],v);document.getElementById('g-tileclad-row').style.display=v==='tileclad'?'block':'none'}
 function gDesign(v){gHasDesign=v;document.getElementById('g-des-no').classList.toggle('on',!v);document.getElementById('g-des-yes').classList.toggle('on',v);document.getElementById('g-design-opts').style.display=v?'block':'none'}
-function dJT(v){dJTVal=v;one('d-jt-',['full','early','finish','reseal','topcoat'],v)}
-function dCoat(v){dCoatVal=v;one('d-coat-',['miracote','flake','rock','plywood'],v);const hM=v==='miracote',hF=v==='flake';document.getElementById('d-color-card').style.display=(hM||hF)?'block':'none';document.getElementById('d-grout-card').style.display=hM?'block':'none';document.getElementById('d-flake-color-card').style.display=hF?'block':'none';document.getElementById('d-design-card').style.display=(hM||hF)?'block':'none'}
-function dGrout(v){dGroutVal=v;one('d-grout-',['charcoal','slightly','same'],v)}
-function dDes(v){dDesVal=v;one('d-des-',['none','rb24','rb36','rb48','bluestone','woodplank','herringbone','harlequin','largerect','custom'],v);document.getElementById('d-bluestone-note').style.display=v==='bluestone'?'block':'none';document.getElementById('d-harlequin-note').style.display=v==='harlequin'?'block':'none';document.getElementById('d-harlequin-color-row').style.display=v==='harlequin'?'block':'none'}
+
+function dJT(v){
+  dJTVal=v;one('d-jt-',['full','early','finish','reseal','topcoat'],v);
+  // For early waterproofing: hide color and grout, show coat system but not color
+  const isEarly=v==='early';
+  // Refresh coat display
+  if(dCoatVal) dCoat(dCoatVal);
+}
+function dCoat(v){
+  dCoatVal=v;one('d-coat-',['miracote','flake','rock','plywood'],v);
+  const isEarly=dJTVal==='early';
+  const hM=v==='miracote',hF=v==='flake',hR=v==='rock';
+  // Color: show for miracote+flake only, hide for early waterproofing
+  document.getElementById('d-color-card').style.display=(hM&&!isEarly)?'block':'none';
+  document.getElementById('d-grout-card').style.display=(hM&&!isEarly)?'block':'none';
+  document.getElementById('d-flake-color-card').style.display=(hF&&!isEarly)?'block':'none';
+  // Plank staining: only for miracote
+  const addOpts=document.getElementById('d-additional-opts');
+  if(addOpts){
+    const plankBtn=document.getElementById('d-plank');
+    if(plankBtn) plankBtn.style.display=hM?'block':'none';
+  }
+}
+function dGrout(v){
+  dGroutVal=v;dGroutColorVal=null;
+  one('d-grout-',['charcoal','slightly','same'],v);
+  // Deselect any specific MPC grout color
+  document.querySelectorAll('#d-grout-color-grid .ob').forEach(b=>b.classList.remove('on'));
+}
 function oJT(v){oJTVal=v;one('o-jt-',['full','topcoat'],v);document.getElementById('o-slope-card').style.display=v==='full'?'block':'none'}
 function oFin(v){oFinVal=v;one('o-fin-',['interior','exterior','stamp'],v);document.getElementById('o-stamp-card').style.display=v==='stamp'?'block':'none'}
 function oStamp(v){oStampVal=v;one('o-st-',['slate','ashler','random','cobble'],v)}
@@ -473,11 +496,24 @@ function bSimple(cid,items,onSel){const c=document.getElementById(cid);if(!c)ret
 function bCat(cid,map,onSel){const c=document.getElementById(cid);if(!c)return;c.innerHTML='';Object.entries(map).forEach(([cat,{colors,type}])=>{const l=document.createElement('div');l.className='cl';l.textContent=cat;c.appendChild(l);colors.forEach(color=>{const b=document.createElement('button');b.className='ob';b.textContent=color;b.onclick=()=>{c.querySelectorAll('.ob').forEach(x=>x.classList.remove('on'));b.classList.add('on');onSel(color,type)};c.appendChild(b)})})}
 function bMetal(cid,onSel){const c=document.getElementById(cid);if(!c)return;c.innerHTML='';const nb=document.createElement('button');nb.className='ob on';nb.textContent='None / same as main';nb.onclick=()=>{c.querySelectorAll('.ob').forEach(x=>x.classList.remove('on'));nb.classList.add('on');onSel(null)};c.appendChild(nb);[['Standard',ML.slice(0,11)],['Custom/named',ML.slice(11)]].forEach(([cat,colors])=>{const l=document.createElement('div');l.className='cl';l.textContent=cat;c.appendChild(l);colors.forEach(color=>{const b=document.createElement('button');b.className='ob';b.textContent=color;b.onclick=()=>{c.querySelectorAll('.ob').forEach(x=>x.classList.remove('on'));b.classList.add('on');onSel(color)};c.appendChild(b)})})}
 
+// Build grout color MPC grid (separate from the quick options)
+function bGroutMPC(){
+  const c=document.getElementById('d-grout-color-grid');if(!c)return;c.innerHTML='';
+  DMPC.forEach(color=>{
+    const b=document.createElement('button');b.className='ob';b.textContent=color;
+    b.onclick=()=>{
+      // deselect quick buttons
+      dGroutVal=null;one('d-grout-',['charcoal','slightly','same'],'__none__');
+      c.querySelectorAll('.ob').forEach(x=>x.classList.remove('on'));b.classList.add('on');dGroutColorVal=color;
+    };c.appendChild(b);
+  });
+}
+
 bCat('g-color-grid',GC,(c,t)=>{gSingleColor=c;gSingleType=t});
 bSimple('g-pattern-grid',GP,v=>{});
 bSimple('d-color-grid',DMPC,v=>dColorVal=v);
-bSimple('d-flake-color-grid',PF,v=>dFlakeColorVal=v);
-bSimple('d-harlequin-color-grid',DMPC,v=>dHarlequinColor=v);
+bGroutMPC();
+bSimple('d-flake-color-grid',POLYCOAT_FLAKE,v=>dFlakeColorVal=v);
 bSimple('o-color-grid',DMPC,v=>oColorVal=v);
 bSimple('o-slope-grid',OS,v=>oSlopeVal=v);
 bSimple('o-level-grid',OL,v=>oLevelVal=v);
@@ -488,32 +524,61 @@ bCat('sc-color1-grid',GC,c=>scColor1=c);
 bCat('sc-color2-grid',GC,c=>scColor2=c);
 gAddSimple();gAddSplit();
 
+// ---- ITEM BUILDING HELPERS ----
+function mkLine(txt,missing=false){
+  return {text:txt,missing};
+}
 function areaLines(name,color,type,sqft,sys,swColor){
   if(!sqft)return[];
-  const base=getBase(color,type)||'matching base';const iR=type==='rock',iS=type==='solid',iC=type==='combo';const lbl=name?` (${name})`:'';const lines=[];
-  if(sys==='tileclad'){if(swColor)lines.push(`-${epoxy(sqft)} Gallons "${swColor}" Tile Clad Epoxy Primer${lbl}`);lines.push(`-${epoxy(sqft)} Gallons ${base} Tile Clad Epoxy${lbl}`);}
-  else lines.push(`-${epoxy(sqft)} Gallons ${base} Colored Polyaspartic Flex${lbl}`);
-  if(!iS){const fb=flakeQty(sqft,type);if(iC&&C2[color]){const cf=C2[color];if(cf.includes('+')){const[f1,f2]=cf.split(' + ');lines.push(`-${Math.ceil(fb*0.67)} box(es) '${f1}' Micro Flake${lbl}`);lines.push(`-${Math.ceil(fb*0.33)} box(es) '${f2}' Vinyl Flake${lbl}`);}else lines.push(`-${fb} box(es) '${color}' Combo Flake${lbl}`);}else lines.push(`-${fb} box(es) '${color}' ${type==='micro'?'Micro':type==='vinyl'?'Vinyl':'Rock'} Flake${lbl}`);lines.push(`-${tcQty(sqft,type)} gal Crystal Clear TC Polyaspartic${iR?' (2 coats)':''}${lbl}`);}
-  else{lines.push(`-${tcQty(sqft,type)} gal Solid Color Polyaspartic (${color})${lbl}`);lines.push(`-${Math.ceil(sqft/400)} pints SlowGo Color Packs${lbl}`);}
+  const base=getBase(color,type)||'matching base';const iR=type==='rock',iS=type==='solid',iC=type==='combo';const lbl=name?` (${name})`:'';
+  const lines=[];
+  if(sys==='tileclad'){if(swColor)lines.push(mkLine(`-${epoxy(sqft)} Gallons "${swColor}" Tile Clad Epoxy Primer${lbl}`));lines.push(mkLine(`-${epoxy(sqft)} Gallons ${base} Tile Clad Epoxy${lbl}`));}
+  else lines.push(mkLine(`-${epoxy(sqft)} Gallons ${base} Colored Polyaspartic Flex${lbl}`));
+  if(!iS){const fb=flakeQty(sqft,type);if(iC&&C2[color]){const cf=C2[color];if(cf.includes('+')){const[f1,f2]=cf.split(' + ');lines.push(mkLine(`-${Math.ceil(fb*0.67)} box(es) '${f1}' Micro Flake${lbl}`));lines.push(mkLine(`-${Math.ceil(fb*0.33)} box(es) '${f2}' Vinyl Flake${lbl}`));}else lines.push(mkLine(`-${fb} box(es) '${color}' Combo Flake${lbl}`));}else lines.push(mkLine(`-${fb} box(es) '${color}' ${type==='micro'?'Micro':type==='vinyl'?'Vinyl':'Rock'} Flake${lbl}`));lines.push(mkLine(`-${tcQty(sqft,type)} gal Crystal Clear TC Polyaspartic${iR?' (2 coats)':''}${lbl}`));}
+  else{lines.push(mkLine(`-${tcQty(sqft,type)} gal Solid Color Polyaspartic (${color})${lbl}`));lines.push(mkLine(`-${Math.ceil(sqft/400)} pints SlowGo Color Packs${lbl}`));}
   return lines;
 }
 
+// ---- RENDER OUTPUT ----
+function renderItems(items){
+  // items = array of {text, missing} or strings
+  let html='',plain='';
+  items.forEach(item=>{
+    const raw=typeof item==='string'?item:item.text;
+    const isMiss=typeof item==='object'&&item.missing;
+    if(raw===''){html+='\n';plain+='\n';return;}
+    html+=isMiss?`<span style="color:#DC2626;font-weight:600">${raw}</span>\n`:`${raw}\n`;
+    plain+=raw+'\n';
+  });
+  return{html,plain};
+}
+function renderSteps(steps){
+  let html='',plain='';
+  steps.forEach((s,i)=>{
+    const label=`Step ${i+1}`;
+    html+=`<span style="font-family:'Questrial',sans-serif;color:#E69138;text-decoration:underline;">${label}</span>: ${s}\n`;
+    plain+=`${label}: ${s}\n`;
+  });
+  return{html,plain};
+}
+
+// ---- CALC FUNCTIONS ----
 function calcGarage(){
   const sys=gSysVal,swColor=sv('g-sw-color'),waterproof=isSel('g-waterproofing'),texture=isSel('g-texture'),wpsqft=gv('g-wpsqft');
   const shimmers=['gunmetal','silver','copper','bronze'].filter(s=>isSel('g-sh-'+s)).map(s=>s[0].toUpperCase()+s.slice(1));
   const hasDesign=gHasDesign;
   const patternBtn=[...document.querySelectorAll('#g-pattern-grid .ob.on')].map(b=>b.textContent)[0]||sv('g-pattern-custom')||'';
-  let items=['-Grinder and Diamonds','-Xtrabond','-Dural Non-Sag','-PC Crete fast drying patch and sand in case you need it','-Plastic'];
-  if(waterproof){items.push('-Amerlock 2 Epoxy Primer for waterproofing perimeter');if(wpsqft>0)items.push(`-${Math.ceil(wpsqft/100)} Gallons PC-260 Waterproofing (${wpsqft} sq ft)`);}
-  if(hasDesign){items.push('-Black Epoxy Primer (for design lines)'+(sys==='tileclad'&&swColor?` — use "${swColor}" Tile Clad Primer instead`:''));items.push('-Design Tape');}
-  if(patternBtn)items.push(`-Design pattern: ${patternBtn}`);
+  let items=[mkLine('-Grinder and Diamonds'),mkLine('-Xtrabond'),mkLine('-Dural Non-Sag'),mkLine('-PC Crete fast drying patch and sand in case you need it'),mkLine('-Plastic')];
+  if(waterproof){items.push(mkLine('-Amerlock 2 Epoxy Primer for waterproofing perimeter'));if(wpsqft>0)items.push(mkLine(`-${Math.ceil(wpsqft/100)} Gallons PC-260 Waterproofing (${wpsqft} sq ft))`));}
+  if(hasDesign){items.push(mkLine('-Black Epoxy Primer (for design lines)'+(sys==='tileclad'&&swColor?` — use "${swColor}" Tile Clad Primer instead`:'')));items.push(mkLine('-Design Tape'));}
+  if(patternBtn)items.push(mkLine(`-Design pattern: ${patternBtn}`));
   let totalSqft=0;
-  if(!gIsSplit){const color=gSingleColor||'(select color)',type=gSingleType||'micro';[...document.getElementById('g-areas-simple').querySelectorAll('.area-simple')].forEach(row=>{const name=row.querySelector('input:not([type=number])')?.value||'';const sqft=parseFloat(row.querySelector('input[type=number]')?.value)||0;totalSqft+=sqft;items.push(...areaLines(name,color,type,sqft,sys,swColor));});}
-  else{[...document.getElementById('g-areas-split').querySelectorAll('.area-split')].forEach(block=>{const name=block.querySelector('input:not([type=number])')?.value||'';const color=block.querySelector('select')?.value||'(select color)';const type=getTypeForColor(color);const sqft=parseFloat(block.querySelector('input[type=number]')?.value)||0;totalSqft+=sqft;items.push(...areaLines(name,color,type,sqft,sys,swColor));});}
-  if(texture)items.push('-Texture additive (~84 oz per coat)');
-  if(shimmers.length)items.push(`-Shimmer: ${shimmers.join(', ')} (Shimmer Dust bags or Shimmer Flake)`);
+  if(!gIsSplit){const color=gSingleColor,type=gSingleType||'micro';[...document.getElementById('g-areas-simple').querySelectorAll('.area-simple')].forEach(row=>{const name=row.querySelector('input:not([type=number])')?.value||'';const sqft=parseFloat(row.querySelector('input[type=number]')?.value)||0;totalSqft+=sqft;if(!color&&sqft>0)items.push({text:'-[SELECT COLOR]',missing:true});else items.push(...areaLines(name,color||'',type,sqft,sys,swColor));});}
+  else{[...document.getElementById('g-areas-split').querySelectorAll('.area-split')].forEach(block=>{const name=block.querySelector('input:not([type=number])')?.value||'';const color=block.querySelector('select')?.value||'';const type=getTypeForColor(color);const sqft=parseFloat(block.querySelector('input[type=number]')?.value)||0;totalSqft+=sqft;if(!color&&sqft>0)items.push({text:`-[SELECT COLOR for ${name||'area'}]`,missing:true});else items.push(...areaLines(name,color,type,sqft,sys,swColor));});}
+  if(texture)items.push(mkLine('-Texture additive (~84 oz per coat)'));
+  if(shimmers.length)items.push(mkLine(`-Shimmer: ${shimmers.join(', ')} (Shimmer Dust bags or Shimmer Flake)`));
   const type=gSingleType||'micro',isRock=type==='rock';
-  let steps;
+  let steps=[];
   if(waterproof&&hasDesign)steps=['Grind, seal joints & perimeter, Epoxy Prime','Waterproof with colored PC-260','Tape design & flake','Seal with Crystal Clear TC'+(texture?' with Texture':'')+(shimmers.length?' and Shimmer':'')+'. Remove design tape. Clean up'];
   else if(waterproof&&isRock)steps=['Grind, seal joints & perimeter, Epoxy Prime','PC-260 Waterproofing','Rock Flake','Sand & Seal with Crystal Clear TC','Sand good & 2nd coat Crystal Clear TC'+(texture?' with Texture':'')+(shimmers.length?' and Shimmer':'')+'. Clean up'];
   else if(waterproof)steps=['Grind, seal joints & perimeter, Epoxy Prime','PC-260 Waterproofing','Flake','Seal with Crystal Clear TC'+(texture?' with Texture':'')+(shimmers.length?' and Shimmer':'')+'. Clean up'];
@@ -525,106 +590,154 @@ function calcGarage(){
 
 function calcDeck(){
   const sqft=gv('d-woodsqft')||gv('d-consqft'),drip=gv('d-drip'),flash=gv('d-flash'),dripColor=sv('d-drip-color');
-  const jt=dJTVal||'full',coat=dCoatVal||'miracote',color=dColorVal||'(select color)',flakeColor=dFlakeColorVal||'(select flake color)',grout=dGroutVal||'charcoal',des=dDesVal||'none';
+  const jt=dJTVal||'full',coat=dCoatVal||'miracote';
+  const color=dColorVal,flakeColor=dFlakeColorVal;
+  const grout=dGroutVal,groutColor=dGroutColorVal;
   const tenting=isSel('d-tenting'),plank=isSel('d-plank');
-  const groutColor=grout==='charcoal'?'Charcoal':grout==='same'?color:'slightly darker';
-  const doPrep=jt==='full'||jt==='early',doMPC=(jt==='full'||jt==='finish'||jt==='topcoat')&&coat==='miracote';
-  const hasDesign=des!=='none'&&(coat==='miracote'||coat==='flake');
-  const DL={none:'',rb24:"Running Bond ½ Step 2'×4'",rb36:"Running Bond ½ Step 3'×6'",rb48:"Running Bond ½ Step 4'×8'",bluestone:'Blue Stone',woodplank:'Standard wood plank',herringbone:'Double herringbone',harlequin:'Harlequin checker',largerect:'Large rectangle stack',custom:'Custom design'};
-  const desLabel=DL[des]||'';
+  const isEarly=jt==='early';
+  const doPrep=jt==='full'||jt==='early';
+  const doMPC=(jt==='full'||jt==='finish'||jt==='topcoat')&&coat==='miracote';
+
+  // Determine grout label
+  let groutLabel='';
+  if(groutColor) groutLabel=groutColor;
+  else if(grout==='charcoal') groutLabel='Charcoal';
+  else if(grout==='slightly') groutLabel='slightly darker';
+  else if(grout==='same') groutLabel=color||'same color';
+
   let items=[],steps=[];
-  if(jt==='reseal'){items=['-Power washer & cleaning supplies',`-${sqft>0?Math.ceil(sqft/435):1} Gallons PG100 Polyglaze Sealer. Add 6 oz Hardener/Gallon.`,'-Shark Grip'];steps=['Power wash and clean deck thoroughly','Apply PG100 Polyglaze Sealer with Hardener & Shark Grip'];return{items,steps,badges:['Deck resealing',sqft?sqft+' sq ft':'']};}
-  if(tenting)items.push('TENTING:',"-40' x 100' and 20' x 100' Reinforced Plastic",'-Ladders, Scaffolding',"Lumber: 2x4's, 2x2's",'-Saw, Drill, Long Deck Screws','-Gorilla Tape, Rope, Heaters','-Diesel Fuel and Gas Cans','-Colored Xtrabond close to house. Fill holes when removing tenting.','');
+
+  if(jt==='reseal'){
+    items=[mkLine('-Power washer & cleaning supplies'),mkLine(`-${sqft>0?Math.ceil(sqft/435):1} Gallons PG100 Polyglaze Sealer. Add 6 oz Hardener/Gallon.`),mkLine('-Shark Grip')];
+    steps=['Power wash and clean deck thoroughly','Apply PG100 Polyglaze Sealer with Hardener & Shark Grip'];
+    return{items,steps,badges:['Deck resealing',sqft?sqft+' sq ft':'']};
+  }
+  if(tenting)items.push(mkLine('TENTING:'),mkLine("-40' x 100' and 20' x 100' Reinforced Plastic"),mkLine('-Ladders, Scaffolding'),mkLine("Lumber: 2x4's, 2x2's"),mkLine('-Saw, Drill, Long Deck Screws'),mkLine('-Gorilla Tape, Rope, Heaters'),mkLine('-Diesel Fuel and Gas Cans'),mkLine('-Colored Xtrabond close to house. Fill holes when removing tenting.'),mkLine(''));
+
   if(coat==='miracote'){
-    if(doPrep&&sqft>0){items.push('PREP & WATERPROOFING:','-Level. Check the slope.','-Disc for aggressive sanding on edges before drip edge.');if(drip>0)items.push(`-${Math.ceil(drip/8)} pieces ${dripColor!=='Standard'?dripColor+' ':''}Drip Edge`);if(flash>0)items.push(`-${Math.ceil(flash/6)} pieces 6"×6" Flashing`);items.push('-Xtrabond',`-${Math.ceil(sqft/400)} roll(s) #15w Felt Roofing Paper`,`-${Math.ceil(sqft/16)} pieces Metal Lath`,`-${Math.ceil(sqft/333)} Box(es) 1" Crown Staples (10,000/box)`);const lm=Math.ceil(sqft/34);items.push(`-${lm} Bags LM Lath Mortar`,`-${lm} Gallons Lath Mortar Liquid`,'-LM Mix: 1 Gallon (128 oz) liquid per 40lb LM Bag','-Measuring buckets, Air compressor, Air hoses','-Staple guns. Oil before, during, and after.',`-${Math.ceil(sqft/53)} Gallons Membrane A`,'-PolyFabric');}
-    if(jt==='early'){steps=tenting?['Tent','Prep, install drip edge, lathe, staples, LM Lathe Mortar','Grind LM with 7" grinder and install Membrane A & Fabric','Stop — finish coats are a separate visit. Ask Melissa about tenting.']:['Prep, install drip edge, lathe, staples, LM Lathe Mortar','Grind LM with 7" grinder and install Membrane A & Fabric','Stop — finish coats are a separate visit'];}
-    else if(doMPC&&sqft>0){
-      if(jt!=='full')items.push('FINISH COATS:');
+    if(doPrep&&sqft>0){
+      items.push(mkLine('-Level. Check the slope.'),mkLine('-Disc for aggressive sanding on edges before drip edge.'));
+      if(drip>0)items.push(mkLine(`-${Math.ceil(drip/8)} pieces ${dripColor} Drip Edge`));
+      if(flash>0)items.push(mkLine(`-${Math.ceil(flash/6)} pieces 6"×6" Flashing`));
+      items.push(mkLine('-Xtrabond'),mkLine(`-${Math.ceil(sqft/400)} roll(s) #15w Felt Roofing Paper`),mkLine(`-${Math.ceil(sqft/16)} pieces Metal Lath`),mkLine(`-${Math.ceil(sqft/333)} Box(es) 1" Crown Staples (10,000/box)`));
+      const lm=Math.ceil(sqft/34);items.push(mkLine(`-${lm} Bags LM Lath Mortar`),mkLine(`-${lm} Gallons Lath Mortar Liquid`),mkLine('-LM Mix: 1 Gallon (128 oz) liquid per 40lb LM Bag'),mkLine('-Measuring buckets, Air compressor, Air hoses'),mkLine('-Staple guns. Oil before, during, and after.'),mkLine(`-${Math.ceil(sqft/53)} Gallons Membrane A`),mkLine('-PolyFabric'));
+    }
+    if(isEarly){
+      steps=tenting?['Tent','Prep, install drip edge, lathe, staples, LM Lathe Mortar','Grind LM with 7" grinder and install Membrane A & Fabric','Stop — finish coats are a separate visit. Ask Melissa about tenting.']:['Prep, install drip edge, lathe, staples, LM Lathe Mortar','Grind LM with 7" grinder and install Membrane A & Fabric','Stop — finish coats are a separate visit'];
+    } else if(doMPC&&sqft>0){
+      if(jt!=='full')items.push(mkLine('FINISH COATS:'));
       const mb=Math.ceil(sqft/185),ml=Math.ceil(sqft/100);
-      items.push(`-1st coat: ${mb} Bags MPC Regular Gray Powder`,`-${ml} Gallons MPC Liquid "${groutColor}" (½ color pack per bucket)`,`-2nd coat: ${mb} Bags MPC Regular White Powder`,`-${ml} Gallons MPC Liquid "${color}" (½ color pack per bucket)`);
-      if(des==='harlequin'&&dHarlequinColor)items.push(`-3rd color: ${Math.ceil(mb*0.5)} Bags MPC White Powder`,`-${Math.ceil(ml*0.5)} Gallons MPC Liquid "${dHarlequinColor}" (alternate squares)`);
-      if(hasDesign)items.push(`-Thin Design Tape — ${desLabel}`);
-      items.push('-HDWB Primer',`-${Math.ceil(sqft/435)} Gallons PG100 Polyglaze Sealer. Add 6 oz Hardener/Gallon.`,'-Shark Grip');
-      if(plank)items.push('-Individual plank staining supplies (bring multiple stain colors)');
+      // Grout/1st coat
+      if(isEarly){
+        items.push(mkLine(`-Grout 1st Overlay Coat: ${mb} Bags MPC Any Color`),mkLine(`-${ml} Gallons MPC Liquid Any Color`));
+      } else {
+        items.push(mkLine(`-1st coat: ${mb} Bags MPC Regular Gray Powder`));
+        if(!groutLabel) items.push({text:`-${ml} Gallons MPC Liquid [SELECT GROUT COLOR]`,missing:true});
+        else items.push(mkLine(`-${ml} Gallons MPC Liquid "${groutLabel}" (½ color pack per bucket)`));
+        items.push(mkLine(`-2nd coat: ${mb} Bags MPC Regular White Powder`));
+        if(!color) items.push({text:`-${ml} Gallons MPC Liquid [SELECT COLOR]`,missing:true});
+        else items.push(mkLine(`-${ml} Gallons MPC Liquid "${color}" (½ color pack per bucket)`));
+      }
+      items.push(mkLine('-HDWB Primer'),mkLine(`-${Math.ceil(sqft/435)} Gallons PG100 Polyglaze Sealer. Add 6 oz Hardener/Gallon.`),mkLine('-Shark Grip'));
+      if(plank)items.push(mkLine('-Individual plank staining supplies (bring multiple stain colors)'));
       const baseSteps=jt==='finish'||jt==='topcoat'?['1st coat MPC with stiff steel trowel']:['Prep, install drip edge, lathe, staples, LM Lathe Mortar','Grind LM with 7" grinder, install Membrane A & Fabric','1st coat MPC with stiff steel trowel'];
-      steps=[...(tenting?['Tent']:[]),...baseSteps,'Sand 80 grit, trim edges, re-tape drip edge if needed, design, HDWB prime, 2nd coat MPC. Brush edges carefully.'];
-      if(des==='harlequin')steps.push('Tape & paper half squares. Apply 3rd color MPC on alternating squares.');
-      steps.push('Polyglaze PG100 Seal with Hardener & Shark Grip'+(plank?'. Individual Plank Staining':''));
+      steps=[...(tenting?['Tent']:[]),...baseSteps,'Sand 80 grit, trim edges, re-tape drip edge if needed, HDWB prime, 2nd coat MPC. Brush edges carefully.','Polyglaze PG100 Seal with Hardener & Shark Grip'+(plank?'. Individual Plank Staining':'')];
       if(tenting)steps.push('Ask Melissa if tenting needs removal. Clean up, caulk screw holes');
     }
-  }else if(coat==='flake'){
-    if(sqft>0){if(drip>0)items.push(`-${Math.ceil(drip/8)} pieces ${dripColor!=='Standard'?dripColor+' ':''}Drip Edge`);items.push('-Metal Lath, Staples, Roofing Paper');const pc=Math.ceil(sqft/50),sand=Math.ceil(sqft*0.017),fb=Math.ceil(sqft/400);items.push(`-${pc} Gallons PC-260`,'-PC-260 Slurry: one bucket. Split in half. Add 320 oz Sand to 2.5 gal of 260.',`-${sand} bags Sand (50 lb) for slurry`);if(hasDesign)items.push('-Design Tape');items.push(`-${fb} box(es) '${flakeColor}' Flakes`,`-${Math.ceil(sqft/200)} Gallons PG100 Clear Sealer — roll thin and even. Avoid thick or direct sun.`);if(hasDesign)items.push(`-Thin Design Tape — ${desLabel}`);}
-    steps=[...(tenting?['Tent']:[]),'Prep, lathe, PC-260 & Sand Slurry',`Light coat of colored PC-260${hasDesign?' & Design':''}`,`Flake`,'Sand and Seal'];
+  } else if(coat==='flake'){
+    if(sqft>0){
+      if(drip>0)items.push(mkLine(`-${Math.ceil(drip/8)} pieces ${dripColor} Drip Edge`));
+      items.push(mkLine('-Level. Check the Slope and let me know if it is not good.'),mkLine('-Disc for aggressive sanding. Always sand down the edges before you do the drip edge to help the drip edge get lower and not puddle water.'));
+      if(flash>0)items.push(mkLine(`-${Math.ceil(flash/6)} pieces of 6" x 6" Flashing. Flashing should be Xtrabond caulked behind it on both sides and caulked at the top. Flashing should be placed with roofing nails every 3" and different flashing pieces overlapped by 6". Make sure you put the flashing BEHIND any window or house wrap.`));
+      items.push(mkLine('-Xtrabond'),mkLine(`-${Math.ceil(sqft/16)} pieces of Metal Lath`),mkLine(`-${Math.ceil(sqft/333)} boxes of Staples`),mkLine('-Roofing Paper'),mkLine('-Measuring buckets'),mkLine('-Air compressor'),mkLine('-Air hoses'),mkLine('-Staple guns. Air gun oil (oil your gun before, during, and after using it).'));
+      const sand=Math.ceil(sqft*0.017*10)/10;const pc=Math.ceil(sqft/50);const fb=Math.ceil(sqft/400);
+      items.push(mkLine(`-${sand} bags of Sand (50 lb bags)`),mkLine('-PC-260 Slurry Mix: Mix one bucket of 260. Split the 260 in half. Then Add 320 ounces of Sand to 2.5 Gallons of 260.'),mkLine('-Mixing buckets. Gallon measure bucket.'),mkLine(`-${pc} Gallons PC-260`));
+      if(!isEarly){
+        if(!flakeColor)items.push({text:'-[SELECT FLAKE COLOR]',missing:true});
+        else items.push(mkLine(`-${fb} box(es) '${flakeColor}' Flakes`));
+        items.push(mkLine(`-${Math.ceil(sqft/200)} Gallons PG100 Clear Sealer — roll thin and even. Avoid thick or direct sun.`));
+      }
+    }
+    steps=[...(tenting?['Tent']:[]),'Prep, drip edge, lathe, PC-260 Slurry'];
+    if(!isEarly)steps.push('Light coat of colored PC-260','Flake','Sand and Seal');
     if(tenting)steps.push('Ask Melissa if tenting needs removal. Caulk screw holes');
-  }else if(coat==='rock'){
-    if(drip>0)items.push(`-${Math.ceil(drip/8)} pieces ${dripColor!=='Standard'?dripColor+' ':''}Drip Edge`);
-    if(sqft>0){const pc=Math.ceil(sqft/60),sand=Math.ceil(sqft*0.037),sealer=Math.ceil(sqft/435);items.push(`-${pc} Gallons PC-260 Waterproofing`,`-${sand} bags Sand (50 lb)`,'-PC-260 Slurry: one bucket. Split in half. Add 320 oz Sand to 2.5 gal of 260.',`-1/2" Pebble Rock (${sqft} sq ft)`,`-${sealer} Gallons PG100 Clear Sealer — roll thin. Avoid thick or direct sun (risk of micro-bubbling)`);}
-    steps=[...(tenting?['Tent']:[]),'Prep, Install Drip Edge, PC-260 1st coat','2nd coat PC-260 with Color. Bring up Rock & set up mixing station.','Install the 1/2" Rock','Scrape and Seal. Clean up'];
+  } else if(coat==='rock'){
+    if(drip>0)items.push(mkLine(`-${Math.ceil(drip/8)} pieces ${dripColor} Drip Edge`));
+    if(sqft>0){
+      items.push(mkLine('-Level. Check the Slope and let me know if it is not good.'),mkLine('-Disc for aggressive sanding. Always sand down the edges before you do the drip edge to help the drip edge get lower and not puddle water.'));
+      if(flash>0)items.push(mkLine(`-${Math.ceil(flash/6)} pieces of 6" x 6" Flashing. Flashing should be Xtrabond caulked behind it on both sides and caulked at the top. Flashing should be placed with roofing nails every 3" and different flashing pieces overlapped by 6". Make sure you put the flashing BEHIND any window or house wrap.`));
+      const pc=Math.ceil(sqft/60),sand=Math.ceil(sqft*0.037*10)/10,sealer=Math.ceil(sqft/435);
+      items.push(mkLine('-Xtrabond'),mkLine(`-${Math.ceil(sqft/16)} pieces of Metal Lath`),mkLine(`-${Math.ceil(sqft/333)} boxes of Staples`),mkLine('-Roofing Paper'),mkLine('-Measuring buckets'),mkLine('-Air compressor'),mkLine('-Air hoses'),mkLine('-Staple guns. Air gun oil (oil your gun before, during, and after using it).'),mkLine(`-${sand} bags of Sand (50 lb bags)`),mkLine('-PC-260 Slurry Mix: Mix one bucket of 260. Split the 260 in half. Then Add 320 ounces of Sand to 2.5 Gallons of 260.'),mkLine('-Mixing buckets. Gallon measure bucket.'),mkLine(`-${pc} Gallons PC-260`));
+      if(!isEarly){items.push(mkLine(`-1/2" Pebble Rock (${sqft} sq ft)`),mkLine(`-${sealer} Gallons PG100 Clear Sealer — roll thin. Avoid thick or direct sun (risk of micro-bubbling)`));}
+    }
+    steps=[...(tenting?['Tent']:[]),'Prep, drip edge, lathe, PC-260 Slurry'];
+    if(!isEarly)steps.push('2nd coat PC-260 with Color. Bring up Rock & set up mixing station.','Install the 1/2" Rock','Scrape and Seal. Clean up');
     if(tenting)steps.push('Ask Melissa if tenting needs removal. Caulk screw holes');
-  }else if(coat==='plywood'){
-    if(drip>0)items.push(`-${Math.ceil(drip/8)} pieces ${dripColor!=='Standard'?dripColor+' ':''}Drip Edge`);
-    if(sqft>0)items.push(`-${Math.ceil(sqft/400)} roll(s) #15w Felt Roofing Paper`,`-${Math.ceil(sqft/16)} pieces Metal Lath`,`-${Math.ceil(sqft/50)} Gallons Liquid Membrane (2 coats)`,'-MiraFlex Seam Tape');
+  } else if(coat==='plywood'){
+    if(drip>0)items.push(mkLine(`-${Math.ceil(drip/8)} pieces ${dripColor} Drip Edge`));
+    if(sqft>0)items.push(mkLine(`-${Math.ceil(sqft/400)} roll(s) #15w Felt Roofing Paper`),mkLine(`-${Math.ceil(sqft/16)} pieces Metal Lath`),mkLine(`-${Math.ceil(sqft/50)} Gallons Liquid Membrane (2 coats)`),mkLine('-MiraFlex Seam Tape'));
     steps=['Prep, install drip edge','Install lathe & staples','Apply Liquid Membrane (2 coats) with MiraFlex Seam Tape on seams'];
   }
-  const JL={full:'Full deck',early:'Early waterproofing (phase 1)',finish:'Finish coats (phase 2)',reseal:'Reseal',topcoat:'Redo top coat'};
-  const CL={miracote:'Miracote',flake:'Polycoat Flake',rock:'Pebble Rock',plywood:'Direct to Plywood'};
-  return{items,steps,badges:[JL[jt]||'',CL[coat]||'',coat==='flake'?flakeColor:coat==='miracote'?color:'',hasDesign?desLabel:'',sqft?sqft+' sq ft':''].filter(Boolean)};
+
+  const JL={full:'Full deck',early:'Early Waterproofing',finish:'Finish Coats',reseal:'Reseal',topcoat:'Redo top coat'};
+  const CL={miracote:'Miracote',flake:'Polycoat Flake',rock:'Polycoat 1/2" Pebble Rock',plywood:'Direct to Plywood'};
+  return{items,steps,badges:[JL[jt]||'',CL[coat]||'',sqft?sqft+' sq ft':''].filter(Boolean)};
 }
 
 function calcOverlay(){
   const sqft=gv('o-sqft'),plySqft=gv('o-plysqft'),total=sqft+plySqft,slopeSqft=gv('o-slopesqft');
-  const jt=oJTVal||'full',fin=oFinVal,color=oColorVal||'(select color)',slope=oSlopeVal,level=oLevelVal,stamp=oStampVal,isTC=jt==='topcoat';
+  const jt=oJTVal||'full',fin=oFinVal,color=oColorVal,slope=oSlopeVal,level=oLevelVal,stamp=oStampVal,isTC=jt==='topcoat';
   let items=[],steps=[];
   if(fin==='interior'){
-    if(!isTC){items.push('-Grinder','-Quickpatch, Mapei Planiprep SC, other patches. Overfill — patch shrinks.','-Clear Xtrabond for cracks; colored for joints (Limestone, Dark Gray, Black, Clear)','-Fine grit sandpaper');if(plySqft>0)items.push(`-Note: ${plySqft} sq ft over plywood — use ML Primer for plywood sections, HDWB for concrete`);}
-    if(total>0){items.push(`-${Math.ceil(total/250)} Gallons HDWB Primer${plySqft>0?` (ML Primer for ${plySqft} sq ft plywood)`:''}`,`-${Math.ceil(total/200)} Bags MPC Regular White Powder. Magic trowel on 1st coat.`,`-${Math.ceil(total/250)} Bags MPC Smooth White Powder. Hand trowel 2nd coat with square trowel.`,`-${Math.ceil(total/200*7.5)} Gallons MPC Liquid "${color}" (½ color pack per bucket)`,'-Mirastain: bring Gray and Tan colors in case needed',`-${Math.ceil(total/200*1.5)} Gallons WB Epoxy EC-11 (dilute 30% water. Roll thin both ways, 3/16" roller.)`);}
-    if(slope&&slopeSqft>0)items.push(`-Miracote RM3000 for ${slopeSqft} sq ft (${slope})`);
-    if(level&&slopeSqft>0)items.push(`-Self-leveling for ${slopeSqft} sq ft (${level})`);
+    if(!isTC){items.push(mkLine('-Grinder'),mkLine('-Quickpatch, Mapei Planiprep SC, other patches. Overfill — patch shrinks.'),mkLine('-Clear Xtrabond for cracks; colored for joints (Limestone, Dark Gray, Black, Clear)'),mkLine('-Fine grit sandpaper'));if(plySqft>0)items.push(mkLine(`-Note: ${plySqft} sq ft over plywood — use ML Primer for plywood sections, HDWB for concrete`));}
+    if(total>0){items.push(mkLine(`-${Math.ceil(total/250)} Gallons HDWB Primer${plySqft>0?` (ML Primer for ${plySqft} sq ft plywood)`:''}`),mkLine(`-${Math.ceil(total/200)} Bags MPC Regular White Powder. Magic trowel on 1st coat.`),mkLine(`-${Math.ceil(total/250)} Bags MPC Smooth White Powder. Hand trowel 2nd coat with square trowel.`));if(!color)items.push({text:`-${Math.ceil(total/200*7.5)} Gallons MPC Liquid [SELECT COLOR] (½ color pack per bucket)`,missing:true});else items.push(mkLine(`-${Math.ceil(total/200*7.5)} Gallons MPC Liquid "${color}" (½ color pack per bucket)`));items.push(mkLine('-Mirastain: bring Gray and Tan colors in case needed'),mkLine(`-${Math.ceil(total/200*1.5)} Gallons WB Epoxy EC-11 (dilute 30% water. Roll thin both ways, 3/16" roller.)`));}
+    if(slope&&slopeSqft>0)items.push(mkLine(`-Miracote RM3000 for ${slopeSqft} sq ft (${slope})`));
+    if(level&&slopeSqft>0)items.push(mkLine(`-Self-leveling for ${slopeSqft} sq ft (${level})`));
     steps=isTC?['Sand lightly','MPC Regular coat','Sand & MPC Smooth coat','Stain if needed, HDWB prime, WB Epoxy seal']:['Grind, patch, prime, MPC Regular','Sand & MPC Smooth','Sand by hand or drywall sander, stain if needed, HDWB prime, WB Epoxy seal'];
   }else if(fin==='exterior'){
-    if(!isTC)items.push('-Grinder, Hammer Drill, Pressure Washer','-Quickpatch, RM2, & PlaniTopX Patches','-Diamond V Blade, Concrete Saw — cut MPC all the way through joints','-Xtrabond and Silica Sand');
-    if(total>0)items.push(`-${Math.ceil(total/185)} Bags MPC Regular White Powder (1st coat)`,`-${Math.ceil(total/185)+Math.ceil(total/150)} Bags MPC White Powder (2nd coat)`,`-${Math.ceil(total/100)} Gallons MPC Liquid "${color}" (½ color pack per bucket)`,`-${Math.ceil(total/435)} Gallons PG100 Sealer. Apply thin.`,'-Shark Grip');
+    if(!isTC)items.push(mkLine('-Grinder, Hammer Drill, Pressure Washer'),mkLine('-Quickpatch, RM2, & PlaniTopX Patches'),mkLine('-Diamond V Blade, Concrete Saw — cut MPC all the way through joints'),mkLine('-Xtrabond and Silica Sand'));
+    if(total>0){items.push(mkLine(`-${Math.ceil(total/185)} Bags MPC Regular White Powder (1st coat)`),mkLine(`-${Math.ceil(total/185)+Math.ceil(total/150)} Bags MPC White Powder (2nd coat)`));if(!color)items.push({text:`-${Math.ceil(total/100)} Gallons MPC Liquid [SELECT COLOR] (½ color pack per bucket)`,missing:true});else items.push(mkLine(`-${Math.ceil(total/100)} Gallons MPC Liquid "${color}" (½ color pack per bucket)`));items.push(mkLine(`-${Math.ceil(total/435)} Gallons PG100 Sealer. Apply thin.`),mkLine('-Shark Grip'));}
     steps=isTC?['Clean surface','MPC 2nd coat','Seal with PG100 & Shark Grip']:['Grind, power wash, patch','MPC Regular (1st coat)','Sand & MPC 2nd coat (Swirl/Broom/Smooth)','Seal with Shark Grip'];
   }else if(fin==='stamp'){
-    if(!isTC)items.push('-Grinder, Hammer Drill, Pressure Washer','-Quickpatch and patches','-Xtrabond');
-    if(total>0){items.push(`-${Math.ceil(total/250)} Gallons MPC Liquid Primer (mix 1:1 with water)`,`-${Math.ceil(total/20)} Bags MiraStamp Powder (45lb bags)`,`-${Math.ceil(total/30)} Gallons MiraStamp Liquid`,`-${Math.ceil(total/150)} Gallons Liquid Release`);if(stamp)items.push(`-${stamp} stamp mat(s)`);}
+    if(!isTC)items.push(mkLine('-Grinder, Hammer Drill, Pressure Washer'),mkLine('-Quickpatch and patches'),mkLine('-Xtrabond'));
+    if(total>0){items.push(mkLine(`-${Math.ceil(total/250)} Gallons MPC Liquid Primer (mix 1:1 with water)`),mkLine(`-${Math.ceil(total/20)} Bags MiraStamp Powder (45lb bags)`),mkLine(`-${Math.ceil(total/30)} Gallons MiraStamp Liquid`),mkLine(`-${Math.ceil(total/150)} Gallons Liquid Release`));if(stamp)items.push(mkLine(`-${stamp} stamp mat(s)`));}
     steps=['Grind, power wash, patch','Grind patches & MiraStamp','Seal with Shark Grip'];
-  }else items.push('(Select an overlay finish above)');
+  }else items.push({text:'(Select an overlay finish above)',missing:true});
   const FL={interior:'Interior trowel',exterior:'Exterior trowel',stamp:'Stamp overlay'};
-  return{items,steps,badges:[isTC?'Redo top coat':'Full overlay',FL[fin]||'',color,total?total+' sq ft':''].filter(Boolean)};
+  return{items,steps,badges:[isTC?'Redo top coat':'Full overlay',FL[fin]||'',color||'',total?total+' sq ft':''].filter(Boolean)};
 }
 
 function calcPolish(){
   const sqft=gv('p-sqft'),svc=pSvcVal||'',fin=pFinVal||'satin';
   let items=[],steps=[];
-  items.push('-Grinder, Edge Grinder, Polishing Edge Grinder','-Mapei Planiprep SC + Sanded & Non-Sanded Grout (Delorean Gray, Oyster Gray, Natural Gray)','-Xtrabond (Limestone, Dark Gray, Black, Clear)');
-  if(svc==='polish'){items.push('-Metal Bond diamonds (if needed)','-50 Grit Transitional — Wet','-100 Grit Transitional — Wet','-Squeegee, Shovel, Buckets, Slurry Shop Vac, Hose, Auto-Scrubber','-100 Grit Resin — Dry','-200 Grit Resin — Dry');if(sqft>0)items.push(`-${Math.ceil(sqft/300)} Gallons Pentra Sil IH Densifier`,`-${Math.ceil(sqft/900)} Gallons Pentra Finish HG Guard`);items.push('-Yellow Sprayer, Mop Applicator, Pole & 2 Mop Pads. Clean immediately after densifier.','-Burnisher and Burnishing Pad');steps=['Diamond grinding & patching (50 grit wet, 100 grit wet)','Grind patches, 100 grit resin dry, 200 grit resin, Densify (Pentra Sil IH)','Final polishing, Guard (Pentra Finish HG), Burnish'];}
-  else if(svc==='grind'){if(sqft>0)items.push(`-${Math.ceil(sqft/600)} Gallons WB Urethane "${fin}" — 3/16" roller, roll both ways`);items.push('-Shark Grip if exterior');steps=['Grind and prepare surface','1st coat sealer (thin)','Seal joints & cracks, 2nd coat sealer'];}
-  else if(svc==='acetonestain'){if(sqft>0)items.push(`-${Math.ceil(sqft/250)} Gallons Acetone Dye Stain`,'-Clean Acetone, Acetone Sprayer, Tape and paper',`-${Math.ceil(sqft/200)} Gallons WB Epoxy EC-11 (dilute 30% water, 3/16" roller, both ways)`,`-${Math.ceil(sqft/200)} Gallons Crystal Clear TC Polyaspartic — 2nd seal coat`);steps=['Diamond Grind, Stain & WB Epoxy seal (1st coat)','Seal joints & cracks, 2nd coat Crystal Sealer. Clean up.'];}
-  else if(svc==='colorguard'){items.push('-ColorGuard Acrylic Sealer, Pump sprayer or roller');steps=['Power wash clean. Blow out puddles.','Apply ColorGuard sealer & Shark Grip. Clean up.'];}
-  else if(svc==='pentra'){items.push('-PentraShield Densifier, Yellow pump sprayer');steps=['Power wash clean. Blow out puddles.','Apply PentraShield densifier. Mop/clean immediately.'];}
-  else if(svc==='color'){items.push('-Acid Etch, power washer','-Color Sealer','-Clear Sealer + Shark Grip');steps=['Acid Etch & power wash. Blow out puddles.','Color Seal base coat.','Clear Seal with Texture. Clean up.'];}
-  else if(svc==='stain'){items.push('-Concrete stain (Mirastain — bring Gray and Tan)','-WB Epoxy or Urethane sealer');steps=['Diamond Grind, Patch?, Stain & Seal.','Seal joints, cracks, 2nd coat sealer. Clean up.'];}
-  else{items.push(`-Materials for ${svc||'(select service)'}`);steps=['Prepare surface','Apply product','Clean up'];}
+  items.push(mkLine('-Grinder, Edge Grinder, Polishing Edge Grinder'),mkLine('-Mapei Planiprep SC + Sanded & Non-Sanded Grout (Delorean Gray, Oyster Gray, Natural Gray)'),mkLine('-Xtrabond (Limestone, Dark Gray, Black, Clear)'));
+  if(svc==='polish'){items.push(mkLine('-Metal Bond diamonds (if needed)'),mkLine('-50 Grit Transitional — Wet'),mkLine('-100 Grit Transitional — Wet'),mkLine('-Squeegee, Shovel, Buckets, Slurry Shop Vac, Hose, Auto-Scrubber'),mkLine('-100 Grit Resin — Dry'),mkLine('-200 Grit Resin — Dry'));if(sqft>0)items.push(mkLine(`-${Math.ceil(sqft/300)} Gallons Pentra Sil IH Densifier`),mkLine(`-${Math.ceil(sqft/900)} Gallons Pentra Finish HG Guard`));items.push(mkLine('-Yellow Sprayer, Mop Applicator, Pole & 2 Mop Pads. Clean immediately after densifier.'),mkLine('-Burnisher and Burnishing Pad'));steps=['Diamond grinding & patching (50 grit wet, 100 grit wet)','Grind patches, 100 grit resin dry, 200 grit resin, Densify (Pentra Sil IH)','Final polishing, Guard (Pentra Finish HG), Burnish'];}
+  else if(svc==='grind'){if(sqft>0)items.push(mkLine(`-${Math.ceil(sqft/600)} Gallons WB Urethane "${fin}" — 3/16" roller, roll both ways`));items.push(mkLine('-Shark Grip if exterior'));steps=['Grind and prepare surface','1st coat sealer (thin)','Seal joints & cracks, 2nd coat sealer'];}
+  else if(svc==='acetonestain'){if(sqft>0)items.push(mkLine(`-${Math.ceil(sqft/250)} Gallons Acetone Dye Stain`),mkLine('-Clean Acetone, Acetone Sprayer, Tape and paper'),mkLine(`-${Math.ceil(sqft/200)} Gallons WB Epoxy EC-11 (dilute 30% water, 3/16" roller, both ways)`),mkLine(`-${Math.ceil(sqft/200)} Gallons Crystal Clear TC Polyaspartic — 2nd seal coat`));steps=['Diamond Grind, Stain & WB Epoxy seal (1st coat)','Seal joints & cracks, 2nd coat Crystal Sealer. Clean up.'];}
+  else if(svc==='colorguard'){items.push(mkLine('-ColorGuard Acrylic Sealer, Pump sprayer or roller'));steps=['Power wash clean. Blow out puddles.','Apply ColorGuard sealer & Shark Grip. Clean up.'];}
+  else if(svc==='pentra'){items.push(mkLine('-PentraShield Densifier, Yellow pump sprayer'));steps=['Power wash clean. Blow out puddles.','Apply PentraShield densifier. Mop/clean immediately.'];}
+  else if(svc==='color'){items.push(mkLine('-Acid Etch, power washer'),mkLine('-Color Sealer'),mkLine('-Clear Sealer + Shark Grip'));steps=['Acid Etch & power wash. Blow out puddles.','Color Seal base coat.','Clear Seal with Texture. Clean up.'];}
+  else if(svc==='stain'){items.push(mkLine('-Concrete stain (Mirastain — bring Gray and Tan)'),mkLine('-WB Epoxy or Urethane sealer'));steps=['Diamond Grind, Patch?, Stain & Seal.','Seal joints, cracks, 2nd coat sealer. Clean up.'];}
+  else{items.push({text:`-Materials for ${svc||'(select service)'}`,missing:!svc});steps=['Prepare surface','Apply product','Clean up'];}
   return{items,steps,badges:[svc,fin,sqft?sqft+' sq ft':''].filter(Boolean)};
 }
 
 function calcSpecialty(){
   const sqft=gv('s-sqft'),borderSqft=gv('s-bordersqft'),type=sTypeVal||'metallic',gl=sGlVal||'semi',tenting=isSel('s-tenting');
   let items=[],steps=[];
-  if(tenting)items.push('TENTING: plastic, ladders, lumber, heaters, diesel fuel','');
+  if(tenting)items.push(mkLine('TENTING: plastic, ladders, lumber, heaters, diesel fuel'),mkLine(''));
   if(type==='metallic'){
     const cd=sColorVal&&MD[sColorVal]?MD[sColorVal]:null,bd=sBorderColorVal&&MD[sBorderColorVal]?MD[sBorderColorVal]:null,total=sqft+(borderSqft||0);
-    items.push('Instructions: Prime twice — no bubbles. Fill ALL holes, cracks, joints with Xtrabond before 2nd primer. Magic trowel main color, accent colors with watering can, T-Bar. Keep Alcohol sprayer handy. Lightly sand before sealing.');
-    if(total>0){const mvb=Math.ceil(total/100),p2=Math.ceil(total/200),met=Math.ceil(total/50),uv=Math.ceil(met/3),seal=Math.ceil(total/600);items.push(`-${mvb} Gallons MVB Moisture Barrier Epoxy primer (100% solids, 2:1 mix, ~100 sq ft/gal)`,'-Xtrabond',`-${p2} Gallons "${cd?cd.e:'(select color)'}" Macropoxy — 2nd primer coat`);if(borderSqft>0&&bd)items.push(`-Border 2nd primer: ${Math.ceil(borderSqft/200)} Gallons "${bd.e}" Macropoxy`);items.push(`-${met} Gallons Alta Fuzion 100% Solids Metallic Epoxy (3 gal kits, 2:1 A:B, ~50 sq ft/gal)`,`-${uv} UV additive packs (1 per 3 gal kit — REQUIRED to prevent yellowing)`,`-"${cd?cd.p:'(select color)'}" Alta Metallic Powder — 1 jar per 3 gal kit. Mix into Part A AT LEAST 1 DAY BEFORE. MIX IT GOOD.`);if(borderSqft>0&&bd)items.push(`-Border powder: "${bd.p}" — ${Math.ceil(borderSqft/150)} jars. Mix day before.`);items.push('-T Bar, Magic Trowel, flower watering pot','-Alcohol sprayer, drywall sander, fine grit screen, floor machine and pad');if(gl==='semi')items.push(`-${seal} Gallons WestCoat SC-65 WB Urethane "Gloss". Add 64 oz water/gal. Apply @600 sq ft/gal, 3/16" roller, both ways.`);else if(gl==='gloss')items.push(`-${seal} Gallons WB Urethane (Gloss) @600 sq ft/gal, 3/16" roller`);else items.push(`-${seal} Gallons WB Urethane (Matte)`);items.push('-Measuring buckets');}
+    items.push(mkLine('Instructions: Prime twice — no bubbles. Fill ALL holes, cracks, joints with Xtrabond before 2nd primer. Magic trowel main color, accent colors with watering can, T-Bar. Keep Alcohol sprayer handy. Lightly sand before sealing.'));
+    if(total>0){const mvb=Math.ceil(total/100),p2=Math.ceil(total/200),met=Math.ceil(total/50),uv=Math.ceil(met/3),seal=Math.ceil(total/600);items.push(mkLine(`-${mvb} Gallons MVB Moisture Barrier Epoxy primer (100% solids, 2:1 mix, ~100 sq ft/gal)`),mkLine('-Xtrabond'));if(!sColorVal)items.push({text:`-${p2} Gallons [SELECT COLOR] Macropoxy — 2nd primer coat`,missing:true});else items.push(mkLine(`-${p2} Gallons "${cd.e}" Macropoxy — 2nd primer coat`));if(borderSqft>0&&bd)items.push(mkLine(`-Border 2nd primer: ${Math.ceil(borderSqft/200)} Gallons "${bd.e}" Macropoxy`));items.push(mkLine(`-${met} Gallons Alta Fuzion 100% Solids Metallic Epoxy (3 gal kits, 2:1 A:B, ~50 sq ft/gal)`),mkLine(`-${uv} UV additive packs (1 per 3 gal kit — REQUIRED to prevent yellowing)`));if(!sColorVal)items.push({text:`-[SELECT COLOR] Alta Metallic Powder — 1 jar per 3 gal kit. Mix into Part A AT LEAST 1 DAY BEFORE.`,missing:true});else items.push(mkLine(`-"${cd.p}" Alta Metallic Powder — 1 jar per 3 gal kit. Mix into Part A AT LEAST 1 DAY BEFORE. MIX IT GOOD.`));if(borderSqft>0&&bd)items.push(mkLine(`-Border powder: "${bd.p}" — ${Math.ceil(borderSqft/150)} jars. Mix day before.`));items.push(mkLine('-T Bar, Magic Trowel, flower watering pot'),mkLine('-Alcohol sprayer, drywall sander, fine grit screen, floor machine and pad'));if(gl==='semi')items.push(mkLine(`-${seal} Gallons WestCoat SC-65 WB Urethane "Gloss". Add 64 oz water/gal. Apply @600 sq ft/gal, 3/16" roller, both ways.`));else if(gl==='gloss')items.push(mkLine(`-${seal} Gallons WB Urethane (Gloss) @600 sq ft/gal, 3/16" roller`));else items.push(mkLine(`-${seal} Gallons WB Urethane (Matte)`));items.push(mkLine('-Measuring buckets'));}
     steps=['Grind, MVB primer (mix metallic powder into Part A THIS DAY — apply tomorrow)','Seal joints, sand & fill ALL holes/bubbles with Xtrabond. Apply colored Macropoxy 2nd primer.','Apply metallic epoxy (main color, accents, T-Bar)','Top-coat seal (WB Urethane)'];
     if(borderSqft>0)steps.splice(1,0,'Saw cut border line. Apply border metallic color separately.');
   }else if(type==='verde'){
-    items.push('VERDE COVE BASE:','Day before or same day: prime with EC-44, then EC-76 Tack-Coat before aggregate.','-Chalk line and Duct Tape (pull before epoxy sets)','-WestCoat EC-44 Flex Epoxy (primer)','-2 Bags 30 grit Silica Sand #4075 Unimen','-1 Kit WestCoat EC-76 Cove Gel (from Alta)','-Cove Trowel, Regular Square and Rounded Trowel','-Buckets, Xylene, Rags','','FLAKE:');
-    if(sqft>0){const fb=BM[sVerdeColorVal]||'matching base';items.push(`-${epoxy(sqft)} Gallons ${fb} Colored Polyaspartic Flex`,`-${flakeQty(sqft,'micro')} box(es) '${sVerdeColorVal||'(select)'}' Micro Flakes`,`-${tcQty(sqft,'micro')} gallons Crystal Clear TC Polyaspartic`);}
+    items.push(mkLine('VERDE COVE BASE:'),mkLine('Day before or same day: prime with EC-44, then EC-76 Tack-Coat before aggregate.'),mkLine('-Chalk line and Duct Tape (pull before epoxy sets)'),mkLine('-WestCoat EC-44 Flex Epoxy (primer)'),mkLine('-2 Bags 30 grit Silica Sand #4075 Unimen'),mkLine('-1 Kit WestCoat EC-76 Cove Gel (from Alta)'),mkLine('-Cove Trowel, Regular Square and Rounded Trowel'),mkLine('-Buckets, Xylene, Rags'),mkLine(''),mkLine('FLAKE:'));
+    if(sqft>0){const fb=BM[sVerdeColorVal]||'matching base';items.push(mkLine(`-${epoxy(sqft)} Gallons ${fb} Colored Polyaspartic Flex`));if(!sVerdeColorVal)items.push({text:`-${flakeQty(sqft,'micro')} box(es) [SELECT COLOR] Micro Flakes`,missing:true});else items.push(mkLine(`-${flakeQty(sqft,'micro')} box(es) '${sVerdeColorVal}' Micro Flakes`));items.push(mkLine(`-${tcQty(sqft,'micro')} gallons Crystal Clear TC Polyaspartic`));}
     steps=['Grind floor. Install Verde Cove: chalk line, EC-44 primer, EC-76 Tack-Coat + Sand aggregate. Pull tape before epoxy sets.','Flake floor','Seal with Crystal Clear TC. Clean up.'];
   }else{
-    const tL2={marble:'Marble',saltpepper:'Salt & Pepper',terrazzo:'Terrazzo'};items.push(`-ElastoCrete ${tL2[type]||''} Finish materials`);if(sqft>0)items.push(`-Base ElastoCrete for ${sqft} sq ft`);items.push('-Apply glue and install fabric. Set up mixing station.');
+    const tL2={marble:'Marble',saltpepper:'Salt & Pepper',terrazzo:'Terrazzo'};items.push(mkLine(`-ElastoCrete ${tL2[type]||''} Finish materials`));if(sqft>0)items.push(mkLine(`-Base ElastoCrete for ${sqft} sq ft`));items.push(mkLine('-Apply glue and install fabric. Set up mixing station.'));
     steps=type==='marble'?['Prep, fill holes/gaps, glue & fabric','Install Elastocrete','Grind and Seal']:['Prep, fill holes/gaps, glue & fabric','Install Elastocrete. Broadcast aggregate.','Grind & Crystal Clear Seal','Sand & WB Top-coat'];
   }
   const TL={metallic:'Metallic Epoxy',marble:'ElastoCrete Marble',saltpepper:'ElastoCrete Salt & Pepper',terrazzo:'ElastoCrete Terrazzo',verde:'Verde Cove + Flake'};
@@ -634,22 +747,22 @@ function calcSpecialty(){
 function calcSport(){
   const sqft=gv('sc-sqft'),z2sqft=gv('sc-z2sqft'),type=scTypeVal||'flake',lines=scLinesVal||'none',lineColors=sv('sc-line-colors'),logos=scLogosVal,logoText=sv('sc-logos-text');
   let items=[],steps=[];
-  items.push('-Grinder and Diamonds','-Xtrabond (seal joints)','-Quickpatch, Mapei Planiprep SC, Sanded & Non-Sanded Grout');
+  items.push(mkLine('-Grinder and Diamonds'),mkLine('-Xtrabond (seal joints)'),mkLine('-Quickpatch, Mapei Planiprep SC, Sanded & Non-Sanded Grout'));
   if(type==='flake'){
-    if(sqft>0){const c1=scColor1||'(select color 1)',t1=getTypeForColor(c1),b1=getBase(c1,t1)||'matching base';items.push('-Black Epoxy Primer (for zone lines)','-Design Tape',`-${epoxy(sqft)} Gallons ${b1} Colored Polyaspartic Flex — Zone 1 (${c1})`,`-${flakeQty(sqft,'micro')} box(es) '${c1}' Micro Flake — Zone 1`);if(z2sqft>0&&scColor2){const t2=getTypeForColor(scColor2),b2=getBase(scColor2,t2)||'matching base';items.push(`-${epoxy(z2sqft)} Gallons ${b2} Colored Polyaspartic Flex — Zone 2 (${scColor2})`,`-${flakeQty(z2sqft,'micro')} box(es) '${scColor2}' Micro Flake — Zone 2`);}items.push(`-${tcQty(sqft+(z2sqft||0),'micro')} gallons Crystal Clear TC Polyaspartic`);}
+    if(sqft>0){const c1=scColor1,t1=getTypeForColor(c1||''),b1=getBase(c1||'',t1)||'matching base';items.push(mkLine('-Black Epoxy Primer (for zone lines)'),mkLine('-Design Tape'));if(!c1)items.push({text:`-${epoxy(sqft)} Gallons [SELECT ZONE 1 COLOR] Colored Polyaspartic Flex — Zone 1`,missing:true});else items.push(mkLine(`-${epoxy(sqft)} Gallons ${b1} Colored Polyaspartic Flex — Zone 1 (${c1})`),mkLine(`-${flakeQty(sqft,'micro')} box(es) '${c1}' Micro Flake — Zone 1`));if(z2sqft>0&&scColor2){const t2=getTypeForColor(scColor2),b2=getBase(scColor2,t2)||'matching base';items.push(mkLine(`-${epoxy(z2sqft)} Gallons ${b2} Colored Polyaspartic Flex — Zone 2 (${scColor2})`),mkLine(`-${flakeQty(z2sqft,'micro')} box(es) '${scColor2}' Micro Flake — Zone 2`));}items.push(mkLine(`-${tcQty(sqft+(z2sqft||0),'micro')} gallons Crystal Clear TC Polyaspartic`));}
     steps=['Grind, seal joints, Epoxy Prime','Tape design & Flake (Zone 1, then Zone 2)','Seal with Crystal Clear TC'];
     if(lines!=='none')steps.push(`Saw cut ${lines} lines (${lineColors||'confirm colors'}), stain with acetone dye. Touch up and seal lines. Clean up.`);
     if(logos)steps.push(`Apply logos (${logoText||'confirm logo details'})`);
   }else if(type==='polish'){
-    if(sqft>0){items.push('-50/100 Grit Transitional — Wet','-100/200/400 Grit Resin — Dry','-Slurry Shop Vac, Auto-Scrubber','-Yellow Sprayer, Mop & Pads, Burnisher & Pad',`-${Math.ceil(sqft/300)} Gallons Pentra Sil IH Densifier`,`-${Math.ceil(sqft/900)} Gallons Pentra Finish HG Guard`);}
-    if(lines!=='none')items.push(`-${lineColors||'Gray & Blue'} Acetone Dye Stain for court lines`,'-Concrete saw & court tape machine');
-    if(logos)items.push(`-Logo stencils/supplies (${logoText||'confirm details'})`);
+    if(sqft>0){items.push(mkLine('-50/100 Grit Transitional — Wet'),mkLine('-100/200/400 Grit Resin — Dry'),mkLine('-Slurry Shop Vac, Auto-Scrubber'),mkLine('-Yellow Sprayer, Mop & Pads, Burnisher & Pad'),mkLine(`-${Math.ceil(sqft/300)} Gallons Pentra Sil IH Densifier`),mkLine(`-${Math.ceil(sqft/900)} Gallons Pentra Finish HG Guard`));}
+    if(lines!=='none')items.push(mkLine(`-${lineColors||'Gray & Blue'} Acetone Dye Stain for court lines`),mkLine('-Concrete saw & court tape machine'));
+    if(logos)items.push(mkLine(`-Logo stencils/supplies (${logoText||'confirm details'})`));
     steps=['Diamond grind & patch up to 400 grit'];if(lines!=='none')steps.push(`Saw cut ${lines} lines. Stain lines (${lineColors||'confirm colors'}).`);steps.push('Densify (Pentra Sil IH). Seal joints. Guard (Pentra Finish HG). Burnish.');if(logos)steps.push(`Apply logos (${logoText})`);
   }else if(type==='grind'){
-    if(sqft>0){items.push(`-${Math.ceil(sqft/600)*2} Gallons WB Urethane Sealer (2 coats)`);if(lines!=='none')items.push(`-${lineColors||'Gray & Blue'} Acetone Dye Stain for lines`,'-Concrete saw');}
+    if(sqft>0){items.push(mkLine(`-${Math.ceil(sqft/600)*2} Gallons WB Urethane Sealer (2 coats)`));if(lines!=='none')items.push(mkLine(`-${lineColors||'Gray & Blue'} Acetone Dye Stain for lines`),mkLine('-Concrete saw'));}
     steps=['Grind & patch','1st coat sealer'];if(lines!=='none')steps.push(`Saw cut ${lines} lines. Stain/paint lines (${lineColors||'confirm colors'}).`);steps.push('Seal joints, cracks & 2nd coat sealer. Clean up.');if(logos)steps.push(`Apply logos (${logoText})`);
   }else{
-    items.push('-Acid Etch, power washer','-Color Sealer (multiple colors for court zones)','-Hybrid Clear Sealer + Texture');if(lines!=='none')items.push(`-Court line tape & paint (${lineColors||'confirm colors'})`);
+    items.push(mkLine('-Acid Etch, power washer'),mkLine('-Color Sealer (multiple colors for court zones)'),mkLine('-Hybrid Clear Sealer + Texture'));if(lines!=='none')items.push(mkLine(`-Court line tape & paint (${lineColors||'confirm colors'})`));
     steps=['Acid Etch & power wash. Blow out puddles.','Color Seal base coat sections.','Tape off & paint court lines. Clear Seal with Hybrid & Texture. Clean up.'];if(logos)steps.push(`Apply logos (${logoText})`);
   }
   const TL={flake:'Micro Flake Court',polish:'Polished Court',grind:'Grind & Seal Court',color:'Color Sealer Court'};
@@ -660,15 +773,40 @@ function calcSport(){
 function gen(tab){
   const fns={garage:calcGarage,deck:calcDeck,overlay:calcOverlay,polish:calcPolish,specialty:calcSpecialty,sport:calcSport};
   const r=fns[tab]();
+
   document.getElementById('outBadges').innerHTML=r.badges.filter(Boolean).map(b=>`<span class="badge">${b}</span>`).join('');
-  document.getElementById('outProducts').textContent=r.items.join('\n');
+
+  const{html:ph,plain:pp}=renderItems(r.items);
+  document.getElementById('outProducts').innerHTML=ph;
+  lastProductsHTML=`<div style="font-family:'Times New Roman',Times,serif;font-size:14pt;line-height:1.9;">${ph.replace(/\n/g,'<br>')}</div>`;
+  lastProductsPlain=pp;
+
   const sd=document.getElementById('outSched'),se=document.getElementById('outSteps');
-  if(r.steps?.length){se.innerHTML=r.steps.map((s,i)=>`<div class="sp"><div class="sn">${i+1}</div><div>${s}</div></div>`).join('');sd.style.display='block';}else sd.style.display='none';
+  if(r.steps?.length){
+    const{html:sh,plain:sp}=renderSteps(r.steps);
+    se.innerHTML=sh.replace(/\n/g,'<br>');
+    lastScheduleHTML=`<div style="font-family:'Times New Roman',Times,serif;font-size:14pt;line-height:2;">${sh.replace(/\n/g,'<br>')}</div>`;
+    lastSchedulePlain=sp;
+    sd.style.display='block';
+  }else{sd.style.display='none';lastScheduleHTML='';lastSchedulePlain='';}
+
   const o=document.getElementById('outSection');o.classList.add('vis');o.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
-function copyOut(){
-  const t=[document.getElementById('outBadges').innerText,'PRODUCT & EQUIPMENT:',document.getElementById('outProducts').textContent,'SCHEDULE:',document.getElementById('outSteps').innerText].join('\n');
-  navigator.clipboard.writeText(t).then(()=>{const b=document.querySelector('.cb');b.textContent='✅ Copied!';setTimeout(()=>b.textContent='📋 Copy',2000);});
+
+function copyPlain(){
+  const badges=[...document.getElementById('outBadges').querySelectorAll('.badge')].map(b=>b.textContent).join(' | ');
+  const text=[badges,'','PRODUCTS:',lastProductsPlain,'SCHEDULE:',lastSchedulePlain].join('\n');
+  navigator.clipboard.writeText(text).then(()=>{const b=document.querySelectorAll('.cb')[0];b.textContent='✅ Copied!';setTimeout(()=>b.textContent='📋 Copy plain text',2000);});
+}
+
+function copyForDocs(){
+  const badges=[...document.getElementById('outBadges').querySelectorAll('.badge')].map(b=>b.textContent).join(' | ');
+  const html=`<meta charset="utf-8"><b style="font-family:'Times New Roman',Times,serif;font-size:14pt;">${badges}</b><br><br>${lastProductsHTML}<br>${lastScheduleHTML}`;
+  try{
+    const blob=new Blob([html],{type:'text/html'});
+    const item=new ClipboardItem({'text/html':blob});
+    navigator.clipboard.write([item]).then(()=>{const b=document.querySelectorAll('.cb')[1];b.textContent='✅ Copied!';setTimeout(()=>b.textContent='📄 Copy for Google Docs',2000);});
+  }catch(e){copyPlain();}
 }
 </script>
 </body>
