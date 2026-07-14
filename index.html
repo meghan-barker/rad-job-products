@@ -611,9 +611,18 @@ function calcDeck(){
   let items=[],steps=[];
 
   if(jt==='reseal'){
-    items=[mkLine('-Power washer & cleaning supplies'),mkLine(`-${sqft>0?Math.ceil(sqft/435):1} Gallons PG100 Polyglaze Sealer. Add 6 oz Hardener/Gallon.`),mkLine('-Shark Grip')];
-    steps=['Power wash and clean deck thoroughly','Apply PG100 Polyglaze Sealer with Hardener & Shark Grip'];
-    return{items,steps,badges:['Deck resealing',sqft?sqft+' sq ft':'']};
+    const rcl=coat==='flake'?'Polycoat Flake':coat==='rock'?'Polycoat Rock':'Miracote';
+    items=[mkLine('-Power washer & cleaning supplies')];
+    if(coat==='flake'){
+      items.push(mkLine(`-${sqft>0?Math.ceil(sqft/200):1} Gallons PG100 Clear Sealer (roll thin & even; avoid thick or hot sun)`),mkLine('-Shark Grip'));
+      if(flakeColor)items.push(mkLine(`-Touch-up '${flakeColor}' Flakes if any bare/worn spots`));
+    } else if(coat==='rock'){
+      items.push(mkLine(`-${sqft>0?Math.ceil(sqft/200):1} Gallons 'PG 100' top-coat`),mkLine('-Shark Grip'),mkLine('-Floor Pole Screeder / squeegee'));
+    } else {
+      items.push(mkLine(`-${sqft>0?Math.ceil(sqft/435):1} Gallons PG100 Polyglaze Sealer. Add 6 oz Hardener/Gallon.`),mkLine('-Shark Grip'));
+    }
+    steps=['Power wash and clean deck thoroughly',`Apply ${rcl} reseal coat`+(coat==='rock'?" ('PG 100' top-coat)":coat==='flake'?' (PG100 Clear)':' (PG100 Polyglaze + Hardener)')+' with Shark Grip'];
+    return{items,steps,badges:['Deck resealing',rcl,sqft?sqft+' sq ft':''].filter(Boolean)};
   }
   if(tenting)items.push(mkLine('TENTING:'),mkLine("-40' x 100' and 20' x 100' Reinforced Plastic"),mkLine('-Ladders, Scaffolding'),mkLine("Lumber: 2x4's, 2x2's"),mkLine('-Saw, Drill, Long Deck Screws'),mkLine('-Gorilla Tape, Rope, Heaters'),mkLine('-Diesel Fuel and Gas Cans'),mkLine('-Colored Xtrabond close to house. Fill holes when removing tenting.'),mkLine(''));
 
