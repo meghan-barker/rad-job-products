@@ -617,8 +617,8 @@ function calcDeck(){
   if(coat==='miracote'){
     if(doPrep&&sqft>0){
       items.push(mkLine('-Level. Check the slope.'),mkLine('-Disc for aggressive sanding on edges before drip edge.'));
-      if(drip>0)items.push(mkLine(`-${Math.ceil(drip/8)} pieces ${dripColor} Drip Edge`));
-      if(flash>0)items.push(mkLine(`-${Math.ceil(flash/6)} pieces 6"×6" Flashing`));
+      if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
+      if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces 6"×6" Flashing`));
       items.push(mkLine('-Xtrabond'),mkLine(`-${Math.ceil(sqft/400)} roll(s) #15w Felt Roofing Paper`),mkLine(`-${Math.ceil(sqft/16)} pieces Metal Lath`),mkLine(`-${Math.ceil(sqft/333)} Box(es) 1" Crown Staples (10,000/box)`));
       const lm=Math.ceil(sqft/34);items.push(mkLine(`-${lm} Bags LM Lath Mortar`),mkLine(`-${lm} Gallons Lath Mortar Liquid`),mkLine('-LM Mix: 1 Gallon (128 oz) liquid per 40lb LM Bag'),mkLine('-Measuring buckets, Air compressor, Air hoses'),mkLine('-Staple guns. Oil before, during, and after.'),mkLine(`-${Math.ceil(sqft/53)} Gallons Membrane A`),mkLine('-PolyFabric'));
     }
@@ -646,13 +646,14 @@ function calcDeck(){
     }
   } else if(coat==='flake'){
     if(sqft>0){
-      if(drip>0)items.push(mkLine(`-${Math.ceil(drip/8)} pieces ${dripColor} Drip Edge`));
+      if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
       items.push(mkLine('-Level. Check the Slope and let me know if it is not good.'),mkLine('-Disc for aggressive sanding. Always sand down the edges before you do the drip edge to help the drip edge get lower and not puddle water.'));
-      if(flash>0)items.push(mkLine(`-${Math.ceil(flash/6)} pieces of 6" x 6" Flashing. Flashing should be Xtrabond caulked behind it on both sides and caulked at the top. Flashing should be placed with roofing nails every 3" and different flashing pieces overlapped by 6". Make sure you put the flashing BEHIND any window or house wrap.`));
-      items.push(mkLine('-Xtrabond'),mkLine(`-${Math.ceil(sqft/16)} pieces of Metal Lath`),mkLine(`-${Math.ceil(sqft/333)} boxes of Staples`),mkLine('-Roofing Paper'),mkLine('-Measuring buckets'),mkLine('-Air compressor'),mkLine('-Air hoses'),mkLine('-Staple guns. Air gun oil (oil your gun before, during, and after using it).'));
-      const sand=Math.ceil(sqft*0.017*10)/10;const pc=Math.ceil(sqft/50);const fb=Math.ceil(sqft/400);
+      if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces of 6" x 6" Flashing. Flashing should be Xtrabond caulked behind it on both sides and caulked at the top. Flashing should be placed with roofing nails every 3" and different flashing pieces overlapped by 6". Make sure you put the flashing BEHIND any window or house wrap.`));
+      items.push(mkLine('-Xtrabond'),mkLine(`-${Math.ceil((sqft/18)*1.1)} pieces of Metal Lath`),mkLine(`-${Math.ceil(sqft/250)} boxes of Staples`),mkLine('-Roofing Paper'),mkLine('-Measuring buckets'),mkLine('-Air compressor'),mkLine('-Air hoses'),mkLine('-Staple guns. Air gun oil (oil your gun before, during, and after using it).'));
+      const sand=Math.ceil((Math.ceil(sqft/16.9*10)/10*12.8/50)*10)/10;const pc=Math.ceil(sqft/16);const fb=Math.ceil(sqft/400);
       items.push(mkLine(`-${sand} bags of Sand (50 lb bags)`),mkLine('-PC-260 Slurry Mix: Mix one bucket of 260. Split the 260 in half. Then Add 320 ounces of Sand to 2.5 Gallons of 260.'),mkLine('-Mixing buckets. Gallon measure bucket.'),mkLine(`-${pc} Gallons PC-260`));
       if(!isEarly){
+        items.push(mkLine(`-${Math.ceil(sqft/225)} Gallons of colored PG100${flakeColor?` "${flakeColor}"`:''}`));
         if(!flakeColor)items.push({text:'-[SELECT FLAKE COLOR]',missing:true});
         else items.push(mkLine(`-${fb} box(es) '${flakeColor}' Flakes`));
         items.push(mkLine(`-${Math.ceil(sqft/200)} Gallons PG100 Clear Sealer — roll thin and even. Avoid thick or direct sun.`));
@@ -662,10 +663,10 @@ function calcDeck(){
     if(!isEarly)steps.push('Light coat of colored PC-260','Flake','Sand and Seal');
     if(tenting)steps.push('Ask Melissa if tenting needs removal. Caulk screw holes');
   } else if(coat==='rock'){
-    if(drip>0)items.push(mkLine(`-${Math.ceil(drip/8)} pieces ${dripColor} Drip Edge`));
+    if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
     if(sqft>0){
       items.push(mkLine('-Level. Check the Slope and let me know if it is not good.'),mkLine('-Disc for aggressive sanding. Always sand down the edges before you do the drip edge to help the drip edge get lower and not puddle water.'));
-      if(flash>0)items.push(mkLine(`-${Math.ceil(flash/6)} pieces of 6" x 6" Flashing. Flashing should be Xtrabond caulked behind it on both sides and caulked at the top. Flashing should be placed with roofing nails every 3" and different flashing pieces overlapped by 6". Make sure you put the flashing BEHIND any window or house wrap.`));
+      if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces of 6" x 6" Flashing. Flashing should be Xtrabond caulked behind it on both sides and caulked at the top. Flashing should be placed with roofing nails every 3" and different flashing pieces overlapped by 6". Make sure you put the flashing BEHIND any window or house wrap.`));
       const pc=Math.ceil(sqft/60),sand=Math.ceil(sqft*0.037*10)/10,sealer=Math.ceil(sqft/435);
       items.push(mkLine('-Xtrabond'),mkLine(`-${Math.ceil(sqft/16)} pieces of Metal Lath`),mkLine(`-${Math.ceil(sqft/333)} boxes of Staples`),mkLine('-Roofing Paper'),mkLine('-Measuring buckets'),mkLine('-Air compressor'),mkLine('-Air hoses'),mkLine('-Staple guns. Air gun oil (oil your gun before, during, and after using it).'),mkLine(`-${sand} bags of Sand (50 lb bags)`),mkLine('-PC-260 Slurry Mix: Mix one bucket of 260. Split the 260 in half. Then Add 320 ounces of Sand to 2.5 Gallons of 260.'),mkLine('-Mixing buckets. Gallon measure bucket.'),mkLine(`-${pc} Gallons PC-260`));
       if(!isEarly){items.push(mkLine(`-1/2" Pebble Rock (${sqft} sq ft)`),mkLine(`-${sealer} Gallons PG100 Clear Sealer — roll thin. Avoid thick or direct sun (risk of micro-bubbling)`));}
@@ -674,7 +675,7 @@ function calcDeck(){
     if(!isEarly)steps.push('2nd coat PC-260 with Color. Bring up Rock & set up mixing station.','Install the 1/2" Rock','Scrape and Seal. Clean up');
     if(tenting)steps.push('Ask Melissa if tenting needs removal. Caulk screw holes');
   } else if(coat==='plywood'){
-    if(drip>0)items.push(mkLine(`-${Math.ceil(drip/8)} pieces ${dripColor} Drip Edge`));
+    if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
     if(sqft>0)items.push(mkLine(`-${Math.ceil(sqft/400)} roll(s) #15w Felt Roofing Paper`),mkLine(`-${Math.ceil(sqft/16)} pieces Metal Lath`),mkLine(`-${Math.ceil(sqft/50)} Gallons Liquid Membrane (2 coats)`),mkLine('-MiraFlex Seam Tape'));
     steps=['Prep, install drip edge','Install lathe & staples','Apply Liquid Membrane (2 coats) with MiraFlex Seam Tape on seams'];
   }
