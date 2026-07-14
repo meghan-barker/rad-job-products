@@ -791,8 +791,8 @@ function calcSport(){
     if(sqft>0){items.push(mkLine(`-${Math.ceil(sqft/600)*2} Gallons WB Urethane Sealer (2 coats)`));if(lines!=='none')items.push(mkLine(`-${lineColors||'Gray & Blue'} Acetone Dye Stain for lines`),mkLine('-Concrete saw'));}
     steps=['Grind & patch','1st coat sealer'];if(lines!=='none')steps.push(`Saw cut ${lines} lines. Stain/paint lines (${lineColors||'confirm colors'}).`);steps.push('Seal joints, cracks & 2nd coat sealer. Clean up.');if(logos)steps.push(`Apply logos (${logoText})`);
   }else{
-    items.push(mkLine('-Acid Etch, power washer'),mkLine('-Color Sealer (multiple colors for court zones)'),mkLine('-Hybrid Clear Sealer + Texture'));if(lines!=='none')items.push(mkLine(`-Court line tape & paint (${lineColors||'confirm colors'})`));
-    steps=['Acid Etch & power wash. Blow out puddles.','Color Seal base coat sections.','Tape off & paint court lines. Clear Seal with Hybrid & Texture. Clean up.'];if(logos)steps.push(`Apply logos (${logoText})`);
+    items.push(mkLine('-Power washer / prep'),mkLine('-Color Sealer (multiple colors for court zones)'));if(sqft>0)items.push(mkLine(`-${Math.ceil((sqft+(z2sqft||0))/200)} Gallons PG100 Clear Sealer + Shark Grip (Texture)`));if(lines!=='none')items.push(mkLine(`-Court line tape & paint (${lineColors||'confirm colors'})`));
+    steps=['Power wash & prep. Blow out puddles.','Color Seal base coat sections.','Tape off & paint court lines. Clear Seal with PG100 & Shark Grip. Clean up.'];if(logos)steps.push(`Apply logos (${logoText})`);
   }
   const TL={flake:'Micro Flake Court',polish:'Polished Court',grind:'Grind & Seal Court',color:'Color Sealer Court'};
   const LL={none:'No lines',pickleball:'Pickleball',basketball:'Basketball',both:'Pickleball + Basketball'};
