@@ -619,14 +619,14 @@ function calcDeck(){
       items.push(mkLine('-Level. Check the slope.'),mkLine('-Disc for aggressive sanding on edges before drip edge.'));
       if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
       if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces 6"×6" Flashing`));
-      items.push(mkLine('-Xtrabond'),mkLine(`-${Math.ceil(sqft/400)} roll(s) #15w Felt Roofing Paper`),mkLine(`-${Math.ceil(sqft/16)} pieces Metal Lath`),mkLine(`-${Math.ceil(sqft/333)} Box(es) 1" Crown Staples (10,000/box)`));
-      const lm=Math.ceil(sqft/34);items.push(mkLine(`-${lm} Bags LM Lath Mortar`),mkLine(`-${lm} Gallons Lath Mortar Liquid`),mkLine('-LM Mix: 1 Gallon (128 oz) liquid per 40lb LM Bag'),mkLine('-Measuring buckets, Air compressor, Air hoses'),mkLine('-Staple guns. Oil before, during, and after.'),mkLine(`-${Math.ceil(sqft/53)} Gallons Membrane A`),mkLine('-PolyFabric'));
+      items.push(mkLine('-Xtrabond'),mkLine(`-${Math.ceil(sqft/375)} roll(s) #15w Felt Roofing Paper`),mkLine(`-${Math.ceil((sqft/18)*1.1)} pieces Metal Lath`),mkLine(`-${Math.ceil(sqft/190)} Box(es) 1" Crown Staples (10,000/box)`));
+      const lm=Math.ceil((sqft/39)*1.1);items.push(mkLine(`-${lm} Bags LM Lath Mortar`),mkLine(`-${lm} Gallons Lath Mortar Liquid`),mkLine('-LM Mix: 1 Gallon (128 oz) liquid per 40lb LM Bag'),mkLine('-Measuring buckets, Air compressor, Air hoses'),mkLine('-Staple guns. Oil before, during, and after.'),mkLine(`-${Math.ceil(sqft/32)} Gallons Membrane A`),mkLine('-PolyFabric'));
     }
     if(isEarly){
       steps=tenting?['Tent','Prep, install drip edge, lathe, staples, LM Lathe Mortar','Grind LM with 7" grinder and install Membrane A & Fabric','Stop — finish coats are a separate visit. Ask Melissa about tenting.']:['Prep, install drip edge, lathe, staples, LM Lathe Mortar','Grind LM with 7" grinder and install Membrane A & Fabric','Stop — finish coats are a separate visit'];
     } else if(doMPC&&sqft>0){
       if(jt!=='full')items.push(mkLine('FINISH COATS:'));
-      const mb=Math.ceil(sqft/185),ml=Math.ceil(sqft/100);
+      const mb=Math.ceil(sqft/250),ml=Math.ceil(sqft/100);
       // Grout/1st coat
       if(isEarly){
         items.push(mkLine(`-Grout 1st Overlay Coat: ${mb} Bags MPC Any Color`),mkLine(`-${ml} Gallons MPC Liquid Any Color`));
@@ -638,7 +638,7 @@ function calcDeck(){
         if(!color) items.push({text:`-${ml} Gallons MPC Liquid [SELECT COLOR]`,missing:true});
         else items.push(mkLine(`-${ml} Gallons MPC Liquid "${color}" (½ color pack per bucket)`));
       }
-      items.push(mkLine('-HDWB Primer'),mkLine(`-${Math.ceil(sqft/435)} Gallons PG100 Polyglaze Sealer. Add 6 oz Hardener/Gallon.`),mkLine('-Shark Grip'));
+      items.push(mkLine('-HDWB Primer'),mkLine(`-${Math.ceil(sqft/200)} Gallons PG100 Polyglaze Sealer. Add 6 oz Hardener/Gallon.`),mkLine('-Shark Grip'));
       if(plank)items.push(mkLine('-Individual plank staining supplies (bring multiple stain colors)'));
       const baseSteps=jt==='finish'||jt==='topcoat'?['1st coat MPC with stiff steel trowel']:['Prep, install drip edge, lathe, staples, LM Lathe Mortar','Grind LM with 7" grinder, install Membrane A & Fabric','1st coat MPC with stiff steel trowel'];
       steps=[...(tenting?['Tent']:[]),...baseSteps,'Sand 80 grit, trim edges, re-tape drip edge if needed, HDWB prime, 2nd coat MPC. Brush edges carefully.','Polyglaze PG100 Seal with Hardener & Shark Grip'+(plank?'. Individual Plank Staining':'')];
