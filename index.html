@@ -438,9 +438,9 @@ function gv(id){return parseFloat(document.getElementById(id)?.value)||0}
 function sv(id){return document.getElementById(id)?.value||''}
 function getBase(c,t){if(t==='micro')return BM[c]||'matching base';if(t==='combo')return BC[c]||'matching base';if(t==='vinyl')return BV[c]||'matching base';return null}
 function getTypeForColor(c){for(const[,{colors,type}] of Object.entries(GC)){if(colors.includes(c))return type}return 'micro'}
-function flakeQty(s,t){if(t==='rock')return Math.ceil(s/500);if(t==='micro')return Math.ceil(s/250);if(t==='combo')return Math.ceil(s/350);if(t==='vinyl')return Math.ceil(s/500);return Math.ceil(s/500)}
+function flakeQty(s,t){if(t==='rock')return Math.ceil(s/800);if(t==='micro')return Math.ceil(s/300);if(t==='combo')return Math.ceil(s/400);if(t==='vinyl')return Math.ceil(s/600);return Math.ceil(s/600)}
 function tcQty(s,t){if(t==='rock')return Math.ceil(s/72);if(t==='micro')return Math.ceil(s/140);if(t==='combo')return Math.ceil(s/140);if(t==='vinyl')return Math.ceil(s/170);return Math.ceil(s/140)}
-function epoxy(s){return Math.round(s/150)}
+function epoxy(s){return Math.ceil(s/170*2)/2}
 function colorOptHTML(){return Object.entries(GC).map(([g,{colors}])=>`<optgroup label="${g}">${colors.map(c=>`<option value="${c}">${c}</option>`).join('')}</optgroup>`).join('')}
 function miss(txt){return`<span class="missing">${txt}</span>`}
 
@@ -535,7 +535,7 @@ function areaLines(name,color,type,sqft,sys,swColor){
   if(sys==='tileclad'){if(swColor)lines.push(mkLine(`-${epoxy(sqft)} Gallons "${swColor}" Tile Clad Epoxy Primer${lbl}`));lines.push(mkLine(`-${epoxy(sqft)} Gallons ${base} Tile Clad Epoxy${lbl}`));}
   else lines.push(mkLine(`-${epoxy(sqft)} Gallons ${base} Colored Polyaspartic Flex${lbl}`));
   if(!iS){const fb=flakeQty(sqft,type);if(iC&&C2[color]){const cf=C2[color];if(cf.includes('+')){const[f1,f2]=cf.split(' + ');lines.push(mkLine(`-${Math.ceil(fb*0.67)} box(es) '${f1}' Micro Flake${lbl}`));lines.push(mkLine(`-${Math.ceil(fb*0.33)} box(es) '${f2}' Vinyl Flake${lbl}`));}else lines.push(mkLine(`-${fb} box(es) '${color}' Combo Flake${lbl}`));}else lines.push(mkLine(`-${fb} box(es) '${color}' ${type==='micro'?'Micro':type==='vinyl'?'Vinyl':'Rock'} Flake${lbl}`));lines.push(mkLine(`-${tcQty(sqft,type)} gal Crystal Clear TC Polyaspartic${iR?' (2 coats)':''}${lbl}`));}
-  else{lines.push(mkLine(`-${tcQty(sqft,type)} gal Solid Color Polyaspartic (${color})${lbl}`));lines.push(mkLine(`-${Math.ceil(sqft/400)} pints SlowGo Color Packs${lbl}`));}
+  else{lines.push(mkLine(`-${tcQty(sqft,type)} gal Solid Color Polyaspartic (${color})${lbl}`));lines.push(mkLine(`-${Math.ceil(sqft/250)} pints SlowGo Color Packs${lbl}`));}
   return lines;
 }
 
@@ -569,7 +569,7 @@ function calcGarage(){
   const hasDesign=gHasDesign;
   const patternBtn=[...document.querySelectorAll('#g-pattern-grid .ob.on')].map(b=>b.textContent)[0]||sv('g-pattern-custom')||'';
   let items=[mkLine('-Grinder and Diamonds'),mkLine('-Xtrabond'),mkLine('-Dural Non-Sag'),mkLine('-PC Crete fast drying patch and sand in case you need it'),mkLine('-Plastic')];
-  if(waterproof){items.push(mkLine('-Amerlock 2 Epoxy Primer for waterproofing perimeter'));if(wpsqft>0)items.push(mkLine(`-${Math.ceil(wpsqft/100)} Gallons PC-260 Waterproofing (${wpsqft} sq ft))`));}
+  if(waterproof){items.push(mkLine('-Amerlock 2 Epoxy Primer for waterproofing perimeter'));if(wpsqft>0)items.push(mkLine(`-${Math.ceil(wpsqft/50)} Gallons PC-260 Waterproofing (${wpsqft} sq ft))`));}
   if(hasDesign){items.push(mkLine('-Black Epoxy Primer (for design lines)'+(sys==='tileclad'&&swColor?` — use "${swColor}" Tile Clad Primer instead`:'')));items.push(mkLine('-Design Tape'));}
   if(patternBtn)items.push(mkLine(`-Design pattern: ${patternBtn}`));
   let totalSqft=0;
