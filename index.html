@@ -667,13 +667,16 @@ function calcDeck(){
     if(sqft>0){
       items.push(mkLine('-Level. Check the Slope and let me know if it is not good.'),mkLine('-Disc for aggressive sanding. Always sand down the edges before you do the drip edge to help the drip edge get lower and not puddle water.'));
       if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces of 6" x 6" Flashing. Flashing should be Xtrabond caulked behind it on both sides and caulked at the top. Flashing should be placed with roofing nails every 3" and different flashing pieces overlapped by 6". Make sure you put the flashing BEHIND any window or house wrap.`));
-      const pc=Math.ceil(sqft/60),sand=Math.ceil(sqft*0.037*10)/10,sealer=Math.ceil(sqft/435);
-      items.push(mkLine('-Xtrabond'),mkLine(`-${Math.ceil((sqft/18)*1.1)} pieces of Metal Lath`),mkLine(`-${Math.ceil(sqft/250)} boxes of Staples`),mkLine('-Roofing Paper'),mkLine('-Measuring buckets'),mkLine('-Air compressor'),mkLine('-Air hoses'),mkLine('-Staple guns. Air gun oil (oil your gun before, during, and after using it).'),mkLine(`-${sand} bags of Sand (50 lb bags)`),mkLine('-PC-260 Slurry Mix: Mix one bucket of 260. Split the 260 in half. Then Add 320 ounces of Sand to 2.5 Gallons of 260.'),mkLine('-Mixing buckets. Gallon measure bucket.'),mkLine(`-${pc} Gallons PC-260`));
-      if(!isEarly){items.push(mkLine(`-1/2" Pebble Rock (${sqft} sq ft)`),mkLine(`-${sealer} Gallons PG100 Clear Sealer — roll thin. Avoid thick or direct sun (risk of micro-bubbling)`));}
+      items.push(mkLine('-Xtrabond & Joint Tape on all joints, perimeter, and over metal (Rock deck — Xtrabond only).'));
+      const pc=Math.ceil(sqft/12.5);
+      const bags=Math.ceil((sqft/12.5)+(sqft/12.5*0.075));
+      const buckets=Math.ceil(bags/5);
+      const uvr=Math.ceil(buckets/4*3)+Math.ceil(buckets/4*1);
+      items.push(mkLine(`-${pc} Gallons Colored PC-260 (2 Coats)`),mkLine(`-${bags} Bags of 1/2" Rock`),mkLine(`-${uvr} Kits of urethane UVR Resin (Contec, Orem). Mix 5 bags rock : 1 kit UVR (4 bags, then resin, then 5th bag).`),mkLine('-Resin Rock Catalyst'),mkLine('-Mixing buckets, gallon measure bucket'));
+      if(!isEarly)items.push(mkLine(`-${Math.ceil(sqft/200)} Gallons of 'PG 100' top-coat`),mkLine('-Floor Pole Screeder / squeegee'));
     }
-    steps=[...(tenting?['Tent']:[]),'Prep, drip edge, lathe, PC-260 Slurry'];
-    if(!isEarly)steps.push('2nd coat PC-260 with Color. Bring up Rock & set up mixing station.','Install the 1/2" Rock','Scrape and Seal. Clean up');
-    if(tenting)steps.push('Ask Melissa if tenting needs removal. Caulk screw holes');
+    steps=[...(tenting?['Tent']:[]),'Prep, drip edge, Xtrabond joints','Colored PC-260 base (2 coats)','Broadcast 1/2" Rock with UVR Resin (5:1)','PG100 top-coat & seal'];
+    if(tenting)steps.push('Ask about tenting removal. Caulk screw holes');
   } else if(coat==='plywood'){
     // v16 "Micro Flake / Direct to Plywood Waterproofing" — flake finish applied direct to plywood
     if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
