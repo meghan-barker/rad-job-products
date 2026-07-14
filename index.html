@@ -186,6 +186,7 @@ AACH4AAAAAAIIfAAAAAIDgBwAAAAAg+AEAAAAACH4AAAAAAIIfAAAAAIDgBwAAAAAEPwAAAAAAwQ8AAA
       <button class="ob" id="d-coat-flake" onclick="dCoat('flake')">Polycoat Flake</button>
       <button class="ob" id="d-coat-rock" onclick="dCoat('rock')">Polycoat 1/2" Pebble Rock</button>
       <button class="ob" id="d-coat-plywood" onclick="dCoat('plywood')">Direct to Plywood</button>
+      <button class="ob" id="d-coat-mirastamp" onclick="dCoat('mirastamp')">MiraStamp</button>
     </div>
   </div>
   <div class="card" id="d-color-card" style="display:none">
@@ -463,11 +464,11 @@ function dJT(v){
   if(dCoatVal) dCoat(dCoatVal);
 }
 function dCoat(v){
-  dCoatVal=v;one('d-coat-',['miracote','flake','rock','plywood'],v);
+  dCoatVal=v;one('d-coat-',['miracote','flake','rock','plywood','mirastamp'],v);
   const isEarly=dJTVal==='early';
-  const hM=v==='miracote',hF=v==='flake',hR=v==='rock';
-  // Color: show for miracote+flake only, hide for early waterproofing
-  document.getElementById('d-color-card').style.display=(hM&&!isEarly)?'block':'none';
+  const hM=v==='miracote',hF=v==='flake',hR=v==='rock',hMS=v==='mirastamp';
+  // Color: show for miracote + mirastamp; hide for early waterproofing
+  document.getElementById('d-color-card').style.display=((hM||hMS)&&!isEarly)?'block':'none';
   document.getElementById('d-grout-card').style.display=(hM&&!isEarly)?'block':'none';
   document.getElementById('d-flake-color-card').style.display=(hF&&!isEarly)?'block':'none';
   // Plank staining: only for miracote
@@ -693,10 +694,22 @@ function calcDeck(){
       }
     }
     steps=['Prep, drip edge, joint tape (Dural Non-Sag)','PC-260 base coat','Light coat of colored PC-260','Flake','Sand and seal (PG100 / Multiglaze Clear)'];
+  } else if(coat==='mirastamp'){
+    // v16 MiraStamp deck — metal lath + LM mortar base, then MiraStamp powder/liquid + stamp mats + Liquid Release
+    if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
+    if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces of 6" x 6" Flashing`));
+    if(sqft>0){
+      items.push(mkLine('-Level. Check the Slope.'),mkLine('-Xtrabond'),mkLine(`-${Math.ceil(sqft/375)} roll(s) #15w Felt Roofing Paper`),mkLine(`-${Math.ceil((sqft/18)*1.1)} pieces Metal Lath`),mkLine(`-${Math.ceil(sqft/250)} Box(es) 1" Crown Staples`));
+      const lm=Math.ceil((sqft/35)*1.1);
+      items.push(mkLine(`-${lm} Bags LM Lath Mortar`),mkLine(`-${lm} Gallons Lath Mortar Liquid`),mkLine(`-${Math.ceil(sqft/30)} Gallons Membrane A`),mkLine(`-${Math.ceil(sqft/1000)} Roll of Fabric (Pole, Gauge Rake, #4 CAM)`),mkLine(`-${Math.ceil(sqft/600)} Gallons MPC Liquid Primer`),mkLine(`-${Math.ceil((sqft/22)*1.1)} Bags MiraStamp Powder (45lb)`),mkLine(`-${Math.ceil((sqft/22)*1.1)} Gallons MiraStamp Liquid`),mkLine(`-${Math.ceil(sqft/200)} Gallons Liquid Release (Gray)`),mkLine('-Stamp mats'));
+      if(dColorVal)items.push(mkLine(`-Color: "${dColorVal}"`));
+      if(!isEarly)items.push(mkLine(`-${Math.ceil(sqft/200)} Kits Hybrid Sealer`),mkLine('-Shark Grip'));
+    }
+    steps=[...(tenting?['Tent']:[]),'Prep, drip edge, lathe, LM mortar','Grind LM, install Membrane A & Fabric','MPC primer, MiraStamp powder+liquid, stamp with Liquid Release','Hybrid Sealer & Shark Grip'];
   }
 
   const JL={full:'Full deck',early:'Early Waterproofing',finish:'Finish Coats',reseal:'Reseal',topcoat:'Redo top coat'};
-  const CL={miracote:'Miracote',flake:'Polycoat Flake',rock:'Polycoat 1/2" Pebble Rock',plywood:'Direct to Plywood'};
+  const CL={miracote:'Miracote',flake:'Polycoat Flake',rock:'Polycoat 1/2" Pebble Rock',plywood:'Direct to Plywood',mirastamp:'MiraStamp'};
   return{items,steps,badges:[JL[jt]||'',CL[coat]||'',sqft?sqft+' sq ft':''].filter(Boolean)};
 }
 
