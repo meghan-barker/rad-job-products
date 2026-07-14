@@ -675,9 +675,19 @@ function calcDeck(){
     if(!isEarly)steps.push('2nd coat PC-260 with Color. Bring up Rock & set up mixing station.','Install the 1/2" Rock','Scrape and Seal. Clean up');
     if(tenting)steps.push('Ask Melissa if tenting needs removal. Caulk screw holes');
   } else if(coat==='plywood'){
+    // v16 "Micro Flake / Direct to Plywood Waterproofing" — flake finish applied direct to plywood
     if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
-    if(sqft>0)items.push(mkLine(`-${Math.ceil(sqft/400)} roll(s) #15w Felt Roofing Paper`),mkLine(`-${Math.ceil(sqft/16)} pieces Metal Lath`),mkLine(`-${Math.ceil(sqft/50)} Gallons Liquid Membrane (2 coats)`),mkLine('-MiraFlex Seam Tape'));
-    steps=['Prep, install drip edge','Install lathe & staples','Apply Liquid Membrane (2 coats) with MiraFlex Seam Tape on seams'];
+    if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces of 6" x 6" Flashing`));
+    if(sqft>0){
+      items.push(mkLine(`-${Math.ceil(sqft/800)} kits Dural Non-Sag & Joint Tape`),mkLine(`-${Math.ceil(sqft/20)} Gallons PC-260`));
+      if(!isEarly){
+        items.push(mkLine(`-${Math.ceil(sqft/225)} Gallons of colored PG100${flakeColor?` "${flakeColor}"`:''}`));
+        if(!flakeColor)items.push({text:'-[SELECT FLAKE COLOR]',missing:true});
+        else items.push(mkLine(`-${Math.ceil(sqft/400)} box(es) '${flakeColor}' Flakes`));
+        items.push(mkLine(`-${Math.ceil(sqft/200)} Gallons PG100 or Multiglaze Clear. Roll thin and even; avoid thick or hot sun.`));
+      }
+    }
+    steps=['Prep, drip edge, joint tape (Dural Non-Sag)','PC-260 base coat','Light coat of colored PC-260','Flake','Sand and seal (PG100 / Multiglaze Clear)'];
   }
 
   const JL={full:'Full deck',early:'Early Waterproofing',finish:'Finish Coats',reseal:'Reseal',topcoat:'Redo top coat'};
