@@ -679,6 +679,7 @@ function calcDeck(){
       if(!isEarly){
         items.push(mkLine(`-${Math.ceil(sqft/225)} Gallons of colored PG100${flakeColor?` "${flakeColor}"`:''}`));
         if(!flakeColor)items.push({text:'-[SELECT FLAKE COLOR]',missing:true});
+        else if(C2[flakeColor]){const cf=C2[flakeColor];if(cf.includes(' + ')){const[f1,f2]=cf.split(' + ');items.push(mkLine(`-${Math.ceil(fb*0.67)} box(es) '${f1}' Micro Flake (Combo)`),mkLine(`-${Math.ceil(fb*0.33)} box(es) '${f2}' Vinyl Flake (Combo)`));}else items.push(mkLine(`-${fb} box(es) '${flakeColor}' Combo Flake`));}
         else items.push(mkLine(`-${fb} box(es) '${flakeColor}' Flakes`));
         items.push(mkLine(`-${Math.ceil(sqft/200)} Gallons PG100 Clear Sealer — roll thin and even. Avoid thick or direct sun.`));
       }
