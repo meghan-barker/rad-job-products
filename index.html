@@ -207,6 +207,10 @@ AACH4AAAAAAIIfAAAAAIDgBwAAAAAg+AEAAAAACH4AAAAAAIIfAAAAAIDgBwAAAAAEPwAAAAAAwQ8AAA
     <div class="ct">Flake color</div>
     <div class="og" id="d-flake-color-grid"></div>
   </div>
+  <div class="card" id="d-rock-color-card" style="display:none">
+    <div class="ct">Rock color</div>
+    <div class="og" id="d-rock-color-grid"></div>
+  </div>
   <div class="card">
     <div class="ct">Additional options</div>
     <div class="og" id="d-additional-opts">
@@ -424,7 +428,8 @@ const MD={Aquarius:{e:"Dover White PC765",p:"Shimmer White & Graphite"},Leo:{e:"
 const GP=["Rectangle Stack (2'×4')","Rectangle Stack (3'×6')","Blue Stone","Chantilly Weave","Border + Drive Path","Custom"];
 
 let gSysVal='coatary',gIsSplit=false,gHasDesign=false,gSingleColor=null,gSingleType=null,gSimpleN=0,gSplitN=0;
-let dJTVal=null,dCoatVal=null,dColorVal=null,dGroutVal=null,dGroutColorVal=null,dFlakeColorVal=null;
+let dJTVal=null,dCoatVal=null,dColorVal=null,dGroutVal=null,dGroutColorVal=null,dFlakeColorVal=null,dRockColorVal=null;
+const ROCK_COLORS=["Greyblend","Ozark brown","Rocky Mountain"];
 let oJTVal=null,oFinVal=null,oColorVal=null,oSlopeVal=null,oLevelVal=null,oStampVal=null,oGroutColorVal=null;
 let pSvcVal=null,pFinVal=null;
 let sTypeVal=null,sColorVal=null,sBorderColorVal=null,sGlVal=null,sVerdeColorVal=null;
@@ -472,6 +477,7 @@ function dCoat(v){
   document.getElementById('d-color-card').style.display=((hM||hMS)&&!isEarly)?'block':'none';
   document.getElementById('d-grout-card').style.display=(hM&&!isEarly)?'block':'none';
   document.getElementById('d-flake-color-card').style.display=(hF&&!isEarly)?'block':'none';
+  document.getElementById('d-rock-color-card').style.display=(hR&&!isEarly)?'block':'none';
   // Plank staining: only for miracote
   const addOpts=document.getElementById('d-additional-opts');
   if(addOpts){
@@ -518,6 +524,7 @@ bSimple('g-pattern-grid',GP,v=>{});
 bSimple('d-color-grid',DMPC,v=>dColorVal=v);
 bGroutMPC();
 bSimple('d-flake-color-grid',POLYCOAT_FLAKE,v=>dFlakeColorVal=v);
+bSimple('d-rock-color-grid',ROCK_COLORS,v=>dRockColorVal=v);
 bSimple('o-color-grid',DMPC,v=>oColorVal=v);
 bSimple('o-grout-color-grid',DMPC,v=>oGroutColorVal=v);
 bSimple('o-slope-grid',OS,v=>oSlopeVal=v);
@@ -689,7 +696,7 @@ function calcDeck(){
       const bags=Math.ceil((sqft/12.5)+(sqft/12.5*0.075));
       const buckets=Math.ceil(bags/5);
       const uvr=Math.ceil(buckets/4*3)+Math.ceil(buckets/4*1);
-      items.push(mkLine(`-${pc} Gallons Colored PC-260 (2 Coats)`),mkLine(`-${bags} Bags of 1/2" Rock`),mkLine(`-${uvr} Kits of urethane UVR Resin (Contec, Orem). Mix 5 bags rock : 1 kit UVR (4 bags, then resin, then 5th bag).`),mkLine('-Resin Rock Catalyst'),mkLine('-Mixing buckets, gallon measure bucket'));
+      items.push(mkLine(`-${pc} Gallons Colored PC-260 (2 Coats)${dRockColorVal?` — "${dRockColorVal}"`:''}`),dRockColorVal?mkLine(`-${bags} Bags of 1/2" Rock ("${dRockColorVal}")`):mkLine(`-${bags} Bags of 1/2" Rock`),mkLine(`-${uvr} Kits of urethane UVR Resin (Contec, Orem). Mix 5 bags rock : 1 kit UVR (4 bags, then resin, then 5th bag).`),mkLine('-Resin Rock Catalyst'),mkLine('-Mixing buckets, gallon measure bucket'));
       if(!isEarly)items.push(mkLine(`-${Math.ceil(sqft/200)} Gallons of 'PG 100' top-coat`),mkLine('-Floor Pole Screeder / squeegee'));
     }
     steps=[...(tenting?['Tent']:[]),'Prep, drip edge, Xtrabond joints','Colored PC-260 base (2 coats)','Broadcast 1/2" Rock with UVR Resin (5:1)','PG100 top-coat & seal'];
