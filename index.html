@@ -240,7 +240,8 @@ AACH4AAAAAAIIfAAAAAIDgBwAAAAAg+AEAAAAACH4AAAAAAIIfAAAAAIDgBwAAAAAEPwAAAAAAwQ8AAA
       <button class="ob" id="o-fin-stamp" onclick="oFin('stamp')">Stamp overlay</button>
     </div>
   </div>
-  <div class="card"><div class="ct">Color</div><div class="og" id="o-color-grid"></div></div>
+  <div class="card"><div class="ct">Color (main / 2nd coat)</div><div class="og" id="o-color-grid"></div></div>
+  <div class="card"><div class="ct">Base coat / grout color (optional — defaults to main)</div><div class="og" id="o-grout-color-grid"></div></div>
   <div class="card" id="o-stamp-card" style="display:none">
     <div class="ct">Stamp type</div>
     <div class="og">
@@ -424,7 +425,7 @@ const GP=["Rectangle Stack (2'×4')","Rectangle Stack (3'×6')","Blue Stone","Ch
 
 let gSysVal='coatary',gIsSplit=false,gHasDesign=false,gSingleColor=null,gSingleType=null,gSimpleN=0,gSplitN=0;
 let dJTVal=null,dCoatVal=null,dColorVal=null,dGroutVal=null,dGroutColorVal=null,dFlakeColorVal=null;
-let oJTVal=null,oFinVal=null,oColorVal=null,oSlopeVal=null,oLevelVal=null,oStampVal=null;
+let oJTVal=null,oFinVal=null,oColorVal=null,oSlopeVal=null,oLevelVal=null,oStampVal=null,oGroutColorVal=null;
 let pSvcVal=null,pFinVal=null;
 let sTypeVal=null,sColorVal=null,sBorderColorVal=null,sGlVal=null,sVerdeColorVal=null;
 let scTypeVal=null,scLinesVal=null,scLogosVal=false,scColor1=null,scColor2=null;
@@ -518,6 +519,7 @@ bSimple('d-color-grid',DMPC,v=>dColorVal=v);
 bGroutMPC();
 bSimple('d-flake-color-grid',POLYCOAT_FLAKE,v=>dFlakeColorVal=v);
 bSimple('o-color-grid',DMPC,v=>oColorVal=v);
+bSimple('o-grout-color-grid',DMPC,v=>oGroutColorVal=v);
 bSimple('o-slope-grid',OS,v=>oSlopeVal=v);
 bSimple('o-level-grid',OL,v=>oLevelVal=v);
 bMetal('s-color-grid',v=>sColorVal=v);
@@ -727,7 +729,7 @@ function calcDeck(){
 
 function calcOverlay(){
   const sqft=gv('o-sqft'),plySqft=gv('o-plysqft'),total=sqft+plySqft,slopeSqft=gv('o-slopesqft');
-  const jt=oJTVal||'full',fin=oFinVal,color=oColorVal,slope=oSlopeVal,level=oLevelVal,stamp=oStampVal,isTC=jt==='topcoat';
+  const jt=oJTVal||'full',fin=oFinVal,color=oColorVal,slope=oSlopeVal,level=oLevelVal,stamp=oStampVal,isTC=jt==='topcoat',groutC=oGroutColorVal||oColorVal;
   let items=[],steps=[];
   if(fin==='interior'){
     if(!isTC){items.push(mkLine('-Grinder'),mkLine('-Quickpatch, Mapei Planiprep SC, other patches. Overfill — patch shrinks.'),mkLine('-Clear Xtrabond for cracks; colored for joints (Limestone, Dark Gray, Black, Clear)'),mkLine('-Fine grit sandpaper'));if(plySqft>0)items.push(mkLine(`-Note: ${plySqft} sq ft over plywood — use ML Primer for plywood sections, HDWB for concrete`));}
@@ -737,7 +739,7 @@ function calcOverlay(){
     steps=isTC?['Sand lightly','MPC Regular coat','Sand & MPC Smooth coat','Stain if needed, HDWB prime, WB Epoxy seal']:['Grind, patch, prime, MPC Regular','Sand & MPC Smooth','Sand by hand or drywall sander, stain if needed, HDWB prime, WB Epoxy seal'];
   }else if(fin==='exterior'){
     if(!isTC)items.push(mkLine('-Grinder, Hammer Drill, Pressure Washer'),mkLine('-Quickpatch, RM2, & PlaniTopX Patches'),mkLine('-Diamond V Blade, Concrete Saw — cut MPC all the way through joints'),mkLine('-Xtrabond and Silica Sand'));
-    if(total>0){items.push(mkLine(`-${Math.ceil(total/185)} Bags MPC Regular White Powder (1st coat)`),mkLine(`-${Math.ceil(total/185)+Math.ceil(total/150)} Bags MPC White Powder (2nd coat)`));if(!color)items.push({text:`-${Math.ceil(total/100)} Gallons MPC Liquid [SELECT COLOR] (½ color pack per bucket)`,missing:true});else items.push(mkLine(`-${Math.ceil(total/100)} Gallons MPC Liquid "${color}" (½ color pack per bucket)`));items.push(mkLine(`-${Math.ceil(total/435)} Gallons PG100 Sealer. Apply thin.`),mkLine('-Shark Grip'));}
+    if(total>0){items.push(mkLine(`-${Math.ceil(total/185)} Bags MPC Regular White Powder (1st coat)`),mkLine(`-${Math.ceil(total/185)+Math.ceil(total/150)} Bags MPC White Powder (2nd coat)`));items.push(mkLine(`-${Math.ceil(total/200)} Gallons MPC Liquid "${groutC}" — 1st coat / grout (½ color pack per bucket)`));if(!color)items.push({text:`-${Math.ceil(total/200)} Gallons MPC Liquid [SELECT COLOR] — 2nd coat (½ color pack per bucket)`,missing:true});else items.push(mkLine(`-${Math.ceil(total/200)} Gallons MPC Liquid "${color}" — 2nd coat (½ color pack per bucket)`));items.push(mkLine(`-${Math.ceil(total/435)} Gallons PG100 Sealer. Apply thin.`),mkLine('-Shark Grip'));}
     steps=isTC?['Clean surface','MPC 2nd coat','Seal with PG100 & Shark Grip']:['Grind, power wash, patch','MPC Regular (1st coat)','Sand & MPC 2nd coat (Swirl/Broom/Smooth)','Seal with Shark Grip'];
   }else if(fin==='stamp'){
     if(!isTC)items.push(mkLine('-Grinder, Hammer Drill, Pressure Washer'),mkLine('-Quickpatch and patches'),mkLine('-Xtrabond'));
