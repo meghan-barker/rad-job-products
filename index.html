@@ -449,7 +449,7 @@ function getBase(c,t){if(t==='micro')return BM[c]||'matching base';if(t==='combo
 function getTypeForColor(c){for(const[,{colors,type}] of Object.entries(GC)){if(colors.includes(c))return type}return 'micro'}
 function flakeQty(s,t){if(t==='rock')return Math.ceil(s/800);if(t==='micro')return Math.ceil(s/300);if(t==='combo')return Math.ceil(s/400);if(t==='vinyl')return Math.ceil(s/600);return Math.ceil(s/600)}
 function tcQty(s,t){if(t==='rock')return Math.ceil(s/75);if(t==='micro')return Math.ceil(s/150);if(t==='combo')return Math.ceil(s/150);if(t==='vinyl')return Math.ceil(s/175);return Math.ceil(s/150)}
-function epoxy(s){return Math.ceil(s/170*2)/2}
+function epoxy(s){return Math.ceil(s/170)}
 function colorOptHTML(){return Object.entries(GC).map(([g,{colors}])=>`<optgroup label="${g}">${colors.map(c=>`<option value="${c}">${c}</option>`).join('')}</optgroup>`).join('')}
 function miss(txt){return`<span class="missing">${txt}</span>`}
 
@@ -581,7 +581,7 @@ function calcGarage(){
   const hasDesign=gHasDesign;
   const patternBtn=[...document.querySelectorAll('#g-pattern-grid .ob.on')].map(b=>b.textContent)[0]||sv('g-pattern-custom')||'';
   let items=[mkLine('-Grinder and Diamonds'),mkLine('-Xtrabond'),mkLine('-Dural Non-Sag'),mkLine('-PC Crete fast drying patch and sand in case you need it'),mkLine('-Plastic')];
-  if(waterproof){items.push(mkLine('-Amerlock 2 Epoxy Primer for waterproofing perimeter'));if(wpsqft>0)items.push(mkLine(`-${Math.ceil(wpsqft/50)} Gallons PC-260 Waterproofing (${wpsqft} sq ft))`));}
+  if(waterproof){items.push(mkLine(`-${wpsqft>0?Math.ceil(wpsqft/200)+' Gallons ':''}Amerlock 2 Epoxy Primer for waterproofing perimeter`));if(wpsqft>0)items.push(mkLine(`-${Math.round(wpsqft/50)} Gallons PC-260 Waterproofing (${wpsqft} sq ft))`));}
   if(hasDesign){items.push(mkLine('-Black Epoxy Primer (for design lines)'+(sys==='tileclad'&&swColor?` — use "${swColor}" Tile Clad Primer instead`:'')));items.push(mkLine('-Design Tape'));}
   if(patternBtn)items.push(mkLine(`-Design pattern: ${patternBtn}`));
   let totalSqft=0;
@@ -600,8 +600,10 @@ function calcGarage(){
   return{items,steps,badges:[sys==='tileclad'?'Tile Clad':'Coatary',gIsSplit?'Color split':gSingleColor||'',totalSqft?totalSqft.toLocaleString()+' sq ft':''].filter(Boolean)};
 }
 
+function ru16(x,p){const f=Math.pow(10,p||0);return Math.ceil(x*f-1e-9)/f;}
+function ruc(x){return Math.ceil(x-1e-9);}
 function calcDeck(){
-  const sqft=gv('d-woodsqft')||gv('d-consqft'),drip=gv('d-drip'),flash=gv('d-flash'),dripColor=sv('d-drip-color');
+  /* v16 treats wood and concrete as separate areas. `sqft` is their SUM (used by every 'Both Wood & Concrete Areas' formula); dWood / dConc drive the area-specific lines. */const dWood=gv('d-woodsqft'),dConc=gv('d-consqft'),sqft=dWood+dConc,drip=gv('d-drip'),flash=gv('d-flash'),dripColor=sv('d-drip-color');
   const jt=dJTVal||'full',coat=dCoatVal||'miracote';
   const color=dColorVal,flakeColor=dFlakeColorVal;
   const grout=dGroutVal,groutColor=dGroutColorVal;
@@ -643,14 +645,14 @@ function calcDeck(){
       items.push(mkLine('-Level. Check the slope.'),mkLine('-Disc for aggressive sanding on edges before drip edge.'));
       if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
       if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces 6"×6" Flashing`));
-      items.push(mkLine('-Xtrabond'),mkLine(`-${Math.ceil(sqft/375)} roll(s) #15w Felt Roofing Paper`),mkLine(`-${Math.ceil((sqft/18)*1.1)} pieces Metal Lath`),mkLine(`-${Math.ceil(sqft/190)} Box(es) 1" Crown Staples (10,000/box)`));
-      const lm=Math.ceil((sqft/39)*1.1);items.push(mkLine(`-${lm} Bags LM Lath Mortar`),mkLine(`-${lm} Gallons Lath Mortar Liquid`),mkLine('-LM Mix: 1 Gallon (128 oz) liquid per 40lb LM Bag'),mkLine('-Measuring buckets, Air compressor, Air hoses'),mkLine('-Staple guns. Oil before, during, and after.'),mkLine(`-${Math.ceil(sqft/32)} Gallons Membrane A`),mkLine('-PolyFabric'));
+      items.push(mkLine('-Xtrabond'),...(dConc>0?[mkLine(`-${Math.ceil(dConc/100)} Gallons SlabLoc 150 Moisture Barrier Epoxy (100% solids, 3 gal kit, 2:1 mix, ~100 sq ft/gal)`)]:[]),mkLine(`-${Math.ceil(dWood/375)} roll(s) #15w Felt Roofing Paper`),mkLine(`-${Math.ceil((dWood/18)*1.1)} pieces Metal Lath`),mkLine(`-${Math.ceil(dWood/190)} Box(es) 1" Crown Staples (10,000/box)`));
+      const lm=Math.ceil((dWood/39)*1.1);items.push(mkLine(`-${lm} Bags LM Lath Mortar`),mkLine(`-${lm} Gallons Lath Mortar Liquid`),mkLine('-LM Mix: 1 Gallon (128 oz) liquid per 40lb LM Bag'),...(dConc>0?[mkLine(`-${Math.ceil((dConc*0.4)/50)} Bags of 16-30 Grit Silica Sand`)]:[]),mkLine('-Measuring buckets, Air compressor, Air hoses'),mkLine('-Staple guns. Oil before, during, and after.'),mkLine(`-${Math.ceil(sqft/32)} Gallons Membrane A`),mkLine('-PolyFabric'));
     }
     if(isEarly){
       steps=tenting?['Tent','Prep, install drip edge, lathe, staples, LM Lathe Mortar','Grind LM with 7" grinder and install Membrane A & Fabric','Stop — finish coats are a separate visit. Ask Melissa about tenting.']:['Prep, install drip edge, lathe, staples, LM Lathe Mortar','Grind LM with 7" grinder and install Membrane A & Fabric','Stop — finish coats are a separate visit'];
     } else if(doMPC&&sqft>0){
       if(jt!=='full')items.push(mkLine('FINISH COATS:'));
-      const mb=Math.ceil(sqft/250),ml=Math.ceil(sqft/100);
+      const mb=Math.ceil(sqft/250),ml=Math.ceil(sqft/220);
       // Grout/1st coat
       if(isEarly){
         items.push(mkLine(`-Grout 1st Overlay Coat: ${mb} Bags MPC Any Color`),mkLine(`-${ml} Gallons MPC Liquid Any Color`));
@@ -673,8 +675,8 @@ function calcDeck(){
       if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
       items.push(mkLine('-Level. Check the Slope and let me know if it is not good.'),mkLine('-Disc for aggressive sanding. Always sand down the edges before you do the drip edge to help the drip edge get lower and not puddle water.'));
       if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces of 6" x 6" Flashing. Flashing should be Xtrabond caulked behind it on both sides and caulked at the top. Flashing should be placed with roofing nails every 3" and different flashing pieces overlapped by 6". Make sure you put the flashing BEHIND any window or house wrap.`));
-      items.push(mkLine('-Xtrabond'),mkLine(`-${Math.ceil((sqft/18)*1.1)} pieces of Metal Lath`),mkLine(`-${Math.ceil(sqft/250)} boxes of Staples`),mkLine('-Roofing Paper'),mkLine('-Measuring buckets'),mkLine('-Air compressor'),mkLine('-Air hoses'),mkLine('-Staple guns. Air gun oil (oil your gun before, during, and after using it).'));
-      const sand=Math.ceil((Math.ceil(sqft/16.9*10)/10*12.8/50)*10)/10;const pc=Math.ceil(sqft/16);const fb=Math.ceil(sqft/400);
+      items.push(mkLine('-Xtrabond'),...(dConc>0?[mkLine(`-${Math.ceil(dConc/100)} Gallons SlabLoc 150 Moisture Barrier Epoxy (100% solids, 3 gal kit, 2:1 mix, ~100 sq ft/gal)`)]:[]),mkLine(`-${Math.ceil((dWood/18)*1.1)} pieces of Metal Lath`),mkLine(`-${Math.ceil(dWood/250)} boxes of Staples`),mkLine('-Roofing Paper'),mkLine('-Measuring buckets'),mkLine('-Air compressor'),mkLine('-Air hoses'),mkLine('-Staple guns. Air gun oil (oil your gun before, during, and after using it).'));
+      const sand=Math.ceil((Math.ceil(dWood/16.9*10)/10*12.8/50)*10)/10;const pc=Math.ceil(dWood/16)+Math.ceil(dConc/25);const fb=Math.ceil(sqft/400);
       items.push(mkLine(`-${sand} bags of Sand (50 lb bags)`),mkLine('-PC-260 Slurry Mix: Mix one bucket of 260. Split the 260 in half. Then Add 320 ounces of Sand to 2.5 Gallons of 260.'),mkLine('-Mixing buckets. Gallon measure bucket.'),mkLine(`-${pc} Gallons PC-260`));
       if(!isEarly){
         items.push(mkLine(`-${Math.ceil(sqft/225)} Gallons of colored PG100${flakeColor?` "${flakeColor}"`:''}`));
@@ -692,13 +694,13 @@ function calcDeck(){
     if(sqft>0){
       items.push(mkLine('-Level. Check the Slope and let me know if it is not good.'),mkLine('-Disc for aggressive sanding. Always sand down the edges before you do the drip edge to help the drip edge get lower and not puddle water.'));
       if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces of 6" x 6" Flashing. Flashing should be Xtrabond caulked behind it on both sides and caulked at the top. Flashing should be placed with roofing nails every 3" and different flashing pieces overlapped by 6". Make sure you put the flashing BEHIND any window or house wrap.`));
-      items.push(mkLine('-Xtrabond & Joint Tape on all joints, perimeter, and over metal (Rock deck — Xtrabond only).'));
+      items.push(mkLine('-Xtrabond & Joint Tape on all joints, perimeter, and over metal (Rock deck — Xtrabond only).'),...(dConc>0?[mkLine(`-${Math.ceil(dConc/100)} Gallons SlabLoc 150 Moisture Barrier Epoxy (100% solids, 3 gal kit, 2:1 mix, ~100 sq ft/gal)`)]:[]));
       const pc=Math.ceil(sqft/12.5);
       const bags=Math.ceil((sqft/12.5)+(sqft/12.5*0.075));
       const buckets=Math.ceil(bags/5);
       const uvr=Math.ceil(buckets/4*3)+Math.ceil(buckets/4*1);
       items.push(mkLine(`-${pc} Gallons Colored PC-260 (2 Coats)${dRockColorVal?` — "${dRockColorVal}"`:''}`),dRockColorVal?mkLine(`-${bags} Bags of 1/2" Rock ("${dRockColorVal}")`):mkLine(`-${bags} Bags of 1/2" Rock`),mkLine(`-${uvr} Kits of urethane UVR Resin (Contec, Orem). Mix 5 bags rock : 1 kit UVR (4 bags, then resin, then 5th bag).`),mkLine('-Resin Rock Catalyst'),mkLine('-Mixing buckets, gallon measure bucket'));
-      if(!isEarly)items.push(mkLine(`-${Math.ceil(sqft/200)} Gallons of 'PG 100' top-coat`),mkLine('-Floor Pole Screeder / squeegee'));
+      if(!isEarly)items.push(mkLine(`-${(Math.ceil(sqft/200*10)/10)} Gallons of 'PG 100' top-coat`),mkLine('-Floor Pole Screeder / squeegee'));
     }
     steps=[...(tenting?['Tent']:[]),'Prep, drip edge, Xtrabond joints','Colored PC-260 base (2 coats)','Broadcast 1/2" Rock with UVR Resin (5:1)','PG100 top-coat & seal'];
     if(tenting)steps.push('Ask about tenting removal. Caulk screw holes');
@@ -706,13 +708,14 @@ function calcDeck(){
     // v16 "Micro Flake / Direct to Plywood Waterproofing" — flake finish applied direct to plywood
     if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
     if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces of 6" x 6" Flashing`));
+    if(dConc>0)items.push(mkLine(`-${Math.ceil(dConc/100)} Gallons SlabLoc 150 Moisture Barrier Epoxy`));
     if(sqft>0){
-      items.push(mkLine(`-${Math.ceil(sqft/800)} kits Dural Non-Sag & Joint Tape`),mkLine(`-${Math.ceil(sqft/20)} Gallons PC-260`));
+      items.push(mkLine(`-${(Math.round(sqft/800*10)/10)} kits Dural Non-Sag & Joint Tape`),mkLine(`-${Math.ceil(sqft/20)} Gallons PC-260`));
       if(!isEarly){
-        items.push(mkLine(`-${Math.ceil(sqft/225)} Gallons of colored PG100${flakeColor?` "${flakeColor}"`:''}`));
+        items.push(mkLine(`-${(Math.ceil(sqft/225*10)/10)} Gallons of colored PG100${flakeColor?` "${flakeColor}"`:''}`));
         if(!flakeColor)items.push({text:'-[SELECT FLAKE COLOR]',missing:true});
         else items.push(mkLine(`-${Math.ceil(sqft/400)} box(es) '${flakeColor}' Flakes`));
-        items.push(mkLine(`-${Math.ceil(sqft/200)} Gallons PG100 or Multiglaze Clear. Roll thin and even; avoid thick or hot sun.`));
+        items.push(mkLine(`-${(Math.ceil(sqft/200*10)/10)} Gallons PG100 or Multiglaze Clear. Roll thin and even; avoid thick or hot sun.`));
       }
     }
     steps=['Prep, drip edge, joint tape (Dural Non-Sag)','PC-260 base coat','Light coat of colored PC-260','Flake','Sand and seal (PG100 / Multiglaze Clear)'];
@@ -721,9 +724,9 @@ function calcDeck(){
     if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
     if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces of 6" x 6" Flashing`));
     if(sqft>0){
-      items.push(mkLine('-Level. Check the Slope.'),mkLine('-Xtrabond'),mkLine(`-${Math.ceil(sqft/375)} roll(s) #15w Felt Roofing Paper`),mkLine(`-${Math.ceil((sqft/18)*1.1)} pieces Metal Lath`),mkLine(`-${Math.ceil(sqft/250)} Box(es) 1" Crown Staples`));
+      items.push(mkLine('-Level. Check the Slope.'),mkLine('-Xtrabond'),...(dConc>0?[mkLine(`-${Math.ceil(dConc/100)} Gallons SlabLoc 150 Moisture Barrier Epoxy (100% solids, 3 gal kit, 2:1 mix, ~100 sq ft/gal)`)]:[]),mkLine(`-${Math.ceil(sqft/375)} roll(s) #15w Felt Roofing Paper`),mkLine(`-${ruc((sqft/18)*1.1)} pieces Metal Lath`),mkLine(`-${Math.ceil(sqft/250)} Box(es) 1" Crown Staples`));
       const lm=Math.ceil((sqft/35)*1.1);
-      items.push(mkLine(`-${lm} Bags LM Lath Mortar`),mkLine(`-${lm} Gallons Lath Mortar Liquid`),mkLine(`-${Math.ceil(sqft/30)} Gallons Membrane A`),mkLine(`-${Math.ceil(sqft/1000)} Roll of Fabric (Pole, Gauge Rake, #4 CAM)`),mkLine(`-${Math.ceil(sqft/600)} Gallons MPC Liquid Primer`),mkLine(`-${Math.ceil((sqft/22)*1.1)} Bags MiraStamp Powder (45lb)`),mkLine(`-${Math.ceil((sqft/22)*1.1)} Gallons MiraStamp Liquid`),mkLine(`-${Math.ceil(sqft/200)} Gallons Liquid Release (Gray)`),mkLine('-Stamp mats'));
+      items.push(mkLine(`-${lm} Bags LM Lath Mortar`),mkLine(`-${lm} Gallons Lath Mortar Liquid`),mkLine(`-${Math.ceil(sqft/30)} Gallons Membrane A`),mkLine(`-${(Math.ceil(sqft/1000*10)/10)} Roll of Fabric (Pole, Gauge Rake, #4 CAM)`),mkLine(`-${Math.ceil(sqft/600)} Gallons MPC Liquid Primer`),mkLine(`-${ruc((sqft/22)*1.1)} Bags MiraStamp Powder (45lb)`),mkLine(`-${ruc((sqft/22)*1.15)} Gallons MiraStamp Liquid`),mkLine(`-${Math.ceil(sqft/200)} Gallons Liquid Release (Gray)`),mkLine('-Stamp mats'));
       if(dColorVal)items.push(mkLine(`-Color: "${dColorVal}"`));
       if(!isEarly)items.push(mkLine(`-${Math.ceil(sqft/200)} Kits Hybrid Sealer`),mkLine('-Shark Grip'));
     }
@@ -741,17 +744,17 @@ function calcOverlay(){
   let items=[],steps=[];
   if(fin==='interior'){
     if(!isTC){items.push(mkLine('-Grinder'),mkLine('-Quickpatch, Mapei Planiprep SC, other patches. Overfill — patch shrinks.'),mkLine('-Clear Xtrabond for cracks; colored for joints (Limestone, Dark Gray, Black, Clear)'),mkLine('-Fine grit sandpaper'));if(plySqft>0)items.push(mkLine(`-Note: ${plySqft} sq ft over plywood — use ML Primer for plywood sections, HDWB for concrete`));}
-    if(total>0){items.push(mkLine(`-${Math.ceil(total/250)} Gallons HDWB Primer${plySqft>0?` (ML Primer for ${plySqft} sq ft plywood)`:''}`),mkLine(`-${Math.ceil(total/200)} Bags MPC Regular White Powder. Magic trowel on 1st coat.`),mkLine(`-${Math.ceil(total/400)} Bags MPC Smooth White Powder. Hand trowel 2nd coat with square trowel.`));if(!color)items.push({text:`-${Math.ceil(total/200*7.5)} Gallons MPC Liquid [SELECT COLOR] (½ color pack per bucket)`,missing:true});else items.push(mkLine(`-${Math.ceil(total/200*7.5)} Gallons MPC Liquid "${color}" (½ color pack per bucket)`));items.push(mkLine('-Mirastain: bring Gray and Tan colors in case needed'),mkLine(`-${Math.ceil(total/200*1.5)} Gallons WB Epoxy EC-11 (dilute 30% water. Roll thin both ways, 3/16" roller.)`));}
+    if(total>0){items.push(mkLine(`-${ru16(total/150,0)} Gallons HDWB / ML Primer${plySqft>0?` (ML Primer for ${plySqft} sq ft plywood)`:''}`),mkLine(`-${ru16(total/250,0)} Bags MPC Regular White Powder. Magic trowel on 1st coat.`),mkLine(`-${ru16(total/400,0)} Bags MPC Smooth White Powder. Hand trowel 2nd coat with square trowel.`));if(!color)items.push({text:`-${ru16(total/400,0)*2.5} Gallons MPC Liquid [SELECT COLOR] (½ color pack per bucket)`,missing:true});else items.push(mkLine(`-${ru16(total/400,0)*2.5} Gallons MPC Liquid "${color}" (½ color pack per bucket)`));items.push(mkLine('-Mirastain: bring Gray and Tan colors in case needed'),mkLine(`-${ru16(total/250,0)*2.5/5} LIP Color Pack`),mkLine(`-${ru16(total/250,1)} Gallons WB Epoxy Gloss or Satin, 1st coat (dilute 30% water. Roll thin both ways, 3/16" roller.)`),mkLine(`-${ru16(total/450,1)} Gallons Seal Krete Dura-Shell WB Urethane Matte`));}
     if(slope&&slopeSqft>0){const si=OS.indexOf(slope),sd=si>=0?OS_DIV[si]:0;items.push(mkLine(`-${sd?Math.ceil(slopeSqft/sd):'?'} Bags RM3000 for ${slopeSqft} sq ft slope (${slope}); Metal Straight Edge, Straight Wood 2x4`));}
     if(level&&slopeSqft>0){const li=OL.indexOf(level),ld=li>=0?OL_DIV[li]:0;items.push(mkLine(`-${ld?Math.ceil(slopeSqft/ld):'?'} Self-Leveling Bags (TechLevel or Mapei PlaniLevel) for ${slopeSqft} sq ft (${level})`));}
     steps=isTC?['Sand lightly','MPC Regular coat','Sand & MPC Smooth coat','Stain if needed, HDWB prime, WB Epoxy seal']:['Grind, patch, prime, MPC Regular','Sand & MPC Smooth','Sand by hand or drywall sander, stain if needed, HDWB prime, WB Epoxy seal'];
   }else if(fin==='exterior'){
     if(!isTC)items.push(mkLine('-Grinder, Hammer Drill, Pressure Washer'),mkLine('-Quickpatch, RM2, & PlaniTopX Patches'),mkLine('-Diamond V Blade, Concrete Saw — cut MPC all the way through joints'),mkLine('-Xtrabond and Silica Sand'));
-    if(total>0){items.push(mkLine(`-${Math.ceil(total/185)} Bags MPC Regular White Powder (1st coat)`),mkLine(`-${Math.ceil(total/185)+Math.ceil(total/150)} Bags MPC White Powder (2nd coat)`));items.push(mkLine(`-${Math.ceil(total/200)} Gallons MPC Liquid "${groutC}" — 1st coat / grout (½ color pack per bucket)`));if(!color)items.push({text:`-${Math.ceil(total/200)} Gallons MPC Liquid [SELECT COLOR] — 2nd coat (½ color pack per bucket)`,missing:true});else items.push(mkLine(`-${Math.ceil(total/200)} Gallons MPC Liquid "${color}" — 2nd coat (½ color pack per bucket)`));items.push(mkLine(`-${Math.ceil(total/435)} Gallons PG100 Sealer. Apply thin.`),mkLine('-Shark Grip'));}
+    if(total>0){items.push(mkLine(`-${ru16(total/250,0)} Bags MPC Regular White Powder (1st coat)`),mkLine(`-${ru16(total/220,0)} Bags MPC Regular White Powder (2nd coat)`));items.push(mkLine(`-${ru16(total/250,0)*2.5} Gallons MPC Liquid "${groutC}" — 1st coat / grout (½ color pack per bucket)`));if(!color)items.push({text:`-${ru16(total/220,0)*2.5} Gallons MPC Liquid [SELECT COLOR] — 2nd coat (½ color pack per bucket)`,missing:true});else items.push(mkLine(`-${ru16(total/220,0)*2.5} Gallons MPC Liquid "${color}" — 2nd coat (½ color pack per bucket)`));items.push(mkLine(`-${Math.ceil(total/435)} Gallons PG100 Sealer. Apply thin.`),mkLine('-Shark Grip'));}
     steps=isTC?['Clean surface','MPC 2nd coat','Seal with PG100 & Shark Grip']:['Grind, power wash, patch','MPC Regular (1st coat)','Sand & MPC 2nd coat (Swirl/Broom/Smooth)','Seal with Shark Grip'];
   }else if(fin==='stamp'){
     if(!isTC)items.push(mkLine('-Grinder, Hammer Drill, Pressure Washer'),mkLine('-Quickpatch and patches'),mkLine('-Xtrabond'));
-    if(total>0){items.push(mkLine(`-${Math.ceil(total/600)} Gallons MPC Liquid Primer (mix 1:1 with water)`),mkLine(`-${Math.ceil((total/22)*1.1)} Bags MiraStamp Powder (45lb bags)`),mkLine(`-${Math.ceil((total/22)*1.15)} Gallons MiraStamp Liquid`),mkLine(`-${Math.ceil(total/200)} Gallons Liquid Release`));if(stamp)items.push(mkLine(`-${stamp} stamp mat(s)`));}
+    if(total>0){items.push(mkLine(`-${ru16(total/600,0)} Gallons MPC Liquid Primer (mix 1:1 with water)`),mkLine(`-${ru16((total/22)+(total/22*0.10),0)} Bags MiraStamp Powder (45lb bags)`),mkLine(`-${ru16(((total/22)+(total/22*0.15))/3*2,0)} Gallons MiraStamp Liquid`),mkLine(`-${ru16(total/200,0)} Gallons Liquid Release`));if(stamp)items.push(mkLine(`-${stamp} stamp mat(s)`));}
     steps=['Grind, power wash, patch','Grind patches & MiraStamp','Seal with Shark Grip'];
   }else items.push({text:'(Select an overlay finish above)',missing:true});
   const FL={interior:'Interior trowel',exterior:'Exterior trowel',stamp:'Stamp overlay'};
@@ -762,13 +765,16 @@ function calcPolish(){
   const sqft=gv('p-sqft'),svc=pSvcVal||'',fin=pFinVal||'satin';
   let items=[],steps=[];
   items.push(mkLine('-Grinder, Edge Grinder, Polishing Edge Grinder'),mkLine('-Mapei Planiprep SC + Sanded & Non-Sanded Grout (Delorean Gray, Oyster Gray, Natural Gray)'),mkLine('-Xtrabond (Limestone, Dark Gray, Black, Clear)'));
-  if(svc==='polish'){items.push(mkLine('-Metal Bond diamonds (if needed)'),mkLine('-50 Grit Transitional — Wet'),mkLine('-100 Grit Transitional — Wet'),mkLine('-Squeegee, Shovel, Buckets, Slurry Shop Vac, Hose, Auto-Scrubber'),mkLine('-100 Grit Resin — Dry'),mkLine('-200 Grit Resin — Dry'));if(sqft>0)items.push(mkLine(`-${Math.ceil(sqft/300)} Gallons Pentra Sil IH Densifier`),mkLine(`-${Math.ceil(sqft/900)} Gallons Pentra Finish HG Guard`));items.push(mkLine('-Yellow Sprayer, Mop Applicator, Pole & 2 Mop Pads. Clean immediately after densifier.'),mkLine('-Burnisher and Burnishing Pad'));steps=['Diamond grinding & patching (50 grit wet, 100 grit wet)','Grind patches, 100 grit resin dry, 200 grit resin, Densify (Pentra Sil IH)','Final polishing, Guard (Pentra Finish HG), Burnish'];}
-  else if(svc==='grind'){if(sqft>0){items.push(mkLine('CHOOSE ONE SEALER:'),mkLine(`-Crystal Clear (standard): ${Math.ceil(sqft/600)} Gallons WestCoat SC-65 WB Urethane "${fin}" — 3/16" roller, both ways`),mkLine(`-OR WB Epoxy (commercial / vehicular traffic): ${Math.ceil(sqft/250)} Gallons WB Epoxy EC-11 (1st coat) + ${Math.ceil(sqft/375)} Gallons (2nd coat)`));}items.push(mkLine('-Shark Grip if exterior'));steps=['Grind and prepare surface','1st coat sealer (thin)','Seal joints & cracks, 2nd coat sealer'];}
-  else if(svc==='acetonestain'){if(sqft>0)items.push(mkLine(`-${Math.ceil(sqft/400)} Gallons Acetone Dye Stain`),mkLine('-Clean Acetone, Acetone Sprayer, Tape and paper'),mkLine(`-${Math.ceil(sqft/200)} Gallons WB Epoxy EC-11 (dilute 30% water, 3/16" roller, both ways)`),mkLine(`-${Math.ceil(sqft/200)} Gallons Crystal Clear TC Polyaspartic — 2nd seal coat`));steps=['Diamond Grind, Stain & WB Epoxy seal (1st coat)','Seal joints & cracks, 2nd coat Crystal Sealer. Clean up.'];}
+  if(svc==='polish'){items.push(mkLine('-Metal Bond diamonds (if needed)'),mkLine('-50 Grit Transitional — Wet'),mkLine('-100 Grit Transitional — Wet'),mkLine('-Squeegee, Shovel, Buckets, Slurry Shop Vac, Hose, Auto-Scrubber'),mkLine('-100 Grit Resin — Dry'),mkLine('-200 Grit Resin — Dry'));if(sqft>0)items.push(mkLine(`-${ru16(sqft/300,1)} Gallons Pentra Sil IH Densifier`),mkLine(`-${ru16(sqft/900,1)} Gallons Pentra Finish HG Guard`),...(fin==='matte'?[mkLine(`-${ru16(sqft/300,0)} Quarts Low Gloss additive`)]:[]));items.push(mkLine('-Yellow Sprayer, Mop Applicator, Pole & 2 Mop Pads. Clean immediately after densifier.'),mkLine('-Burnisher and Burnishing Pad'));steps=['Diamond grinding & patching (50 grit wet, 100 grit wet)','Grind patches, 100 grit resin dry, 200 grit resin, Densify (Pentra Sil IH)','Final polishing, Guard (Pentra Finish HG), Burnish'];}
+  else if(svc==='grind'){if(sqft>0){const w1=ru16(sqft/250,1),w2=ru16(sqft/375,1);if(fin==='matte'){items.push(mkLine(`-${w1} Gallons WB Epoxy EC-11`),mkLine(`-${ru16(sqft/600,0)} Gallons WestCoat SC-65 WB Urethane "matte" — 3/16" roller, both ways`));}else{items.push(mkLine(`-${w1} Gallons WB Epoxy EC-11 (1st coat)`),mkLine(`-${w2} Gallons WB Epoxy EC-11 (2nd coat)`),mkLine(`-${ru16(w1+w2,1)} Gallons WB Epoxy EC-11 total`));}}items.push(mkLine('-Shark Grip if exterior'));steps=['Grind and prepare surface','1st coat sealer (thin)','Seal joints & cracks, 2nd coat sealer'];}
+  else if(svc==='acetonestain'){if(sqft>0)items.push(mkLine(`-${ru16(sqft/400,1)} Gallons Acetone Dye Stain`),mkLine('-Clean Acetone, Acetone Sprayer, Tape and paper'),mkLine(`-${ru16(ru16(sqft/250,1)+ru16(sqft/375,1),0)} Gallons WB Epoxy Satin EC-11 (dilute 30% water, 3/16" roller, both ways)`));steps=['Diamond Grind, Stain & WB Epoxy seal (1st coat)','Seal joints & cracks, 2nd coat Crystal Sealer. Clean up.'];}
   else if(svc==='colorguard'){if(sqft>0)items.push(mkLine(`-${Math.ceil(sqft/200)} Gallons 'ColorGuard' solvent Acrylic Sealer (pump sprayer or roller)`),mkLine(`-${Math.ceil(Math.ceil(sqft/200)/5)} bottles Shark Grip`));else items.push(mkLine('-ColorGuard Acrylic Sealer, Pump sprayer or roller'));steps=['Power wash clean. Blow out puddles.','Apply ColorGuard sealer & Shark Grip. Clean up.'];}
   else if(svc==='pentra'){if(sqft>0)items.push(mkLine(`-${Math.ceil(sqft/225)} Gallons 'PentraShield' penetrating sealer (yellow pump sprayer)`));else items.push(mkLine('-PentraShield Densifier, Yellow pump sprayer'));steps=['Power wash clean. Blow out puddles.','Apply PentraShield densifier. Mop/clean immediately.'];}
   else if(svc==='color'){items.push(mkLine('-Acid Etch, power washer'));if(sqft>0)items.push(mkLine(`-${Math.ceil(sqft/400)} Gallons Muriatic Acid (add 4 gallons water per gallon)`),mkLine(`-${Math.ceil(sqft/150)} Gallons Armorseal Treadplex color sealer`),mkLine(`-${Math.ceil(sqft/440)} Kits Hybrid Sealer`),mkLine('-36 Grit White / Shark Grip'));steps=['Acid Etch & power wash. Blow out puddles.','Color Seal base coat (Armorseal Treadplex).','Clear Seal (Hybrid) with Texture. Clean up.'];}
-  else if(svc==='stain'){items.push(mkLine('-Concrete stain (Mirastain — bring Gray and Tan)'));if(sqft>0)items.push(mkLine(`-${Math.ceil(sqft/400)} Gallons Acetone Dye Stain`),mkLine(`-${Math.ceil(sqft/250)} Gallons WB Epoxy or Urethane sealer`));steps=['Diamond Grind, Patch?, Stain & Seal.','Seal joints, cracks, 2nd coat sealer. Clean up.'];}
+  else if(svc==='stain'){items.push(mkLine('-Concrete stain (Mirastain — bring Gray and Tan)'));if(sqft>0)items.push(mkLine(`-${ru16(sqft/400,1)} Gallons Acetone Dye Stain`),mkLine(`-${ru16(sqft/250,1)} Gallons WB Epoxy or Urethane sealer`));steps=['Diamond Grind, Patch?, Stain & Seal.','Seal joints, cracks, 2nd coat sealer. Clean up.'];}
+  else if(svc==='combo'){if(sqft>0){const cg=ru16(sqft/200,0);items.push(mkLine(`-${ru16(sqft/225,0)} Gallons 'PentraShield' penetrating sealer (yellow pump sprayer)`),mkLine(`-${cg} Gallons 'ColorGuard' solvent Acrylic Sealer (pump sprayer or roller)`),mkLine(`-${ru16(cg/5,0)} bottles Shark Grip`));}steps=['Power wash clean. Blow out puddles.','Apply PentraShield densifier.','Apply ColorGuard sealer & Shark Grip. Clean up.'];}
+  else if(svc==='silicone'){if(sqft>0)items.push(mkLine(`-${ru16(sqft/240,0)} Gallons Lifetime Silicone Sealer`));steps=['Power wash clean. Blow out puddles.','Apply Lifetime Silicone Sealer. Clean up.'];}
+  else if(svc==='hybrid'){if(sqft>0)items.push(mkLine(`-${ru16(sqft/440,0)} Kits Hybrid Sealer`));steps=['Grind / prep surface.','Apply Hybrid Sealer with Texture. Clean up.'];}
   else{items.push({text:`-Materials for ${svc||'(select service)'}`,missing:!svc});steps=['Prepare surface','Apply product','Clean up'];}
   return{items,steps,badges:[svc,fin,sqft?sqft+' sq ft':''].filter(Boolean)};
 }
@@ -780,7 +786,7 @@ function calcSpecialty(){
   if(type==='metallic'){
     const cd=sColorVal&&MD[sColorVal]?MD[sColorVal]:null,bd=sBorderColorVal&&MD[sBorderColorVal]?MD[sBorderColorVal]:null,total=sqft+(borderSqft||0);
     items.push(mkLine('Instructions: Prime twice — no bubbles. Fill ALL holes, cracks, joints with Xtrabond before 2nd primer. Magic trowel main color, accent colors with watering can, T-Bar. Keep Alcohol sprayer handy. Lightly sand before sealing.'));
-    if(total>0){const mvb=Math.ceil(total/100),p2=Math.ceil(total/200),met=Math.ceil(total/50),uv=Math.ceil(met/3),seal=Math.ceil(total/600);items.push(mkLine(`-${mvb} Gallons MVB Moisture Barrier Epoxy primer (100% solids, 2:1 mix, ~100 sq ft/gal)`),mkLine('-Xtrabond'));if(!sColorVal)items.push({text:`-${p2} Gallons [SELECT COLOR] Macropoxy — 2nd primer coat`,missing:true});else items.push(mkLine(`-${p2} Gallons "${cd.e}" Macropoxy — 2nd primer coat`));if(borderSqft>0&&bd)items.push(mkLine(`-Border 2nd primer: ${Math.ceil(borderSqft/200)} Gallons "${bd.e}" Macropoxy`));items.push(mkLine(`-${met} Gallons Alta Fuzion 100% Solids Metallic Epoxy (3 gal kits, 2:1 A:B, ~50 sq ft/gal)`),mkLine(`-${uv} UV additive packs (1 per 3 gal kit — REQUIRED to prevent yellowing)`));if(!sColorVal)items.push({text:`-[SELECT COLOR] Alta Metallic Powder — 1 jar per 3 gal kit. Mix into Part A AT LEAST 1 DAY BEFORE.`,missing:true});else items.push(mkLine(`-"${cd.p}" Alta Metallic Powder — 1 jar per 3 gal kit. Mix into Part A AT LEAST 1 DAY BEFORE. MIX IT GOOD.`));if(borderSqft>0&&bd)items.push(mkLine(`-Border powder: "${bd.p}" — ${Math.ceil(borderSqft/150)} jars. Mix day before.`));items.push(mkLine('-T Bar, Magic Trowel, flower watering pot'),mkLine('-Alcohol sprayer, drywall sander, fine grit screen, floor machine and pad'));if(gl==='semi')items.push(mkLine(`-${seal} Gallons WestCoat SC-65 WB Urethane "Gloss". Add 64 oz water/gal. Apply @600 sq ft/gal, 3/16" roller, both ways.`));else if(gl==='gloss')items.push(mkLine(`-${seal} Gallons WB Urethane (Gloss) @600 sq ft/gal, 3/16" roller`));else items.push(mkLine(`-${seal} Gallons WB Urethane (Matte)`));items.push(mkLine('-Measuring buckets'));}
+    if(total>0){const mvb=Math.ceil(total/100),p2=Math.ceil(total/225)/*v16 CO5: /225*/,met=Math.ceil(total/50),uv=Math.ceil(met/3),seal=Math.ceil(total/600);items.push(mkLine(`-${mvb} Gallons MVB Moisture Barrier Epoxy primer (100% solids, 2:1 mix, ~100 sq ft/gal)`),mkLine('-Xtrabond'));if(!sColorVal)items.push({text:`-${p2} Gallons [SELECT COLOR] Macropoxy — 2nd primer coat`,missing:true});else items.push(mkLine(`-${p2} Gallons "${cd.e}" Macropoxy — 2nd primer coat`));if(borderSqft>0&&bd)items.push(mkLine(`-Border 2nd primer: ${Math.ceil(borderSqft/200)} Gallons "${bd.e}" Macropoxy`));items.push(mkLine(`-${met} Gallons Alta Fuzion 100% Solids Metallic Epoxy (3 gal kits, 2:1 A:B, ~50 sq ft/gal)`),mkLine(`-${uv} UV additive packs (1 per 3 gal kit — REQUIRED to prevent yellowing)`));if(!sColorVal)items.push({text:`-${Math.ceil(Math.ceil(sqft/50)/3)} jars [SELECT COLOR] Alta Metallic Powder — 1 jar per 3 gal kit. Mix into Part A AT LEAST 1 DAY BEFORE.`,missing:true});else items.push(mkLine(`-${Math.ceil(Math.ceil(sqft/50)/3)} jars "${cd.p}" Alta Metallic Powder — 1 jar per 3 gal kit. Mix into Part A AT LEAST 1 DAY BEFORE. MIX IT GOOD.`));if(borderSqft>0&&bd)items.push(mkLine(`-Border powder: "${bd.p}" — ${Math.ceil(borderSqft/150)} jars. Mix day before.`));items.push(mkLine('-T Bar, Magic Trowel, flower watering pot'),mkLine('-Alcohol sprayer, drywall sander, fine grit screen, floor machine and pad'));if(gl==='semi')items.push(mkLine(`-${seal} Gallons WestCoat SC-65 WB Urethane "Gloss". Add 64 oz water/gal. Apply @600 sq ft/gal, 3/16" roller, both ways.`));else if(gl==='gloss')items.push(mkLine(`-${seal} Gallons WB Urethane (Gloss) @600 sq ft/gal, 3/16" roller`));else items.push(mkLine(`-${seal} Gallons WB Urethane (Matte)`));items.push(mkLine('-Measuring buckets'));}
     steps=['Grind, MVB primer (mix metallic powder into Part A THIS DAY — apply tomorrow)','Seal joints, sand & fill ALL holes/bubbles with Xtrabond. Apply colored Macropoxy 2nd primer.','Apply metallic epoxy (main color, accents, T-Bar)','Top-coat seal (WB Urethane)'];
     if(borderSqft>0)steps.splice(1,0,'Saw cut border line. Apply border metallic color separately.');
   }else if(type==='verde'){
@@ -788,7 +794,7 @@ function calcSpecialty(){
     if(sqft>0){const fb=BM[sVerdeColorVal]||'matching base';items.push(mkLine(`-${epoxy(sqft)} Gallons ${fb} Colored Polyaspartic Flex`));if(!sVerdeColorVal)items.push({text:`-${flakeQty(sqft,'micro')} box(es) [SELECT COLOR] Micro Flakes`,missing:true});else items.push(mkLine(`-${flakeQty(sqft,'micro')} box(es) '${sVerdeColorVal}' Micro Flakes`));items.push(mkLine(`-${tcQty(sqft,'micro')} gallons Crystal Clear TC Polyaspartic`));}
     steps=['Grind floor. Install Verde Cove: chalk line, EC-44 primer, EC-76 Tack-Coat + Sand aggregate. Pull tape before epoxy sets.','Flake floor','Seal with Crystal Clear TC. Clean up.'];
   }else{
-    const tL2={marble:'Marble',saltpepper:'Salt & Pepper',terrazzo:'Terrazzo'};const div=type==='marble'?44:33;items.push(mkLine(`ElastoCrete ${tL2[type]||''} Finish:`),mkLine('-Apply glue and install fabric. Set up mixing station.'));if(sqft>0){items.push(mkLine(`-${Math.ceil(sqft/175)} Gallons Roberts 2310 Floor Adhesive`),mkLine(`-${Math.ceil(sqft/525)} Rolls Fiberglass Mesh (from Contec)`),mkLine(`-${Math.ceil(sqft/div)} Kits Elastocrete (from Contec)`),mkLine(`-${Math.ceil((sqft/div)*1.5)} Bags ACS Marble fine sand (50 lb bags)`),mkLine(`-${Math.ceil((sqft/div)*0.5)} Bags #4075 30 grit Silica Sand (50 lb bags)`),mkLine(`-${Math.ceil((sqft/div)*3)} Lbs Crushed Ice (20 lb bags)`));if(type!=='marble')items.push(mkLine(`-${Math.ceil(sqft*0.2)} Pounds Salt & Pepper sand`),mkLine(`-${Math.ceil(sqft/160)} Gallons RAD Crystal Clear Polyaspartic`));items.push(mkLine(`-${Math.ceil(sqft/600)} Gallons WestCoat SC-65 WB Urethane`));}
+    const tL2={marble:'Marble',saltpepper:'Salt & Pepper',terrazzo:'Terrazzo'};const div=type==='marble'?44:33;/* v16 (CO13/CO16/CO17) rounds the kit count FIRST, then multiplies for sand/silica/ice. */const ecKits=Math.ceil(sqft/div);items.push(mkLine(`ElastoCrete ${tL2[type]||''} Finish:`),mkLine('-Apply glue and install fabric. Set up mixing station.'));if(sqft>0){items.push(mkLine(`-${Math.ceil(sqft/175)} Gallons Roberts 2310 Floor Adhesive`),mkLine(`-${Math.ceil(sqft/525)} Rolls Fiberglass Mesh (from Contec)`),mkLine(`-${ecKits} Kits Elastocrete (from Contec)`),mkLine(`-${Math.ceil(ecKits*1.5)} Bags ACS Marble fine sand (50 lb bags)`),mkLine(`-${Math.ceil(ecKits*0.5)} Bags #4075 30 grit Silica Sand (50 lb bags)`),mkLine(`-${Math.ceil(ecKits*3)} Lbs Crushed Ice (20 lb bags)`));if(type==='terrazzo')items.push(mkLine(`-${Math.ceil((sqft*0.15)/50)} Bags Grayblend 1/2" rock`));if(type!=='marble')items.push(mkLine(`-${Math.ceil(sqft*0.2)} Pounds Salt & Pepper sand`),mkLine(`-${Math.ceil(sqft/160)} Gallons RAD Crystal Clear Polyaspartic`));items.push(mkLine(`-${Math.ceil(sqft/600)} Gallons WestCoat SC-65 WB Urethane`));}
     steps=type==='marble'?['Prep, fill holes/gaps, glue & fabric','Install Elastocrete','Grind and Seal']:['Prep, fill holes/gaps, glue & fabric','Install Elastocrete. Broadcast aggregate.','Grind & Crystal Clear Seal','Sand & WB Top-coat'];
   }
   const TL={metallic:'Metallic Epoxy',marble:'ElastoCrete Marble',saltpepper:'ElastoCrete Salt & Pepper',terrazzo:'ElastoCrete Terrazzo',verde:'Verde Cove + Flake'};
@@ -809,7 +815,18 @@ function calcSport(){
     if(lines!=='none')items.push(mkLine(`-${lineColors||'Gray & Blue'} Acetone Dye Stain for court lines`),mkLine('-Concrete saw & court tape machine'));
     if(logos)items.push(mkLine(`-Logo stencils/supplies (${logoText||'confirm details'})`));
     steps=['Diamond grind & patch up to 400 grit'];if(lines!=='none')steps.push(`Saw cut ${lines} lines. Stain lines (${lineColors||'confirm colors'}).`);steps.push('Densify (Pentra Sil IH). Seal joints. Guard (Pentra Finish HG). Burnish.');if(logos)steps.push(`Apply logos (${logoText})`);
-  }else if(type==='grind'){
+  }else if(type==='color'){
+      const tot=sqft+(z2sqft||0);
+      items.push(mkLine('-Power Washer, 1/2" nap roller (thin Treadplex 10%: 13 oz water/gal)'));
+      if(tot>0){items.push(mkLine(`-${ru16(tot/400,0)} Gallons Muriatic Acid (add 4 gallons water per gallon)`));
+        if(sqft>0)items.push(mkLine(`-${ru16(sqft/150,0)} Gallons Armorseal Treadplex — Zone 1${scColor1?` (${scColor1})`:''}`));
+        if(z2sqft>0)items.push(mkLine(`-${ru16(z2sqft/150,0)} Gallons Armorseal Treadplex — Zone 2${scColor2?` (${scColor2})`:''}`));
+        items.push(mkLine(`-${ru16(tot/440,0)} Kits Hybrid Sealer`),mkLine('-36 Grit White / Shark Grip'));}
+      steps=['Acid etch & power wash. Blow out puddles.','Color seal each zone (Armorseal Treadplex).'];
+      if(lines!=='none')steps.push(`Saw cut ${lines} lines (${lineColors||'confirm colors'}), stain with acetone dye.`);
+      if(logos)steps.push(`Apply logos (${logoText||'confirm logo details'})`);
+      steps.push('Clear seal (Hybrid) with Texture. Clean up.');
+    }else if(type==='grind'){
     if(sqft>0){items.push(mkLine(`-${Math.ceil(sqft/600)*2} Gallons WB Urethane Sealer (2 coats)`));if(lines!=='none')items.push(mkLine(`-${lineColors||'Gray & Blue'} Acetone Dye Stain for lines`),mkLine('-Concrete saw'));}
     steps=['Grind & patch','1st coat sealer'];if(lines!=='none')steps.push(`Saw cut ${lines} lines. Stain/paint lines (${lineColors||'confirm colors'}).`);steps.push('Seal joints, cracks & 2nd coat sealer. Clean up.');if(logos)steps.push(`Apply logos (${logoText})`);
   }else{
