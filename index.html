@@ -659,7 +659,7 @@ function calcDeck(){
       items.push(mkLine('-Level. Check the slope.'),mkLine('-Disc for aggressive sanding on edges before drip edge.'));
       if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
       if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces 6"×6" Flashing`));
-      items.push(mkLine('-Xtrabond'),...(dConc>0?[mkLine(`-${Math.ceil(dConc/100)} Gallons SlabLoc 150 Moisture Barrier Epoxy (100% solids, 3 gal kit, 2:1 mix, ~100 sq ft/gal)`)]:[]),mkLine(`-${Math.ceil(dWood/375)} roll(s) #15w Felt Roofing Paper`),mkLine(`-${Math.ceil((dWood/18)*1.1)} pieces Metal Lath`),mkLine(`-${Math.ceil(dWood/190)} Box(es) 1" Crown Staples (10,000/box)`));
+      items.push(mkLine('-Xtrabond'),...(dConc>0?[mkLine(`-${Math.ceil(dConc/100)} Gallons MVB Moisture Barrier Epoxy primer (100% solids, 2:1 mix, ~100 sq ft/gal)`)]:[]),mkLine(`-${Math.ceil(dWood/375)} roll(s) #15w Felt Roofing Paper`),mkLine(`-${Math.ceil((dWood/18)*1.1)} pieces Metal Lath`),mkLine(`-${Math.ceil(dWood/190)} Box(es) 1" Crown Staples (10,000/box)`));
       const lm=Math.ceil((dWood/39)*1.1);items.push(mkLine(`-${lm} Bags LM Lath Mortar`),mkLine(`-${lm} Gallons Lath Mortar Liquid`),mkLine('-LM Mix: 1 Gallon (128 oz) liquid per 40lb LM Bag'),...(dConc>0?[mkLine(`-${Math.ceil((dConc*0.4)/50)} Bags of 16-30 Grit Silica Sand`)]:[]),mkLine('-Measuring buckets, Air compressor, Air hoses'),mkLine('-Staple guns. Oil before, during, and after.'),mkLine(`-${Math.ceil(sqft/32)} Gallons Membrane A`),mkLine('-PolyFabric'));
     }
     if(doMPC&&sqft>0){
@@ -716,7 +716,7 @@ function calcDeck(){
       if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
       items.push(mkLine('-Level. Check the Slope and let me know if it is not good.'),mkLine('-Disc for aggressive sanding. Always sand down the edges before you do the drip edge to help the drip edge get lower and not puddle water.'));
       if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces of 6" x 6" Flashing. Flashing should be Xtrabond caulked behind it on both sides and caulked at the top. Flashing should be placed with roofing nails every 3" and different flashing pieces overlapped by 6". Make sure you put the flashing BEHIND any window or house wrap.`));
-      items.push(mkLine('-Xtrabond'),...(dConc>0?[mkLine(`-${Math.ceil(dConc/100)} Gallons SlabLoc 150 Moisture Barrier Epoxy (100% solids, 3 gal kit, 2:1 mix, ~100 sq ft/gal)`)]:[]),mkLine(`-${Math.ceil((dWood/18)*1.1)} pieces of Metal Lath`),mkLine(`-${Math.ceil(dWood/250)} boxes of Staples`),mkLine('-Roofing Paper'),mkLine('-Measuring buckets'),mkLine('-Air compressor'),mkLine('-Air hoses'),mkLine('-Staple guns. Air gun oil (oil your gun before, during, and after using it).'));
+      items.push(mkLine('-Xtrabond'),...(dConc>0?[mkLine(`-${Math.ceil(dConc/100)} Gallons MVB Moisture Barrier Epoxy primer (100% solids, 2:1 mix, ~100 sq ft/gal)`)]:[]),mkLine(`-${Math.ceil((dWood/18)*1.1)} pieces of Metal Lath`),mkLine(`-${Math.ceil(dWood/250)} boxes of Staples`),mkLine('-Roofing Paper'),mkLine('-Measuring buckets'),mkLine('-Air compressor'),mkLine('-Air hoses'),mkLine('-Staple guns. Air gun oil (oil your gun before, during, and after using it).'));
       const sand=Math.ceil((Math.ceil(dWood/16.9*10)/10*12.8/50)*10)/10;const pc=Math.ceil(dWood/16)+Math.ceil(dConc/25);const fb=Math.ceil(sqft/400);
       items.push(mkLine(`-${sand} bags of Sand (50 lb bags)`),mkLine('-PC-260 Slurry Mix: Mix one bucket of 260. Split the 260 in half. Then Add 320 ounces of Sand to 2.5 Gallons of 260.'),mkLine('-Mixing buckets. Gallon measure bucket.'),...(design?[mkLine('-Design Tape')]:[]),mkLine(`-${pc} Gallons ${design?'Colored ':''}PC-260`));
       if(!isEarly){
@@ -735,7 +735,7 @@ function calcDeck(){
     if(sqft>0){
       items.push(mkLine('-Level. Check the Slope and let me know if it is not good.'),mkLine('-Disc for aggressive sanding. Always sand down the edges before you do the drip edge to help the drip edge get lower and not puddle water.'));
       if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces of 6" x 6" Flashing. Flashing should be Xtrabond caulked behind it on both sides and caulked at the top. Flashing should be placed with roofing nails every 3" and different flashing pieces overlapped by 6". Make sure you put the flashing BEHIND any window or house wrap.`));
-      items.push(mkLine('-Xtrabond & Joint Tape on all joints, perimeter, and over metal (Rock deck — Xtrabond only).'),...(dConc>0?[mkLine(`-${Math.ceil(dConc/100)} Gallons SlabLoc 150 Moisture Barrier Epoxy (100% solids, 3 gal kit, 2:1 mix, ~100 sq ft/gal)`)]:[]));
+      items.push(mkLine('-Xtrabond & Joint Tape on all joints, perimeter, and over metal (Rock deck — Xtrabond only).'),...(dConc>0?[mkLine(`-${Math.ceil(dConc/100)} Gallons MVB Moisture Barrier Epoxy primer (100% solids, 2:1 mix, ~100 sq ft/gal)`)]:[]));
       const pc=Math.ceil(sqft/12.5);
       const bags=Math.ceil((sqft/12.5)+(sqft/12.5*0.075));
       const buckets=Math.ceil(bags/5);
@@ -749,7 +749,7 @@ function calcDeck(){
     // v16 "Micro Flake / Direct to Plywood Waterproofing" — flake finish applied direct to plywood
     if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
     if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces of 6" x 6" Flashing`));
-    if(dConc>0)items.push(mkLine(`-${Math.ceil(dConc/100)} Gallons SlabLoc 150 Moisture Barrier Epoxy`));
+    if(dConc>0)items.push(mkLine(`-${Math.ceil(dConc/100)} Gallons MVB Moisture Barrier Epoxy primer`));
     if(sqft>0){
       items.push(mkLine(`-${(Math.round(sqft/800*10)/10)} kits Dural Non-Sag & Joint Tape`),...(design?[mkLine('-Design Tape')]:[]),mkLine(`-${Math.ceil(sqft/20)} Gallons ${design?'Colored ':''}PC-260`));
       if(!isEarly){
@@ -765,7 +765,7 @@ function calcDeck(){
     if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
     if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces of 6" x 6" Flashing`));
     if(sqft>0){
-      items.push(mkLine('-Level. Check the Slope.'),mkLine('-Xtrabond'),...(dConc>0?[mkLine(`-${Math.ceil(dConc/100)} Gallons SlabLoc 150 Moisture Barrier Epoxy (100% solids, 3 gal kit, 2:1 mix, ~100 sq ft/gal)`)]:[]),mkLine(`-${Math.ceil(sqft/375)} roll(s) #15w Felt Roofing Paper`),mkLine(`-${ruc((sqft/18)*1.1)} pieces Metal Lath`),mkLine(`-${Math.ceil(sqft/250)} Box(es) 1" Crown Staples`));
+      items.push(mkLine('-Level. Check the Slope.'),mkLine('-Xtrabond'),...(dConc>0?[mkLine(`-${Math.ceil(dConc/100)} Gallons MVB Moisture Barrier Epoxy primer (100% solids, 2:1 mix, ~100 sq ft/gal)`)]:[]),mkLine(`-${Math.ceil(sqft/375)} roll(s) #15w Felt Roofing Paper`),mkLine(`-${ruc((sqft/18)*1.1)} pieces Metal Lath`),mkLine(`-${Math.ceil(sqft/250)} Box(es) 1" Crown Staples`));
       const lm=Math.ceil((sqft/35)*1.1);
       items.push(mkLine(`-${lm} Bags LM Lath Mortar`),mkLine(`-${lm} Gallons Lath Mortar Liquid`),mkLine(`-${Math.ceil(sqft/30)} Gallons Membrane A`),mkLine(`-${(Math.ceil(sqft/1000*10)/10)} Roll of Fabric (Pole, Gauge Rake, #4 CAM)`),mkLine(`-${Math.ceil(sqft/600)} Gallons MPC Liquid Primer`),mkLine(`-${ruc((sqft/22)*1.1)} Bags MiraStamp Powder (45lb)`),mkLine(`-${ruc((sqft/22)*1.15)} Gallons MiraStamp Liquid`),mkLine(`-${Math.ceil(sqft/200)} Gallons Liquid Release (Gray)`),mkLine('-Stamp mats'));
       if(dColorVal)items.push(mkLine(`-Color: "${dColorVal}"`));
