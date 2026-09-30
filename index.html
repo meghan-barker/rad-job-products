@@ -663,22 +663,34 @@ function calcDeck(){
       const doTop   = !isEarly;
       if(isEarly) items.push(mkLine('WATERPROOFING — GROUT COAT:'));
       else if(jt!=='full') items.push(mkLine('FINISH COATS:'));
-      const mb=Math.ceil(sqft/250),ml=Math.ceil(sqft/220);
+      // v16 BA19: grout/1st coat bills at /250, colour/2nd coat at /220, and MPC
+      // Liquid is BAGS x 2.5 on each coat — not a sq-ft divisor.
+      const b1=Math.ceil(sqft/250),b2=Math.ceil(sqft/220);
+      const l1=b1*2.5,l2=b2*2.5;
+      if(grout==='same'&&doGrout&&doTop){
+        // v16 collapses both coats into one line when the grout matches the colour
+        items.push(mkLine(`-Both Overlay Coats: ${b1+b2} Bags MPC Regular ${color||'[SELECT COLOR]'} Powder`));
+        if(!color) items.push({text:`-${l1+l2} Gallons MPC Liquid [SELECT COLOR]`,missing:true});
+        else items.push(mkLine(`-${l1+l2} Gallons MPC Liquid "${color}" (½ color pack per bucket)`));
+        if(jt!=='finish') items.push(mkLine('-HDWB Primer'));
+        items.push(mkLine(`-${Math.ceil(sqft/200)} Gallons PG100 Polyglaze Sealer. Add 6 oz Hardener/Gallon.`),mkLine('-Shark Grip'));
+      } else {
       if(doGrout){
         if(isEarly){
-          items.push(mkLine(`-Grout 1st Overlay Coat: ${mb} Bags MPC Any Color`),mkLine(`-${ml} Gallons MPC Liquid Any Color`));
+          items.push(mkLine(`-Grout 1st Overlay Coat: ${b1} Bags MPC Any Color`),mkLine(`-${l1} Gallons MPC Liquid Any Color`));
         } else {
-          items.push(mkLine(`-1st coat: ${mb} Bags MPC Regular Gray Powder`));
-          if(!groutLabel) items.push({text:`-${ml} Gallons MPC Liquid [SELECT GROUT COLOR]`,missing:true});
-          else items.push(mkLine(`-${ml} Gallons MPC Liquid "${groutLabel}" (½ color pack per bucket)`));
+          items.push(mkLine(`-1st coat: ${b1} Bags MPC Regular Gray Powder`));
+          if(!groutLabel) items.push({text:`-${l1} Gallons MPC Liquid [SELECT GROUT COLOR]`,missing:true});
+          else items.push(mkLine(`-${l1} Gallons MPC Liquid "${groutLabel}" (½ color pack per bucket)`));
         }
       }
       if(doTop){
-        items.push(mkLine(`-${jt==='topcoat'?'Top coat':'2nd coat'}: ${mb} Bags MPC Regular White Powder`));
-        if(!color) items.push({text:`-${ml} Gallons MPC Liquid [SELECT COLOR]`,missing:true});
-        else items.push(mkLine(`-${ml} Gallons MPC Liquid "${color}" (½ color pack per bucket)`));
+        items.push(mkLine(`-${jt==='topcoat'?'Top coat':'2nd coat'}: ${b2} Bags MPC Regular White Powder`));
+        if(!color) items.push({text:`-${l2} Gallons MPC Liquid [SELECT COLOR]`,missing:true});
+        else items.push(mkLine(`-${l2} Gallons MPC Liquid "${color}" (½ color pack per bucket)`));
         if(jt!=='finish') items.push(mkLine('-HDWB Primer'));
         items.push(mkLine(`-${Math.ceil(sqft/200)} Gallons PG100 Polyglaze Sealer. Add 6 oz Hardener/Gallon.`),mkLine('-Shark Grip'));
+      }
       }
       if(plank)items.push(mkLine('-Individual plank staining supplies (bring multiple stain colors)'));
       if(isEarly){
