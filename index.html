@@ -216,6 +216,7 @@ AACH4AAAAAAIIfAAAAAIDgBwAAAAAg+AEAAAAACH4AAAAAAIIfAAAAAIDgBwAAAAAEPwAAAAAAwQ8AAA
     <div class="og" id="d-additional-opts">
       <button class="ob" id="d-tenting" onclick="tog('d-tenting')">Tenting</button>
       <button class="ob" id="d-plank" onclick="tog('d-plank')">Individual plank staining</button>
+        <button class="ob" id="d-design" onclick="tog('d-design')">Taped design</button>
     </div>
   </div>
   <button class="gb" onclick="gen('deck')">Generate product list</button>
@@ -484,6 +485,13 @@ function dCoat(v){
   const jtNow=dJTVal||'full';document.getElementById('d-grout-card').style.display=(hM&&!isEarly&&jtNow!=='topcoat'&&jtNow!=='reseal')?'block':'none';
   document.getElementById('d-flake-color-card').style.display=(hF&&!isEarly)?'block':'none';
   document.getElementById('d-rock-color-card').style.display=(hR&&!isEarly)?'block':'none';
+  // Taped design: v16 supports it on Polycoat Flake (BA12) and Direct to Plywood (BA8) only
+  const designBtn=document.getElementById('d-design');
+  if(designBtn){
+    const showDesign=(hF||v==='plywood')&&!isEarly;
+    designBtn.style.display=showDesign?'block':'none';
+    if(!showDesign) designBtn.classList.remove('on');
+  }
   // Plank staining: only for miracote
   const addOpts=document.getElementById('d-additional-opts');
   if(addOpts){
@@ -613,7 +621,7 @@ function calcDeck(){
   const jt=dJTVal||'full',coat=dCoatVal||'miracote';
   const color=dColorVal,flakeColor=dFlakeColorVal;
   const grout=dGroutVal,groutColor=dGroutColorVal;
-  const tenting=isSel('d-tenting'),plank=isSel('d-plank');
+  const tenting=isSel('d-tenting'),plank=isSel('d-plank'),design=isSel('d-design');
   const isEarly=jt==='early';
   const doPrep=jt==='full'||jt==='early';
   const doMPC=(jt==='full'||jt==='finish'||jt==='topcoat'||jt==='early')&&coat==='miracote';
@@ -710,7 +718,7 @@ function calcDeck(){
       if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces of 6" x 6" Flashing. Flashing should be Xtrabond caulked behind it on both sides and caulked at the top. Flashing should be placed with roofing nails every 3" and different flashing pieces overlapped by 6". Make sure you put the flashing BEHIND any window or house wrap.`));
       items.push(mkLine('-Xtrabond'),...(dConc>0?[mkLine(`-${Math.ceil(dConc/100)} Gallons SlabLoc 150 Moisture Barrier Epoxy (100% solids, 3 gal kit, 2:1 mix, ~100 sq ft/gal)`)]:[]),mkLine(`-${Math.ceil((dWood/18)*1.1)} pieces of Metal Lath`),mkLine(`-${Math.ceil(dWood/250)} boxes of Staples`),mkLine('-Roofing Paper'),mkLine('-Measuring buckets'),mkLine('-Air compressor'),mkLine('-Air hoses'),mkLine('-Staple guns. Air gun oil (oil your gun before, during, and after using it).'));
       const sand=Math.ceil((Math.ceil(dWood/16.9*10)/10*12.8/50)*10)/10;const pc=Math.ceil(dWood/16)+Math.ceil(dConc/25);const fb=Math.ceil(sqft/400);
-      items.push(mkLine(`-${sand} bags of Sand (50 lb bags)`),mkLine('-PC-260 Slurry Mix: Mix one bucket of 260. Split the 260 in half. Then Add 320 ounces of Sand to 2.5 Gallons of 260.'),mkLine('-Mixing buckets. Gallon measure bucket.'),mkLine(`-${pc} Gallons PC-260`));
+      items.push(mkLine(`-${sand} bags of Sand (50 lb bags)`),mkLine('-PC-260 Slurry Mix: Mix one bucket of 260. Split the 260 in half. Then Add 320 ounces of Sand to 2.5 Gallons of 260.'),mkLine('-Mixing buckets. Gallon measure bucket.'),...(design?[mkLine('-Design Tape')]:[]),mkLine(`-${pc} Gallons ${design?'Colored ':''}PC-260`));
       if(!isEarly){
         items.push(mkLine(`-${Math.ceil(sqft/225)} Gallons of colored PG100${flakeColor?` "${flakeColor}"`:''}`));
         if(!flakeColor)items.push({text:'-[SELECT FLAKE COLOR]',missing:true});
@@ -743,7 +751,7 @@ function calcDeck(){
     if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces of 6" x 6" Flashing`));
     if(dConc>0)items.push(mkLine(`-${Math.ceil(dConc/100)} Gallons SlabLoc 150 Moisture Barrier Epoxy`));
     if(sqft>0){
-      items.push(mkLine(`-${(Math.round(sqft/800*10)/10)} kits Dural Non-Sag & Joint Tape`),mkLine(`-${Math.ceil(sqft/20)} Gallons PC-260`));
+      items.push(mkLine(`-${(Math.round(sqft/800*10)/10)} kits Dural Non-Sag & Joint Tape`),...(design?[mkLine('-Design Tape')]:[]),mkLine(`-${Math.ceil(sqft/20)} Gallons ${design?'Colored ':''}PC-260`));
       if(!isEarly){
         items.push(mkLine(`-${(Math.ceil(sqft/225*10)/10)} Gallons of colored PG100${flakeColor?` "${flakeColor}"`:''}`));
         if(!flakeColor)items.push({text:'-[SELECT FLAKE COLOR]',missing:true});
