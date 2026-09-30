@@ -821,11 +821,11 @@ function calcSport(){
       if(tot>0){items.push(mkLine(`-${ru16(tot/400,0)} Gallons Muriatic Acid (add 4 gallons water per gallon)`));
         if(sqft>0)items.push(mkLine(`-${ru16(sqft/150,0)} Gallons Armorseal Treadplex — Zone 1${scColor1?` (${scColor1})`:''}`));
         if(z2sqft>0)items.push(mkLine(`-${ru16(z2sqft/150,0)} Gallons Armorseal Treadplex — Zone 2${scColor2?` (${scColor2})`:''}`));
-        items.push(mkLine(`-${ru16(tot/440,0)} Kits Hybrid Sealer`),mkLine('-36 Grit White / Shark Grip'));}
+        items.push(mkLine(`-${Math.ceil(tot/200)} Gallons PG100 Clear Sealer + Shark Grip (Texture)`));}
       steps=['Acid etch & power wash. Blow out puddles.','Color seal each zone (Armorseal Treadplex).'];
       if(lines!=='none')steps.push(`Saw cut ${lines} lines (${lineColors||'confirm colors'}), stain with acetone dye.`);
       if(logos)steps.push(`Apply logos (${logoText||'confirm logo details'})`);
-      steps.push('Clear seal (Hybrid) with Texture. Clean up.');
+      steps.push('Clear seal with PG100 & Shark Grip. Clean up.');
     }else if(type==='grind'){
     if(sqft>0){items.push(mkLine(`-${Math.ceil(sqft/600)*2} Gallons WB Urethane Sealer (2 coats)`));if(lines!=='none')items.push(mkLine(`-${lineColors||'Gray & Blue'} Acetone Dye Stain for lines`),mkLine('-Concrete saw'));}
     steps=['Grind & patch','1st coat sealer'];if(lines!=='none')steps.push(`Saw cut ${lines} lines. Stain/paint lines (${lineColors||'confirm colors'}).`);steps.push('Seal joints, cracks & 2nd coat sealer. Clean up.');if(logos)steps.push(`Apply logos (${logoText})`);
