@@ -887,14 +887,14 @@ function gen(tab){
 
   const{html:ph,plain:pp}=renderItems(r.items);
   document.getElementById('outProducts').innerHTML=ph;
-  lastProductsHTML=`<div style="font-family:'Times New Roman',Times,serif;font-size:14pt;line-height:1.9;">${ph.replace(/\n/g,'<br>')}</div>`;
+  lastProductsHTML=`<div style="font-family:'Times New Roman',Times,serif;font-size:14pt;line-height:1.15;">${ph.replace(/\n/g,'<br>')}</div>`;
   lastProductsPlain=pp;
 
   const sd=document.getElementById('outSched'),se=document.getElementById('outSteps');
   if(r.steps?.length){
     const{html:sh,plain:sp}=renderSteps(r.steps);
     se.innerHTML=sh.replace(/\n/g,'<br>');
-    lastScheduleHTML=`<div style="font-family:'Times New Roman',Times,serif;font-size:14pt;line-height:2;">${sh.replace(/\n/g,'<br>')}</div>`;
+    lastScheduleHTML=`<div style="font-family:'Times New Roman',Times,serif;font-size:14pt;line-height:1.15;">${sh.replace(/\n/g,'<br>')}</div>`;
     lastSchedulePlain=sp;
     sd.style.display='block';
   }else{sd.style.display='none';lastScheduleHTML='';lastSchedulePlain='';}
@@ -915,12 +915,16 @@ function flashBtn(btn,label){
   btn.textContent='✅ Copied!';
   setTimeout(()=>btn.textContent=label,2000);
 }
+function docsFont(h){
+  // the on-screen render uses the UI font for step labels; a Google Docs paste must not
+  return h.replace(/font-family:'Questrial',\s*sans-serif;?/g,"font-family:'Times New Roman',Times,serif;");
+}
 function copyForDocs(btn,scope){
   const badges=[...document.getElementById('outBadges').querySelectorAll('.badge')].map(b=>b.textContent).join(' | ');
-  const head=`<meta charset="utf-8"><b style="font-family:'Times New Roman',Times,serif;font-size:14pt;">${badges}</b><br><br>`;
-  const body = scope==='products' ? lastProductsHTML
+  const head=`<meta charset="utf-8"><b style="font-family:'Times New Roman',Times,serif;font-size:14pt;line-height:1.15;">${badges}</b><br><br>`;
+  const body = docsFont(scope==='products' ? lastProductsHTML
              : scope==='schedule' ? lastScheduleHTML
-             : `${lastProductsHTML}<br>${lastScheduleHTML}`;
+             : `${lastProductsHTML}<br>${lastScheduleHTML}`);
   try{
     const blob=new Blob([head+body],{type:'text/html'});
     const item=new ClipboardItem({'text/html':blob});
