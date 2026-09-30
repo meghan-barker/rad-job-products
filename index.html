@@ -386,15 +386,21 @@ AACH4AAAAAAIIfAAAAAIDgBwAAAAAg+AEAAAAACH4AAAAAAIIfAAAAAIDgBwAAAAAEPwAAAAAAwQ8AAA
   <div class="oh">
     <span class="ot">Product & equipment list</span>
     <div class="copy-btns">
-      <button class="cb" onclick="copyPlain()">📋 Copy plain text</button>
-      <button class="cb" onclick="copyForDocs()">📄 Copy for Google Docs</button>
+      <button class="cb" onclick="copyPlain(this,'products')">📋 Copy plain text</button>
+      <button class="cb" onclick="copyForDocs(this,'products')">📄 Copy for Google Docs</button>
     </div>
   </div>
   <div id="outBadges"></div>
   <div class="out-products" id="outProducts"></div>
   <div id="outSched" style="display:none">
     <div style="height:1px;background:var(--border-light);margin:12px 0"></div>
-    <div class="ct">Schedule</div>
+    <div class="oh">
+      <span class="ct" style="margin-bottom:0">Schedule</span>
+      <div class="copy-btns">
+        <button class="cb" onclick="copyPlain(this,'schedule')">📋 Copy plain text</button>
+        <button class="cb" onclick="copyForDocs(this,'schedule')">📄 Copy for Google Docs</button>
+      </div>
+    </div>
     <div class="out-schedule-inner" id="outSteps"></div>
   </div>
 </div>
@@ -475,7 +481,7 @@ function dCoat(v){
   const hM=v==='miracote',hF=v==='flake',hR=v==='rock',hMS=v==='mirastamp';
   // Color: show for miracote + mirastamp; hide for early waterproofing
   document.getElementById('d-color-card').style.display=((hM||hMS)&&!isEarly)?'block':'none';
-  document.getElementById('d-grout-card').style.display=(hM&&!isEarly)?'block':'none';
+  const jtNow=dJTVal||'full';document.getElementById('d-grout-card').style.display=(hM&&!isEarly&&jtNow!=='topcoat'&&jtNow!=='reseal')?'block':'none';
   document.getElementById('d-flake-color-card').style.display=(hF&&!isEarly)?'block':'none';
   document.getElementById('d-rock-color-card').style.display=(hR&&!isEarly)?'block':'none';
   // Plank staining: only for miracote
@@ -658,7 +664,8 @@ function calcDeck(){
         items.push(mkLine(`-Grout 1st Overlay Coat: ${mb} Bags MPC Any Color`),mkLine(`-${ml} Gallons MPC Liquid Any Color`));
       } else {
         items.push(mkLine(`-1st coat: ${mb} Bags MPC Regular Gray Powder`));
-        if(!groutLabel) items.push({text:`-${ml} Gallons MPC Liquid [SELECT GROUT COLOR]`,missing:true});
+        if(jt==='topcoat') items.push(mkLine(`-${ml} Gallons MPC Liquid (any color — the grout coat gets covered by the top coat)`));
+        else if(!groutLabel) items.push({text:`-${ml} Gallons MPC Liquid [SELECT GROUT COLOR]`,missing:true});
         else items.push(mkLine(`-${ml} Gallons MPC Liquid "${groutLabel}" (½ color pack per bucket)`));
         items.push(mkLine(`-2nd coat: ${mb} Bags MPC Regular White Powder`));
         if(!color) items.push({text:`-${ml} Gallons MPC Liquid [SELECT COLOR]`,missing:true});
@@ -861,20 +868,30 @@ function gen(tab){
   const o=document.getElementById('outSection');o.classList.add('vis');o.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-function copyPlain(){
+function copyPlain(btn,scope){
   const badges=[...document.getElementById('outBadges').querySelectorAll('.badge')].map(b=>b.textContent).join(' | ');
-  const text=[badges,'','PRODUCTS:',lastProductsPlain,'SCHEDULE:',lastSchedulePlain].join('\n');
-  navigator.clipboard.writeText(text).then(()=>{const b=document.querySelectorAll('.cb')[0];b.textContent='✅ Copied!';setTimeout(()=>b.textContent='📋 Copy plain text',2000);});
+  const parts = scope==='products' ? [badges,'','PRODUCTS:',lastProductsPlain]
+              : scope==='schedule' ? [badges,'','SCHEDULE:',lastSchedulePlain]
+              : [badges,'','PRODUCTS:',lastProductsPlain,'SCHEDULE:',lastSchedulePlain];
+  navigator.clipboard.writeText(parts.join('\n')).then(()=>flashBtn(btn,'📋 Copy plain text'));
 }
 
-function copyForDocs(){
+function flashBtn(btn,label){
+  if(!btn) return;
+  btn.textContent='✅ Copied!';
+  setTimeout(()=>btn.textContent=label,2000);
+}
+function copyForDocs(btn,scope){
   const badges=[...document.getElementById('outBadges').querySelectorAll('.badge')].map(b=>b.textContent).join(' | ');
-  const html=`<meta charset="utf-8"><b style="font-family:'Times New Roman',Times,serif;font-size:14pt;">${badges}</b><br><br>${lastProductsHTML}<br>${lastScheduleHTML}`;
+  const head=`<meta charset="utf-8"><b style="font-family:'Times New Roman',Times,serif;font-size:14pt;">${badges}</b><br><br>`;
+  const body = scope==='products' ? lastProductsHTML
+             : scope==='schedule' ? lastScheduleHTML
+             : `${lastProductsHTML}<br>${lastScheduleHTML}`;
   try{
-    const blob=new Blob([html],{type:'text/html'});
+    const blob=new Blob([head+body],{type:'text/html'});
     const item=new ClipboardItem({'text/html':blob});
-    navigator.clipboard.write([item]).then(()=>{const b=document.querySelectorAll('.cb')[1];b.textContent='✅ Copied!';setTimeout(()=>b.textContent='📄 Copy for Google Docs',2000);});
-  }catch(e){copyPlain();}
+    navigator.clipboard.write([item]).then(()=>flashBtn(btn,'📄 Copy for Google Docs'));
+  }catch(e){copyPlain(btn,scope);}
 }
 </script>
 </body>
