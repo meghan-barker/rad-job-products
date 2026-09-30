@@ -915,16 +915,12 @@ function flashBtn(btn,label){
   btn.textContent='✅ Copied!';
   setTimeout(()=>btn.textContent=label,2000);
 }
-function docsFont(h){
-  // the on-screen render uses the UI font for step labels; a Google Docs paste must not
-  return h.replace(/font-family:'Questrial',\s*sans-serif;?/g,"font-family:'Times New Roman',Times,serif;");
-}
 function copyForDocs(btn,scope){
   const badges=[...document.getElementById('outBadges').querySelectorAll('.badge')].map(b=>b.textContent).join(' | ');
   const head=`<meta charset="utf-8"><b style="font-family:'Times New Roman',Times,serif;font-size:14pt;line-height:1.15;">${badges}</b><br><br>`;
-  const body = docsFont(scope==='products' ? lastProductsHTML
+  const body = scope==='products' ? lastProductsHTML
              : scope==='schedule' ? lastScheduleHTML
-             : `${lastProductsHTML}<br>${lastScheduleHTML}`);
+             : `${lastProductsHTML}<br>${lastScheduleHTML}`;
   try{
     const blob=new Blob([head+body],{type:'text/html'});
     const item=new ClipboardItem({'text/html':blob});
