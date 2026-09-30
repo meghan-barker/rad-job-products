@@ -677,7 +677,8 @@ function calcDeck(){
         items.push(mkLine(`-${jt==='topcoat'?'Top coat':'2nd coat'}: ${mb} Bags MPC Regular White Powder`));
         if(!color) items.push({text:`-${ml} Gallons MPC Liquid [SELECT COLOR]`,missing:true});
         else items.push(mkLine(`-${ml} Gallons MPC Liquid "${color}" (½ color pack per bucket)`));
-        items.push(mkLine('-HDWB Primer'),mkLine(`-${Math.ceil(sqft/200)} Gallons PG100 Polyglaze Sealer. Add 6 oz Hardener/Gallon.`),mkLine('-Shark Grip'));
+        if(jt!=='finish') items.push(mkLine('-HDWB Primer'));
+        items.push(mkLine(`-${Math.ceil(sqft/200)} Gallons PG100 Polyglaze Sealer. Add 6 oz Hardener/Gallon.`),mkLine('-Shark Grip'));
       }
       if(plank)items.push(mkLine('-Individual plank staining supplies (bring multiple stain colors)'));
       if(isEarly){
@@ -686,7 +687,7 @@ function calcDeck(){
         const baseSteps = jt==='topcoat' ? []
                         : jt==='finish'  ? ['1st coat MPC with stiff steel trowel']
                         : ['Prep, install drip edge, lathe, staples, LM Lathe Mortar','Grind LM with 7" grinder, install Membrane A & Fabric','1st coat MPC with stiff steel trowel'];
-        steps=[...(tenting?['Tent']:[]),...baseSteps,`Sand 80 grit, trim edges, re-tape drip edge if needed, HDWB prime, ${jt==='topcoat'?'top':'2nd'} coat MPC. Brush edges carefully.`,'Polyglaze PG100 Seal with Hardener & Shark Grip'+(plank?'. Individual Plank Staining':'')];
+        steps=[...(tenting?['Tent']:[]),...baseSteps,`Sand 80 grit, trim edges, re-tape drip edge if needed, ${jt==='finish'?'':'HDWB prime, '}${jt==='topcoat'?'top':'2nd'} coat MPC. Brush edges carefully.`,'Polyglaze PG100 Seal with Hardener & Shark Grip'+(plank?'. Individual Plank Staining':'')];
         if(tenting)steps.push('Ask Melissa if tenting needs removal. Clean up, caulk screw holes');
       }
     }
