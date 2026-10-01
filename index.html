@@ -255,6 +255,7 @@ AACH4AAAAAAIIfAAAAAIDgBwAAAAAg+AEAAAAACH4AAAAAAIIfAAAAAIDgBwAAAAAEPwAAAAAAwQ8AAA
       <button class="ob" id="o-fin-exterior" onclick="oFin('exterior')">Exterior trowel overlay</button>
       <button class="ob" id="o-fin-stamp" onclick="oFin('stamp')">Stamp overlay</button>
       <button class="ob" id="o-fin-venetian" onclick="oFin('venetian')">Venetian Cement</button>
+      <button class="ob" id="o-fin-sandfinish" onclick="oFin('sandfinish')">Sand Finish</button>
     </div>
   </div>
   <div class="card" id="o-color-card"><div class="ct">Color (main / 2nd coat)</div><div class="og" id="o-color-grid"></div></div>
@@ -287,6 +288,10 @@ AACH4AAAAAAIIfAAAAAIDgBwAAAAAg+AEAAAAACH4AAAAAAIIfAAAAAIDgBwAAAAAEPwAAAAAAwQ8AAA
     <div class="og">
       <button class="ob" id="o-ven-topcoat" onclick="tog('o-ven-topcoat')">Wet area / floor — add WestCoat SC-65 top coat</button>
     </div>
+  </div>
+  <div class="card" id="o-sandfinish-card" style="display:none">
+    <div class="ct">Sand Finish color</div>
+    <div class="og" id="o-sandfinish-color-grid"></div>
   </div>
   <button class="gb" onclick="gen('overlay')">Generate product list</button>
 </div>
@@ -503,7 +508,7 @@ const SANDFINISH_COLORS={
   "Park City":{mix:"100% Black Sand",                 concrete:"Black (Coatary)",                        deck:"Black (verdia color pack)"}
 };
 const SANDFINISH_NAMES=Object.keys(SANDFINISH_COLORS);
-let oJTVal=null,oFinVal=null,oColorVal=null,oSlopeVal=null,oLevelVal=null,oStampVal=null,oGroutColorVal=null,oVenColorVal=null;
+let oJTVal=null,oFinVal=null,oColorVal=null,oSlopeVal=null,oLevelVal=null,oStampVal=null,oGroutColorVal=null,oVenColorVal=null,oSandFinishColorVal=null;
 let pSvcVal=null,pFinVal=null;
 let sTypeVal=null,sColorVal=null,sBorderColorVal=null,sGlVal=null,sVerdeColorVal=null;
 let scTypeVal=null,scLinesVal=null,scLogosVal=false,scColor1=null,scColor2=null;
@@ -579,19 +584,20 @@ function dGrout(v){
 }
 function oJT(v){oJTVal=v;one('o-jt-',['full','topcoat'],v);document.getElementById('o-slope-card').style.display=v==='full'?'block':'none'}
 function oFin(v){
-  oFinVal=v;one('o-fin-',['interior','exterior','stamp','venetian'],v);
+  oFinVal=v;one('o-fin-',['interior','exterior','stamp','venetian','sandfinish'],v);
   document.getElementById('o-stamp-card').style.display=v==='stamp'?'block':'none';
-  const isVen=v==='venetian';
-  if(isVen) oJTVal='full';
-  document.getElementById('o-jobtype-card').style.display=isVen?'none':'block';
-  document.getElementById('o-ply-row').style.display=isVen?'none':'flex';
-  document.getElementById('o-slopesqft-row').style.display=isVen?'none':'flex';
-  document.getElementById('o-color-card').style.display=isVen?'none':'block';
-  document.getElementById('o-grout-card').style.display=isVen?'none':'block';
-  document.getElementById('o-level-card').style.display=isVen?'none':'block';
-  if(isVen) document.getElementById('o-slope-card').style.display='none';
+  const isVen=v==='venetian',isSF=v==='sandfinish',single=isVen||isSF;
+  if(single) oJTVal='full';
+  document.getElementById('o-jobtype-card').style.display=single?'none':'block';
+  document.getElementById('o-ply-row').style.display=single?'none':'flex';
+  document.getElementById('o-slopesqft-row').style.display=single?'none':'flex';
+  document.getElementById('o-color-card').style.display=single?'none':'block';
+  document.getElementById('o-grout-card').style.display=single?'none':'block';
+  document.getElementById('o-level-card').style.display=single?'none':'block';
+  if(single) document.getElementById('o-slope-card').style.display='none';
   document.getElementById('o-venetian-card').style.display=isVen?'block':'none';
   document.getElementById('o-venetian-opts-card').style.display=isVen?'block':'none';
+  document.getElementById('o-sandfinish-card').style.display=isSF?'block':'none';
 }
 function oVenetian(v){oVenColorVal=v;one('o-ven-',['rome','venice','milan','sicily'],v)}
 function oStamp(v){oStampVal=v;one('o-st-',['slate','ashler','random','cobble'],v)}
@@ -628,6 +634,7 @@ bSimple('d-flake-color-grid',POLYCOAT_FLAKE,v=>dFlakeColorVal=v);
 bSimple('d-rock-color-grid',ROCK_COLORS,v=>dRockColorVal=v);
 bSimple('d-sandfinish-color-grid',SANDFINISH_NAMES,v=>dSandFinishColorVal=v);
 bSimple('o-color-grid',DMPC,v=>oColorVal=v);
+bSimple('o-sandfinish-color-grid',SANDFINISH_NAMES,v=>oSandFinishColorVal=v);
 bSimple('o-grout-color-grid',DMPC,v=>oGroutColorVal=v);
 bSimple('o-slope-grid',OS,v=>oSlopeVal=v);
 bSimple('o-level-grid',OL,v=>oLevelVal=v);
@@ -894,7 +901,7 @@ function calcOverlay(){
   const sqft=gv('o-sqft'),plySqft=gv('o-plysqft'),total=sqft+plySqft,slopeSqft=gv('o-slopesqft');
   const jt=oJTVal||'full',fin=oFinVal,color=oColorVal,slope=oSlopeVal,level=oLevelVal,stamp=oStampVal,isTC=jt==='topcoat',groutC=oGroutColorVal||oColorVal;
   const ven=oVenColorVal,venLabel={rome:'Rome',venice:'Venice',milan:'Milan',sicily:'Sicily'}[ven]||'';
-  const badgeSqft=fin==='venetian'?sqft:total;
+  const badgeSqft=(fin==='venetian'||fin==='sandfinish')?sqft:total;
   let items=[],steps=[];
   if(fin==='interior'){
     if(!isTC){items.push(mkLine('-Grinder'),mkLine('-Quickpatch, Mapei Planiprep SC, other patches. Overfill — patch shrinks.'),mkLine('-Clear Xtrabond for cracks; colored for joints (Limestone, Dark Gray, Black, Clear)'),mkLine('-Fine grit sandpaper'));if(plySqft>0)items.push(mkLine(`-Note: ${plySqft} sq ft over plywood — use ML Primer for plywood sections, HDWB for concrete`));}
@@ -950,13 +957,27 @@ function calcOverlay(){
            `1st coat: ${loftLabel}`,
            '2nd & 3rd coats: Loft W, 2 coats'];
     if(isSel('o-ven-topcoat'))steps.push('Top coat: WestCoat SC-65 WB Urethane Matte (wet area / floor)');
+  }else if(fin==='sandfinish'){
+    if(sqft>0){
+      const sfInfo=oSandFinishColorVal?SANDFINISH_COLORS[oSandFinishColorVal]:null;
+      items.push(mkLine(`-${ru16(sqft/100,0)} Gallons MVB Moisture Barrier Epoxy Primer`),
+                 mkLine(`-${ru16(sqft/1200,0)} bags Quartz Primer Sand, 50 Grit`),
+                 mkLine(`-${ru16(sqft/140,0)} Gallons Colored Poly${sfInfo?` "${sfInfo.concrete}"`:''}`));
+      if(!oSandFinishColorVal) items.push({text:'-[SELECT SAND FINISH COLOR]',missing:true});
+      items.push(mkLine(`-${ru16(sqft/85,0)} bags Decorative Sand${sfInfo?` (${sfInfo.mix})`:''}`),
+                 mkLine(`-${ru16(sqft/80,0)} Gallons Urethane Top Coat PU-60`));
+    }
+    steps=['Prime: MVB Moisture Barrier Epoxy Primer, broadcast Quartz Primer Sand into wet primer for grip',
+           'Apply Colored Poly base coat',
+           'Broadcast Decorative Sand into wet base coat',
+           'Seal with Urethane Top Coat PU-60'];
   }else if(fin==='stamp'){
     if(!isTC)items.push(mkLine('-Grinder, Hammer Drill, Pressure Washer'),mkLine('-Quickpatch and patches'),mkLine('-Xtrabond'));
     if(total>0){items.push(mkLine(`-${ru16(total/600,0)} Gallons MPC Liquid Primer (mix 1:1 with water)`),mkLine(`-${ru16((total/22)+(total/22*0.10),0)} Bags MiraStamp Powder (45lb bags)`),mkLine(`-${ru16(((total/22)+(total/22*0.15))/3*2,0)} Gallons MiraStamp Liquid`),mkLine(`-${ru16(total/200,0)} Gallons Liquid Release`));if(stamp)items.push(mkLine(`-${stamp} stamp mat(s)`));}
     steps=['Grind, power wash, patch','Grind patches & MiraStamp','Seal with Shark Grip'];
   }else items.push({text:'(Select an overlay finish above)',missing:true});
-  const FL={interior:'Interior trowel',exterior:'Exterior trowel',stamp:'Stamp overlay',venetian:'Venetian Cement'};
-  return{items,steps,badges:[isTC?'Redo top coat':'Full overlay',FL[fin]||'',fin==='venetian'?venLabel:(color||''),badgeSqft?badgeSqft+' sq ft':''].filter(Boolean)};
+  const FL={interior:'Interior trowel',exterior:'Exterior trowel',stamp:'Stamp overlay',venetian:'Venetian Cement',sandfinish:'Sand Finish'};
+  return{items,steps,badges:[isTC?'Redo top coat':'Full overlay',FL[fin]||'',fin==='venetian'?venLabel:(fin==='sandfinish'?(oSandFinishColorVal||''):(color||'')),badgeSqft?badgeSqft+' sq ft':''].filter(Boolean)};
 }
 
 function calcPolish(){
