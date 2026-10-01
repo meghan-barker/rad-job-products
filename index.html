@@ -223,7 +223,7 @@ AACH4AAAAAAIIfAAAAAIDgBwAAAAAg+AEAAAAACH4AAAAAAIIfAAAAAIDgBwAAAAAEPwAAAAAAwQ8AAA
 
 <!-- OVERLAY -->
 <div id="tab-overlay" style="display:none">
-  <div class="card">
+  <div class="card" id="o-jobtype-card">
     <div class="ct">Job type</div>
     <div class="og">
       <button class="ob" id="o-jt-full" onclick="oJT('full')">Full overlay</button>
@@ -233,8 +233,8 @@ AACH4AAAAAAIIfAAAAAIDgBwAAAAAg+AEAAAAACH4AAAAAAIIfAAAAAIDgBwAAAAAEPwAAAAAAwQ8AAA
   <div class="card">
     <div class="ct">Measurements</div>
     <div class="fr"><span class="fl">Concrete sq ft</span><input class="fi" type="number" id="o-sqft"></div>
-    <div class="fr"><span class="fl">Plywood sq ft</span><input class="fi" type="number" id="o-plysqft" placeholder="0 if all concrete"></div>
-    <div class="fr"><span class="fl">Sloping sq ft</span><input class="fi" type="number" id="o-slopesqft" placeholder="0 if none"></div>
+    <div class="fr" id="o-ply-row"><span class="fl">Plywood sq ft</span><input class="fi" type="number" id="o-plysqft" placeholder="0 if all concrete"></div>
+    <div class="fr" id="o-slopesqft-row"><span class="fl">Sloping sq ft</span><input class="fi" type="number" id="o-slopesqft" placeholder="0 if none"></div>
   </div>
   <div class="card">
     <div class="ct">Overlay finish</div>
@@ -242,10 +242,11 @@ AACH4AAAAAAIIfAAAAAIDgBwAAAAAg+AEAAAAACH4AAAAAAIIfAAAAAIDgBwAAAAAEPwAAAAAAwQ8AAA
       <button class="ob" id="o-fin-interior" onclick="oFin('interior')">Interior trowel overlay</button>
       <button class="ob" id="o-fin-exterior" onclick="oFin('exterior')">Exterior trowel overlay</button>
       <button class="ob" id="o-fin-stamp" onclick="oFin('stamp')">Stamp overlay</button>
+      <button class="ob" id="o-fin-venetian" onclick="oFin('venetian')">Venetian Cement</button>
     </div>
   </div>
-  <div class="card"><div class="ct">Color (main / 2nd coat)</div><div class="og" id="o-color-grid"></div></div>
-  <div class="card"><div class="ct">Base coat / grout color (optional — defaults to main)</div><div class="og" id="o-grout-color-grid"></div></div>
+  <div class="card" id="o-color-card"><div class="ct">Color (main / 2nd coat)</div><div class="og" id="o-color-grid"></div></div>
+  <div class="card" id="o-grout-card"><div class="ct">Base coat / grout color (optional — defaults to main)</div><div class="og" id="o-grout-color-grid"></div></div>
   <div class="card" id="o-stamp-card" style="display:none">
     <div class="ct">Stamp type</div>
     <div class="og">
@@ -259,7 +260,22 @@ AACH4AAAAAAIIfAAAAAIDgBwAAAAAg+AEAAAAACH4AAAAAAIIfAAAAAIDgBwAAAAAEPwAAAAAAwQ8AAA
     <div class="ct">RM3000 sloping thickness</div>
     <div class="og" id="o-slope-grid"></div>
   </div>
-  <div class="card"><div class="ct">Self-leveling thickness</div><div class="og" id="o-level-grid"></div></div>
+  <div class="card" id="o-level-card"><div class="ct">Self-leveling thickness</div><div class="og" id="o-level-grid"></div></div>
+  <div class="card" id="o-venetian-card" style="display:none">
+    <div class="ct">Venetian Cement color system</div>
+    <div class="og">
+      <button class="ob" id="o-ven-rome" onclick="oVenetian('rome')">Rome — natural gray powder</button>
+      <button class="ob" id="o-ven-venice" onclick="oVenetian('venice')">Venice — gray &amp; white mixed 1:1</button>
+      <button class="ob" id="o-ven-milan" onclick="oVenetian('milan')">Milan — white + "Milano" color pack</button>
+      <button class="ob" id="o-ven-sicily" onclick="oVenetian('sicily')">Sicily — white + "Seoul" color pack</button>
+    </div>
+  </div>
+  <div class="card" id="o-venetian-opts-card" style="display:none">
+    <div class="ct">Additional options</div>
+    <div class="og">
+      <button class="ob" id="o-ven-topcoat" onclick="tog('o-ven-topcoat')">Wet area / floor — add WestCoat SC-65 top coat</button>
+    </div>
+  </div>
   <button class="gb" onclick="gen('overlay')">Generate product list</button>
 </div>
 
@@ -429,14 +445,14 @@ const OS=["1/4\" (.5\"–0)","3/8\" (.75\"–0)","1/2\" (1\"–0)","3/4\" (1.5\"
 const OL=["1/8\" avg","1/4\" avg","1/2\" avg","3/4\" avg","1\" avg","1.5\" avg","2\" avg","3\" avg"];
 const OL_DIV=[45,22,11,8,5.5,3.66,2.75,1.83];               // v16 self-leveling bags, matches OL order
 const OS_DIV=[19.2,12.7,9.6,6.4,5.44,4.8,3.81,3.18,2.73,2.4]; // v16 RM3000 sloping bags, matches OS order
-const ML=["Aquarius","Leo","Orion","Gemini","Aries","Pegasus","Libra","Scorpius","White Star","White Marble","Aries Marble","Stainless","Element","Shadow","Angelic","Myan Gold"];
-const MD={Aquarius:{e:"Dover White PC765",p:"Shimmer White & Graphite"},Leo:{e:"SeaWolf PC787",p:"Pewter & Shimmer White"},Orion:{e:"Smoky Ash PC767",p:"Pewter"},Gemini:{e:"Light Gray PC847",p:"Graphite"},Aries:{e:"Dark Gray PC848",p:"Charcoal"},Pegasus:{e:"Inca Gold PC744",p:"Morning Glow & Mocha"},Libra:{e:"Copper Wire PC714",p:"Copper Kettle"},Scorpius:{e:"Ginger Root PC754",p:"Mustard"},"White Star":{e:"Morning Mist PC845",p:"Shimmer White"},"White Marble":{e:"Morning Mist PC845",p:"Shimmer White"},"Aries Marble":{e:"Dark Gray PC848",p:"Charcoal"},Stainless:{e:"custom",p:"Stainless"},Element:{e:"SW7660 Earl Grey",p:"Element"},Shadow:{e:"SW7067 Cityscape",p:"Shadow"},Angelic:{e:"SW8917 Shell White",p:"Angelic"},"Myan Gold":{e:"custom",p:"Myan Gold"}};
+const ML=["Aquarius","Leo","Orion","Gemini","Aries","Pegasus","Libra","Scorpius","White Star","White Marble","Aries Marble","Stainless","Element","Shadow","Angelic","Myan Gold","Amethyst","Cabernet","Carbon","Desert Sun","Indigo","Java","Lunar Crest","Nebula","Ruby Red","Rustic","Sarah's Ribbon","Seven Seas","Skyline","Unique","Venom"];
+const MD={Aquarius:{e:"Dover White PC765",p:"Shimmer White & Graphite"},Leo:{e:"SeaWolf PC787",p:"Pewter & Shimmer White"},Orion:{e:"Smoky Ash PC767",p:"Pewter"},Gemini:{e:"Light Gray PC847",p:"Graphite"},Aries:{e:"Dark Gray PC848",p:"Charcoal"},Pegasus:{e:"Inca Gold PC744",p:"Morning Glow & Mocha"},Libra:{e:"Copper Wire PC714",p:"Copper Kettle"},Scorpius:{e:"Ginger Root PC754",p:"Mustard"},"White Star":{e:"Morning Mist PC845",p:"Shimmer White"},"White Marble":{e:"Morning Mist PC845",p:"Shimmer White"},"Aries Marble":{e:"Dark Gray PC848",p:"Charcoal"},Stainless:{e:"custom",p:"Stainless"},Element:{e:"SW7660 Earl Grey",p:"Element"},Shadow:{e:"SW7067 Cityscape",p:"Shadow"},Angelic:{e:"SW8917 Shell White",p:"Angelic"},"Myan Gold":{e:"SW9529 Twig Basket",p:"Myan Gold"},"Amethyst":{e:"SW6825 Izmir Purple",p:"Amethyst"},"Cabernet":{e:"SW7591 Red Barn",p:"Cabernet"},"Carbon":{e:"SW7048 Urbane Bronze",p:"Carbon"},"Desert Sun":{e:"SW6125 Craft Paper",p:"Desert Sun"},"Indigo":{e:"SW7615 Sea Serpent",p:"Indigo"},"Java":{e:"SW6041 Otter",p:"Java"},"Lunar Crest":{e:"SW7067 Cityscape",p:"Lunar Crest"},"Nebula":{e:"SW9140 Blustery Sky",p:"Nebula"},"Ruby Red":{e:"SW7579 Alaea",p:"Ruby Red"},"Rustic":{e:"SW6096 Jute Brown",p:"Rustic"},"Sarah's Ribbon":{e:"SW6223 Still Water",p:"Sarah's Ribbon"},"Seven Seas":{e:"SW6811 Honorable Blue",p:"Seven Seas"},"Skyline":{e:"SW6508 Secure Blue",p:"Skyline"},"Unique":{e:"SW7019 Gauntlet Gray",p:"Unique"},"Venom":{e:"SW6718 Overt Green",p:"Venom"}};
 const GP=["Rectangle Stack (2'×4')","Rectangle Stack (3'×6')","Blue Stone","Chantilly Weave","Border + Drive Path","Custom"];
 
 let gSysVal='coatary',gIsSplit=false,gHasDesign=false,gSingleColor=null,gSingleType=null,gSimpleN=0,gSplitN=0;
 let dJTVal=null,dCoatVal=null,dColorVal=null,dGroutVal=null,dGroutColorVal=null,dFlakeColorVal=null,dRockColorVal=null;
 const ROCK_COLORS=["Greyblend","Ozark brown","Rocky Mountain"];
-let oJTVal=null,oFinVal=null,oColorVal=null,oSlopeVal=null,oLevelVal=null,oStampVal=null,oGroutColorVal=null;
+let oJTVal=null,oFinVal=null,oColorVal=null,oSlopeVal=null,oLevelVal=null,oStampVal=null,oGroutColorVal=null,oVenColorVal=null;
 let pSvcVal=null,pFinVal=null;
 let sTypeVal=null,sColorVal=null,sBorderColorVal=null,sGlVal=null,sVerdeColorVal=null;
 let scTypeVal=null,scLinesVal=null,scLogosVal=false,scColor1=null,scColor2=null;
@@ -505,7 +521,22 @@ function dGrout(v){
   document.querySelectorAll('#d-grout-color-grid .ob').forEach(b=>b.classList.remove('on'));
 }
 function oJT(v){oJTVal=v;one('o-jt-',['full','topcoat'],v);document.getElementById('o-slope-card').style.display=v==='full'?'block':'none'}
-function oFin(v){oFinVal=v;one('o-fin-',['interior','exterior','stamp'],v);document.getElementById('o-stamp-card').style.display=v==='stamp'?'block':'none'}
+function oFin(v){
+  oFinVal=v;one('o-fin-',['interior','exterior','stamp','venetian'],v);
+  document.getElementById('o-stamp-card').style.display=v==='stamp'?'block':'none';
+  const isVen=v==='venetian';
+  if(isVen) oJTVal='full';
+  document.getElementById('o-jobtype-card').style.display=isVen?'none':'block';
+  document.getElementById('o-ply-row').style.display=isVen?'none':'flex';
+  document.getElementById('o-slopesqft-row').style.display=isVen?'none':'flex';
+  document.getElementById('o-color-card').style.display=isVen?'none':'block';
+  document.getElementById('o-grout-card').style.display=isVen?'none':'block';
+  document.getElementById('o-level-card').style.display=isVen?'none':'block';
+  if(isVen) document.getElementById('o-slope-card').style.display='none';
+  document.getElementById('o-venetian-card').style.display=isVen?'block':'none';
+  document.getElementById('o-venetian-opts-card').style.display=isVen?'block':'none';
+}
+function oVenetian(v){oVenColorVal=v;one('o-ven-',['rome','venice','milan','sicily'],v)}
 function oStamp(v){oStampVal=v;one('o-st-',['slate','ashler','random','cobble'],v)}
 function pSvc(v){pSvcVal=v;one('p-svc-',['polish','grind','colorguard','pentra','combo','silicone','hybrid','color','stain','acetonestain'],v)}
 function pFin(v){pFinVal=v;one('p-fin-',['satin','gloss','matte'],v)}
@@ -781,6 +812,8 @@ function calcDeck(){
 function calcOverlay(){
   const sqft=gv('o-sqft'),plySqft=gv('o-plysqft'),total=sqft+plySqft,slopeSqft=gv('o-slopesqft');
   const jt=oJTVal||'full',fin=oFinVal,color=oColorVal,slope=oSlopeVal,level=oLevelVal,stamp=oStampVal,isTC=jt==='topcoat',groutC=oGroutColorVal||oColorVal;
+  const ven=oVenColorVal,venLabel={rome:'Rome',venice:'Venice',milan:'Milan',sicily:'Sicily'}[ven]||'';
+  const badgeSqft=fin==='venetian'?sqft:total;
   let items=[],steps=[];
   if(fin==='interior'){
     if(!isTC){items.push(mkLine('-Grinder'),mkLine('-Quickpatch, Mapei Planiprep SC, other patches. Overfill — patch shrinks.'),mkLine('-Clear Xtrabond for cracks; colored for joints (Limestone, Dark Gray, Black, Clear)'),mkLine('-Fine grit sandpaper'));if(plySqft>0)items.push(mkLine(`-Note: ${plySqft} sq ft over plywood — use ML Primer for plywood sections, HDWB for concrete`));}
@@ -792,13 +825,57 @@ function calcOverlay(){
     if(!isTC)items.push(mkLine('-Grinder, Hammer Drill, Pressure Washer'),mkLine('-Quickpatch, RM2, & PlaniTopX Patches'),mkLine('-Diamond V Blade, Concrete Saw — cut MPC all the way through joints'),mkLine('-Xtrabond and Silica Sand'));
     if(total>0){items.push(mkLine(`-${ru16(total/250,0)} Bags MPC Regular White Powder (1st coat)`),mkLine(`-${ru16(total/220,0)} Bags MPC Regular White Powder (2nd coat)`));items.push(mkLine(`-${ru16(total/250,0)*2.5} Gallons MPC Liquid "${groutC}" — 1st coat / grout (½ color pack per bucket)`));if(!color)items.push({text:`-${ru16(total/220,0)*2.5} Gallons MPC Liquid [SELECT COLOR] — 2nd coat (½ color pack per bucket)`,missing:true});else items.push(mkLine(`-${ru16(total/220,0)*2.5} Gallons MPC Liquid "${color}" — 2nd coat (½ color pack per bucket)`));items.push(mkLine(`-${Math.ceil(total/435)} Gallons PG100 Sealer. Apply thin.`),mkLine('-Shark Grip'));}
     steps=isTC?['Clean surface','MPC 2nd coat','Seal with PG100 & Shark Grip']:['Grind, power wash, patch','MPC Regular (1st coat)','Sand & MPC 2nd coat (Swirl/Broom/Smooth)','Seal with Shark Grip'];
+  }else if(fin==='venetian'){
+    const kits=ru16(sqft/300,0), ltKits=ru16(sqft/225,0), hdwb=ru16(sqft/150,0);
+    items.push(mkLine('-Ladders'),mkLine('-Scaffolding'),mkLine('-Measuring buckets'),mkLine('-Regular buckets'),
+      mkLine('-Drill and mixer'),mkLine('-Measuring weight scale (like the scales used for ElastoCrete)'),
+      mkLine('-Rollers for the primer'),mkLine('-Design tape'),mkLine('-Blue tape'),
+      mkLine('-Green tape (for walls that are already painted)'),mkLine('-Plastic to cover the floors'),
+      mkLine('-Cardboard, paper, or Ram Board over the plastic and under the scaffolding'),
+      mkLine('-Good square trowels'),mkLine('-Drywall sander'),mkLine('-80 & 100 grit sandpaper'),
+      mkLine('-Little pump-up water sprayer'));
+    if(sqft>0){
+      items.push(mkLine(`-${kits} kits Mapei Primer Grip White (1.5 gal kit)`),
+                 mkLine(`-${ltKits} kits Mapei Primer LT (1.5 gal kit, dilute 1:1 with water)`),
+                 mkLine(`-${hdwb} Gallons Miracote HDWB Matte (2 coats)`));
+      if(ven==='rome'){
+        const gf=ru16(sqft/55,0),gw=ru16(sqft/45,0);
+        items.push(mkLine(`-${gf} Gray Mapei Loft F bags (11 lb bags, 1 coat)`),
+                   mkLine(`-${gw} Gray Mapei Loft W bags (11 lb bags, 2 coats)`),
+                   mkLine('-Mix Loft F with 56 oz of water per bag. Mix Loft W 1st coat with 58 oz of water per bag. Mix Loft W 2nd coat with 62 oz of water per bag.'));
+      }else if(ven==='venice'){
+        const f=ru16(sqft/110,0),w=ru16(sqft/90,0);
+        items.push(mkLine(`-${f} Gray Mapei Loft F bags (11 lb bags, 1 coat)`),
+                   mkLine(`-${f} White Mapei Loft F bags (11 lb bags, 1 coat)`),
+                   mkLine(`-${w} Gray Mapei Loft W bags (11 lb bags, 2 coats)`),
+                   mkLine(`-${w} White Mapei Loft W bags (11 lb bags, 2 coats)`),
+                   mkLine('-Mix Loft F with 56 oz of water per bag. Mix Loft W 1st coat with 58 oz of water per bag. Mix Loft W 2nd coat with 62 oz of water per bag.'));
+      }else if(ven==='milan'||ven==='sicily'){
+        const f=ru16(sqft/55,0),w=ru16(sqft/45,0),pack=ven==='milan'?'Milano':'Seoul';
+        items.push(mkLine(`-${f} White Mapei Loft F bags (11 lb bags, 1 coat)`),
+                   mkLine(`-${w} White Mapei Loft W bags (11 lb bags, 2 coats)`),
+                   mkLine(`-${f+w} Buckets Mapei Ultratop Easy Color "${pack}" liquid`),
+                   mkLine('-Mix one Loft F white bag with one liquid color pack & 8 oz of water. Loft W 1st coat: one Loft W white bag with one liquid color pack & 10 oz of water. Loft W 2nd coat: one Loft W white bag with one liquid color pack & 14 oz of water.'));
+      }else{
+        items.push({text:'-[SELECT VENETIAN COLOR SYSTEM]',missing:true});
+      }
+      if(isSel('o-ven-topcoat'))items.push(mkLine(`-${ru16(sqft/450,0)} Gallons WestCoat SC-65 WB Urethane Matte top coat (wet area / floor)`));
+    }
+    const loftLabel={rome:'Gray Loft F',venice:'Gray & White Loft F (1:1 mix)',
+      milan:'White Loft F + "Milano" color pack',sicily:'White Loft F + "Seoul" color pack'}[ven]||'Loft F';
+    steps=['Set up: ladders, scaffolding, floor/wall protection (plastic, cardboard or Ram Board, blue/green/design tape), measuring buckets, drill and mixer, scale, trowels, drywall sander, pump sprayer',
+           'Prime: Mapei Primer Grip White, then Primer LT (dilute 1:1 with water)',
+           'Prime: Miracote HDWB Matte',
+           `1st coat: ${loftLabel}`,
+           '2nd & 3rd coats: Loft W, 2 coats'];
+    if(isSel('o-ven-topcoat'))steps.push('Top coat: WestCoat SC-65 WB Urethane Matte (wet area / floor)');
   }else if(fin==='stamp'){
     if(!isTC)items.push(mkLine('-Grinder, Hammer Drill, Pressure Washer'),mkLine('-Quickpatch and patches'),mkLine('-Xtrabond'));
     if(total>0){items.push(mkLine(`-${ru16(total/600,0)} Gallons MPC Liquid Primer (mix 1:1 with water)`),mkLine(`-${ru16((total/22)+(total/22*0.10),0)} Bags MiraStamp Powder (45lb bags)`),mkLine(`-${ru16(((total/22)+(total/22*0.15))/3*2,0)} Gallons MiraStamp Liquid`),mkLine(`-${ru16(total/200,0)} Gallons Liquid Release`));if(stamp)items.push(mkLine(`-${stamp} stamp mat(s)`));}
     steps=['Grind, power wash, patch','Grind patches & MiraStamp','Seal with Shark Grip'];
   }else items.push({text:'(Select an overlay finish above)',missing:true});
-  const FL={interior:'Interior trowel',exterior:'Exterior trowel',stamp:'Stamp overlay'};
-  return{items,steps,badges:[isTC?'Redo top coat':'Full overlay',FL[fin]||'',color||'',total?total+' sq ft':''].filter(Boolean)};
+  const FL={interior:'Interior trowel',exterior:'Exterior trowel',stamp:'Stamp overlay',venetian:'Venetian Cement'};
+  return{items,steps,badges:[isTC?'Redo top coat':'Full overlay',FL[fin]||'',fin==='venetian'?venLabel:(color||''),badgeSqft?badgeSqft+' sq ft':''].filter(Boolean)};
 }
 
 function calcPolish(){
