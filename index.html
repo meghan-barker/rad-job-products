@@ -594,7 +594,7 @@ function calcGarage(){
   const hasDesign=gHasDesign;
   const patternBtn=[...document.querySelectorAll('#g-pattern-grid .ob.on')].map(b=>b.textContent)[0]||sv('g-pattern-custom')||'';
   let items=[mkLine('-Grinder and Diamonds'),mkLine('-Xtrabond'),mkLine('-Dural Non-Sag'),mkLine('-PC Crete fast drying patch and sand in case you need it'),mkLine('-Plastic')];
-  if(waterproof){items.push(mkLine(`-${wpsqft>0?Math.ceil(wpsqft/200)+' Gallons ':''}Amerlock 2 Epoxy Primer for waterproofing perimeter`));if(wpsqft>0)items.push(mkLine(`-${Math.round(wpsqft/50)} Gallons PC-260 Waterproofing (${wpsqft} sq ft))`));}
+  if(waterproof){items.push(mkLine(`-${wpsqft>0?Math.ceil(wpsqft/200)+' Gallons ':''}Amerlock 2 Epoxy Primer for waterproofing perimeter`));if(wpsqft>0)items.push(mkLine(`-${Math.round(wpsqft/50)} Gallons PC-260 Waterproofing`));}
   if(hasDesign){items.push(mkLine('-Black Epoxy Primer (for design lines)'));items.push(mkLine('-Design Tape'));}
   if(patternBtn)items.push(mkLine(`-Design pattern: ${patternBtn}`));
   let totalSqft=0;
@@ -610,7 +610,7 @@ function calcGarage(){
   else if(hasDesign)steps=['Grind, seal joints, Epoxy Prime','Tape design & flake','Seal with Crystal Clear TC'+(texture?' with Texture':'')+(shimmers.length?' and Shimmer':'')+'. Remove design tape. Clean up'];
   else if(isRock)steps=['Grind, seal joints, Rock Flake','Sand & Seal with Crystal Clear TC','Sand good & 2nd coat Crystal Clear TC'+(texture?' with Texture':'')+(shimmers.length?' and Shimmer':'')+'. Clean up'];
   else steps=['Grind, seal joints?, Flake','Seal with Crystal Clear TC'+(texture?' with Texture':'')+(shimmers.length?' and Shimmer':'')+'. Clean up'];
-  return{items,steps,badges:[sys==='tileclad'?'Tile Clad':'Coatary',gIsSplit?'Color split':gSingleColor||'',totalSqft?totalSqft.toLocaleString()+' sq ft':''].filter(Boolean)};
+  return{items,steps,badges:[sys==='tileclad'?'Tile Clad':'Coatary',gIsSplit?'Color split':gSingleColor||'',totalSqft?totalSqft.toLocaleString()+' sq ft':'',waterproof?('Waterproofing'+(wpsqft>0?` — ${wpsqft.toLocaleString()} sq ft`:'')):''].filter(Boolean)};
 }
 
 function ru16(x,p){const f=Math.pow(10,p||0);return Math.ceil(x*f-1e-9)/f;}
