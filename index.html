@@ -85,6 +85,7 @@ AACH4AAAAAAIIfAAAAAIDgBwAAAAAg+AEAAAAACH4AAAAAAIIfAAAAAIDgBwAAAAAEPwAAAAAAwQ8AAA
   <button class="tb" onclick="sw('polish')">✨ Polish & Seal</button>
   <button class="tb" onclick="sw('specialty')">⭐ Specialty</button>
   <button class="tb" onclick="sw('sport')">🏀 Sport Court</button>
+  <button class="tb" onclick="sw('discontinued')">🗄️ Discontinued Colors</button>
 </div>
 
 <!-- GARAGE -->
@@ -397,6 +398,17 @@ AACH4AAAAAAIIfAAAAAIDgBwAAAAAg+AEAAAAACH4AAAAAAIIfAAAAAIDgBwAAAAAEPwAAAAAAwQ8AAA
   <button class="gb" onclick="gen('sport')">Generate product list</button>
 </div>
 
+<!-- DISCONTINUED COLORS -->
+<div id="tab-discontinued" style="display:none">
+  <div class="card">
+    <div class="ct">Reference only — not used for new jobs</div>
+    <div class="note">These colors were retired from the active pickers. Kept here so an old job or a
+      customer asking about a past color can still be looked up. Picking a job system above uses only
+      the current color lists.</div>
+  </div>
+  <div id="discontinued-list"></div>
+</div>
+
 <!-- OUTPUT -->
 <div class="out" id="outSection">
   <div class="oh">
@@ -428,11 +440,7 @@ const GC={
   "Combo Flake":{colors:["Jordanelle","Timpanogos","Antelope Island","Lake Powell","Arches","Deer Creek","Zion","Slickrock"],type:"combo"},
   "Vinyl Flake":{colors:["Granite","Dolphin","Panther","Sage"],type:"vinyl"},
   "Rock Flake":{colors:["Quicksilver","Midnight","Gotham","Eclipse"],type:"rock"}, "Stone Flake":{colors:["BlackStone","WhiteStone","BrownStone","BlueStone"],type:"stone"},
-  "Solid Color":{colors:["Gray","Tan"],type:"solid"},
-  "Old — Micro":{colors:["Alta","Solitude","Sundance"],type:"micro"},
-  "Old — Combo":{colors:["Sand Hollow","Snow Canyon","Bullfrog","Capitol Reef","Flaming Gorge","Rainbow Bridge"],type:"combo"},
-  "Old — Vinyl":{colors:["Almond","Battleship","Chocolate","Dark Brown","Saddle Tan"],type:"vinyl"},
-  "Old — Rock":{colors:["Multy","Amber","Tiger"],type:"rock"}
+  "Solid Color":{colors:["Gray","Tan"],type:"solid"}
 };
 const BM={Snowbird:"Morning Mist PC845","Powder Mountain":"Dover White PC765",Snowbasin:"Conveyor Gray PC815","Deer Valley":"Light Gray PC847","Wolf Mountain":"Cyclone PC776",Brighton:"Tantone PC752",Canyons:"Smoky Ash PC767","Eagle Point":"Dark Gray PC848",Alta:"Light Gray PC847",Solitude:"White Wisp PC751",Sundance:"Tantone PC752"};
 const BC={Jordanelle:"Dark Gray PC848",Timpanogos:"Porcelain White PC835","Antelope Island":"Concrete PC795","Lake Powell":"Structural Gray PC766",Arches:"Smoky Ash PC767","Deer Creek":"Light Gray PC847",Zion:"Cyclone PC776",Slickrock:"Morning Mist PC845","Sand Hollow":"Dover White PC765","Snow Canyon":"Porcelain White PC835",Bullfrog:"Indian Sand (custom)","Capitol Reef":"Tantone PC752","Flaming Gorge":"Battleship (custom)","Rainbow Bridge":"Tantone PC752"};
@@ -440,7 +448,7 @@ const BV={Granite:"Light Gray PC847",Dolphin:"Porcelain White PC835",Panther:"Bl
 const C2={Arches:"Canyons + Sage","Deer Creek":"Deer Valley + Granite",Zion:"Wolf Mountain + Dolphin",Slickrock:"Powder Mountain + Dolphin","Sand Hollow":"Snowbird + Dolphin","Snow Canyon":"Cobalt","Capitol Reef":"Brighton + Chocolate","Flaming Gorge":"Alta + Granite","Rainbow Bridge":"Sundance + Saddle Tan"};
 const DMPC=["Dolphin Gray","Speedway Gray","Natural Gray","Bright Gray","Dodge City Tan","Sandpiper Beige","Olive Wood","Adobe","White","Provincial Tan","Dark Gray","Charcoal","Black","Ivory Cream","Toffee","Copper Kettle","Spanish Tile","Fired Brick","Redwood Tile","Slate Green"];
 // Polycoat flake colors = polycoat originals + combo flake colors from garage
-const POLYCOAT_FLAKE=["Snowbird","Powder Mountain","Snowbasin","Deer Valley","Wolf Mountain","Brighton","Canyons","Eagle Point","Alta","Sundance","Solitude","Jordanelle","Timpanogos","Antelope Island","Lake Powell","Arches","Deer Creek","Zion","Slickrock","BlackStone","WhiteStone","BrownStone","BlueStone"];
+const POLYCOAT_FLAKE=["Snowbird","Powder Mountain","Snowbasin","Deer Valley","Wolf Mountain","Brighton","Canyons","Eagle Point","Jordanelle","Timpanogos","Antelope Island","Lake Powell","Arches","Deer Creek","Zion","Slickrock","BlackStone","WhiteStone","BrownStone","BlueStone"];
 const OS=["1/4\" (.5\"–0)","3/8\" (.75\"–0)","1/2\" (1\"–0)","3/4\" (1.5\"–0)",".875\" (1.75\"–0)","1\" (2\"–0)","1.25\" (2.5\"–0)","1.5\" (3\"–0)","1.75\" (3.5\"–0)","2\" (4\"–0)"];
 const OL=["1/8\" avg","1/4\" avg","1/2\" avg","3/4\" avg","1\" avg","1.5\" avg","2\" avg","3\" avg"];
 const OL_DIV=[45,22,11,8,5.5,3.66,2.75,1.83];               // v16 self-leveling bags, matches OL order
@@ -449,6 +457,23 @@ const COMBO_COLOR={"White Marble":{base:"Angelic",accent:"Element"}};
 const STONE_GARAGE={"BlackStone":"Coatary Black","WhiteStone":"Dover White PC765","BrownStone":"Smoky Ash PC767","BlueStone":'"Deer Gray" (Light Gray PC847)'};
 const STONE_DECK={"BlackStone":"Black (verdia)","WhiteStone":"PG100 White","BrownStone":"PG100 Indian Sand","BlueStone":"PG100 Dolphin Gray"};
 function pg100Label(c){return STONE_DECK[c]||c}
+const OLD_COLORS={
+  "Old — Micro Flake":{colors:["Alta","Solitude","Sundance"],type:"micro"},
+  "Old — Combo Flake":{colors:["Sand Hollow","Snow Canyon","Bullfrog","Capitol Reef","Flaming Gorge","Rainbow Bridge"],type:"combo"},
+  "Old — Vinyl Flake":{colors:["Almond","Battleship","Chocolate","Dark Brown","Saddle Tan"],type:"vinyl"},
+  "Old — Rock Flake":{colors:["Multy","Amber","Tiger"],type:"rock"}
+};
+function renderDiscontinued(){
+  const c=document.getElementById('discontinued-list');
+  if(!c) return;
+  c.innerHTML=Object.entries(OLD_COLORS).map(([group,{colors,type}])=>{
+    const rows=colors.map(name=>{
+      const base=getBase(name,type);
+      return `<div class="fr"><span class="fl">${name}</span><span style="flex:1;color:var(--text-secondary);font-size:13px">${base?`epoxy base: ${base}`:'no epoxy base (rock flake)'}</span></div>`;
+    }).join('');
+    return `<div class="card"><div class="ct">${group}</div>${rows}</div>`;
+  }).join('');
+}
 const ML=["Aquarius","Leo","Orion","Gemini","Aries","Pegasus","Libra","Scorpius","White Star","White Marble","Aries Marble","Stainless","Element","Shadow","Angelic","Myan Gold","Amethyst","Cabernet","Carbon","Desert Sun","Indigo","Java","Lunar Crest","Nebula","Ruby Red","Rustic","Sarah's Ribbon","Seven Seas","Skyline","Unique","Venom"];
 const MD={Aquarius:{e:"Dover White PC765",p:"Shimmer White & Graphite"},Leo:{e:"SeaWolf PC787",p:"Pewter & Shimmer White"},Orion:{e:"Smoky Ash PC767",p:"Pewter"},Gemini:{e:"Light Gray PC847",p:"Graphite"},Aries:{e:"Dark Gray PC848",p:"Charcoal"},Pegasus:{e:"Inca Gold PC744",p:"Morning Glow & Mocha"},Libra:{e:"Copper Wire PC714",p:"Copper Kettle"},Scorpius:{e:"Ginger Root PC754",p:"Mustard"},"White Star":{e:"Morning Mist PC845",p:"Shimmer White"},"White Marble":{e:"Morning Mist PC845",p:"Shimmer White"},"Aries Marble":{e:"Dark Gray PC848",p:"Charcoal"},Stainless:{e:"custom",p:"Stainless"},Element:{e:"SW7660 Earl Grey",p:"Element"},Shadow:{e:"SW7067 Cityscape",p:"Shadow"},Angelic:{e:"SW8917 Shell White",p:"Angelic"},"Myan Gold":{e:"SW9529 Twig Basket",p:"Myan Gold"},"Amethyst":{e:"SW6825 Izmir Purple",p:"Amethyst"},"Cabernet":{e:"SW7591 Red Barn",p:"Cabernet"},"Carbon":{e:"SW7048 Urbane Bronze",p:"Carbon"},"Desert Sun":{e:"SW6125 Craft Paper",p:"Desert Sun"},"Indigo":{e:"SW7615 Sea Serpent",p:"Indigo"},"Java":{e:"SW6041 Otter",p:"Java"},"Lunar Crest":{e:"SW7067 Cityscape",p:"Lunar Crest"},"Nebula":{e:"SW9140 Blustery Sky",p:"Nebula"},"Ruby Red":{e:"SW7579 Alaea",p:"Ruby Red"},"Rustic":{e:"SW6096 Jute Brown",p:"Rustic"},"Sarah's Ribbon":{e:"SW6223 Still Water",p:"Sarah's Ribbon"},"Seven Seas":{e:"SW6811 Honorable Blue",p:"Seven Seas"},"Skyline":{e:"SW6508 Secure Blue",p:"Skyline"},"Unique":{e:"SW7019 Gauntlet Gray",p:"Unique"},"Venom":{e:"SW6718 Overt Green",p:"Venom"}};
 const GP=["Rectangle Stack (2'×4')","Rectangle Stack (3'×6')","Blue Stone","Chantilly Weave","Border + Drive Path","Custom"];
@@ -464,7 +489,7 @@ let scTypeVal=null,scLinesVal=null,scLogosVal=false,scColor1=null,scColor2=null;
 // Stored steps/products for copy
 let lastProductsHTML='',lastScheduleHTML='',lastProductsPlain='',lastSchedulePlain='';
 
-function sw(t){['garage','deck','overlay','polish','specialty','sport'].forEach(x=>document.getElementById('tab-'+x).style.display=x===t?'block':'none');document.querySelectorAll('.tb').forEach((b,i)=>b.classList.toggle('on',['garage','deck','overlay','polish','specialty','sport'][i]===t));document.getElementById('outSection').classList.remove('vis')}
+function sw(t){['garage','deck','overlay','polish','specialty','sport','discontinued'].forEach(x=>document.getElementById('tab-'+x).style.display=x===t?'block':'none');document.querySelectorAll('.tb').forEach((b,i)=>b.classList.toggle('on',['garage','deck','overlay','polish','specialty','sport','discontinued'][i]===t));document.getElementById('outSection').classList.remove('vis')}
 function tog(id){document.getElementById(id).classList.toggle('on')}
 function togWP(){tog('g-waterproofing');document.getElementById('g-wp-row').style.display=isSel('g-waterproofing')?'block':'none'}
 function isSel(id){return document.getElementById(id)?.classList.contains('on')}
@@ -567,7 +592,7 @@ function bGroutMPC(){
   });
 }
 
-bCat('g-color-grid',GC,(c,t)=>{gSingleColor=c;gSingleType=t});
+bCat('g-color-grid',GC,(c,t)=>{gSingleColor=c;gSingleType=t}); renderDiscontinued();
 bSimple('g-pattern-grid',GP,v=>{});
 bSimple('d-color-grid',DMPC,v=>dColorVal=v);
 bGroutMPC();
