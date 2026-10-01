@@ -183,8 +183,7 @@ AACH4AAAAAAIIfAAAAAIDgBwAAAAAg+AEAAAAACH4AAAAAAIIfAAAAAIDgBwAAAAAEPwAAAAAAwQ8AAA
     <div class="ct">Coating system</div>
     <div class="og">
       <button class="ob" id="d-coat-miracote" onclick="dCoat('miracote')">Miracote</button>
-      <button class="ob" id="d-coat-flake" onclick="dCoat('flake')">Polycoat Flake</button>
-      <button class="ob" id="d-coat-rock" onclick="dCoat('rock')">Polycoat 1/2" Pebble Rock</button>
+      <button class="ob" id="d-coat-polycoat" onclick="dCoat('polycoat')">Polycoat</button>
       <button class="ob" id="d-coat-plywood" onclick="dCoat('plywood')">Direct to Plywood</button>
       <button class="ob" id="d-coat-mirastamp" onclick="dCoat('mirastamp')">MiraStamp</button>
     </div>
@@ -203,6 +202,14 @@ AACH4AAAAAAIIfAAAAAIDgBwAAAAAg+AEAAAAACH4AAAAAAIIfAAAAAIDgBwAAAAAEPwAAAAAAwQ8AAA
     <div class="ct" style="margin-top:4px;margin-bottom:5px">Or pick a specific color</div>
     <div class="og" id="d-grout-color-grid"></div>
   </div>
+  <div class="card" id="d-polycoat-type-card" style="display:none">
+    <div class="ct">Polycoat type</div>
+    <div class="og">
+      <button class="ob" id="d-poly-sandfinish" onclick="dCoat('sandfinish')">Sand Finish</button>
+      <button class="ob" id="d-poly-flake" onclick="dCoat('flake')">Flake</button>
+      <button class="ob" id="d-poly-rock" onclick="dCoat('rock')">Pebble Rock</button>
+    </div>
+  </div>
   <div class="card" id="d-flake-color-card" style="display:none">
     <div class="ct">Flake color</div>
     <div class="og" id="d-flake-color-grid"></div>
@@ -210,6 +217,10 @@ AACH4AAAAAAIIfAAAAAIDgBwAAAAAg+AEAAAAACH4AAAAAAIIfAAAAAIDgBwAAAAAEPwAAAAAAwQ8AAA
   <div class="card" id="d-rock-color-card" style="display:none">
     <div class="ct">Rock color</div>
     <div class="og" id="d-rock-color-grid"></div>
+  </div>
+  <div class="card" id="d-sandfinish-color-card" style="display:none">
+    <div class="ct">Sand Finish color</div>
+    <div class="og" id="d-sandfinish-color-grid"></div>
   </div>
   <div class="card">
     <div class="ct">Additional options</div>
@@ -479,8 +490,19 @@ const MD={Aquarius:{e:"Dover White PC765",p:"Shimmer White & Graphite"},Leo:{e:"
 const GP=["Rectangle Stack (2'×4')","Rectangle Stack (3'×6')","Blue Stone","Chantilly Weave","Border + Drive Path","Custom"];
 
 let gSysVal='coatary',gIsSplit=false,gHasDesign=false,gSingleColor=null,gSingleType=null,gSimpleN=0,gSplitN=0;
-let dJTVal=null,dCoatVal=null,dColorVal=null,dGroutVal=null,dGroutColorVal=null,dFlakeColorVal=null,dRockColorVal=null;
+let dJTVal=null,dCoatVal=null,dColorVal=null,dGroutVal=null,dGroutColorVal=null,dFlakeColorVal=null,dRockColorVal=null,dSandFinishColorVal=null;
 const ROCK_COLORS=["Greyblend","Ozark brown","Rocky Mountain"];
+const SANDFINISH_COLORS={
+  Provo:     {mix:"50% Black Sand & 50% Silver Sand", concrete:"Battleship (RAD) / Dark Gray (Coatary)", deck:"Battleship Grey"},
+  Draper:    {mix:"50% Black Sand & 50% Silver Sand", concrete:"Light Gray (Coatary)",                   deck:"1/2 Stone Grey"},
+  "St George":{mix:"25% Black Sand 75% Silver Sand",  concrete:"Red (RAD custom)",                       deck:"Red"},
+  Bountiful: {mix:"50% Black Sand & 50% Silver Sand", concrete:"Brown (Coatary)",                        deck:"1/2 Brown"},
+  Heber:     {mix:"50% Black Sand & 50% Silver Sand", concrete:"Indian Sand (RAD custom)",               deck:"Indian Sand"},
+  Alpine:    {mix:"50% Black Sand & 50% Silver Sand", concrete:"Tan (Coatary)",                          deck:"1/2 Indian Sand"},
+  "Salt Lake":{mix:"25% Black Sand 75% Silver Sand",  concrete:"Morning Mist (RAD custom)",              deck:"95% White & 5% Indian Sand (Add 6 oz I.S. to gallon of White)"},
+  "Park City":{mix:"100% Black Sand",                 concrete:"Black (Coatary)",                        deck:"Black (verdia color pack)"}
+};
+const SANDFINISH_NAMES=Object.keys(SANDFINISH_COLORS);
 let oJTVal=null,oFinVal=null,oColorVal=null,oSlopeVal=null,oLevelVal=null,oStampVal=null,oGroutColorVal=null,oVenColorVal=null;
 let pSvcVal=null,pFinVal=null;
 let sTypeVal=null,sColorVal=null,sBorderColorVal=null,sGlVal=null,sVerdeColorVal=null;
@@ -521,14 +543,20 @@ function dJT(v){
   if(dCoatVal) dCoat(dCoatVal);
 }
 function dCoat(v){
-  dCoatVal=v;one('d-coat-',['miracote','flake','rock','plywood','mirastamp'],v);
+  dCoatVal=v;
+  const isPoly=['polycoat','flake','rock','sandfinish'].includes(v);
+  const topKey=isPoly?'polycoat':v;
+  one('d-coat-',['miracote','polycoat','plywood','mirastamp'],topKey);
+  one('d-poly-',['sandfinish','flake','rock'],v);
+  document.getElementById('d-polycoat-type-card').style.display=isPoly?'block':'none';
   const isEarly=dJTVal==='early';
-  const hM=v==='miracote',hF=v==='flake',hR=v==='rock',hMS=v==='mirastamp';
+  const hM=v==='miracote',hF=v==='flake',hR=v==='rock',hMS=v==='mirastamp',hSF=v==='sandfinish';
   // Color: show for miracote + mirastamp; hide for early waterproofing
   document.getElementById('d-color-card').style.display=((hM||hMS)&&!isEarly)?'block':'none';
   const jtNow=dJTVal||'full';document.getElementById('d-grout-card').style.display=(hM&&!isEarly&&jtNow!=='topcoat'&&jtNow!=='reseal')?'block':'none';
   document.getElementById('d-flake-color-card').style.display=(hF&&!isEarly)?'block':'none';
   document.getElementById('d-rock-color-card').style.display=(hR&&!isEarly)?'block':'none';
+  document.getElementById('d-sandfinish-color-card').style.display=(hSF&&!isEarly)?'block':'none';
   // Taped design: v16 supports it on Polycoat Flake (BA12) and Direct to Plywood (BA8) only
   const designBtn=document.getElementById('d-design');
   if(designBtn){
@@ -598,6 +626,7 @@ bSimple('d-color-grid',DMPC,v=>dColorVal=v);
 bGroutMPC();
 bSimple('d-flake-color-grid',POLYCOAT_FLAKE,v=>dFlakeColorVal=v);
 bSimple('d-rock-color-grid',ROCK_COLORS,v=>dRockColorVal=v);
+bSimple('d-sandfinish-color-grid',SANDFINISH_NAMES,v=>dSandFinishColorVal=v);
 bSimple('o-color-grid',DMPC,v=>oColorVal=v);
 bSimple('o-grout-color-grid',DMPC,v=>oGroutColorVal=v);
 bSimple('o-slope-grid',OS,v=>oSlopeVal=v);
@@ -695,7 +724,7 @@ function calcDeck(){
   let items=[],steps=[];
 
   if(jt==='reseal'){
-    const rcl=coat==='flake'?'Polycoat Flake':coat==='rock'?'Polycoat Rock':'Miracote';
+    const rcl=coat==='flake'?'Polycoat Flake':coat==='rock'?'Polycoat Rock':coat==='sandfinish'?'Polycoat Sand Finish':'Miracote';
     items=[mkLine('-7" grinders'),mkLine('-Power Washer')];
     if(coat==='flake'){
       items.push(mkLine(`-${sqft>0?Math.ceil(sqft/200):1} Gallons PG100 Clear Sealer (roll thin & even; avoid thick or hot sun)`),mkLine('-Shark Grip'));
@@ -704,6 +733,10 @@ function calcDeck(){
     } else if(coat==='rock'){
       items.push(mkLine(`-${sqft>0?Math.ceil(sqft/200):1} Gallons 'PG 100' top-coat`),mkLine('-Shark Grip'),mkLine('-Floor Pole Screeder / squeegee'));
       steps=['Grind off sealer','Power wash & clean thoroughly','Reseal with PG 100 top-coat & Shark Grip'];
+    } else if(coat==='sandfinish'){
+      items.push(mkLine(`-${sqft>0?Math.ceil(sqft/100):1} Gallons PG100 Clear Sealer, two coats (roll thin & even; avoid thick or hot sun)`),mkLine('-Shark Grip'));
+      if(dSandFinishColorVal)items.push(mkLine(`-Touch-up decorative sand ('${dSandFinishColorVal}' mix) if any bare/worn spots`));
+      steps=['Grind off sealer','Power wash & clean thoroughly','Reseal with PG100 Clear (two coats) & Shark Grip'];
     } else {
       const mb=sqft>0?Math.ceil(sqft/250):0,ml=sqft>0?Math.ceil(sqft/100):0;
       items.push(mkLine('-Design Tape'),mkLine('-HDWB Primer'),mkLine(`-${mb} Bags MPC (match existing color)`),mkLine(`-${ml} Gallons MPC Liquid`),mkLine(`-${sqft>0?Math.ceil(sqft/200):1} Gallons PG100 Polyglaze Sealer. Add 6 oz Hardener/Gallon.`),mkLine('-Shark Grip'));
@@ -789,6 +822,25 @@ function calcDeck(){
     steps=[...(tenting?['Tent']:[]),'Prep, drip edge, lathe, PC-260 Slurry'];
     if(!isEarly)steps.push('Light coat of colored PC-260','Flake','Sand and Seal');
     if(tenting)steps.push('Ask Melissa if tenting needs removal. Caulk screw holes');
+    } else if(coat==='sandfinish'){
+    if(sqft>0){
+      if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
+      items.push(mkLine('-Level. Check the Slope and let me know if it is not good.'),mkLine('-Disc for aggressive sanding. Always sand down the edges before you do the drip edge to help the drip edge get lower and not puddle water.'));
+      if(flash>0)items.push(mkLine(`-${(Math.ceil(flash/10)+1)} pieces of 6" x 6" Flashing. Flashing should be Xtrabond caulked behind it on both sides and caulked at the top. Flashing should be placed with roofing nails every 3" and different flashing pieces overlapped by 6". Make sure you put the flashing BEHIND any window or house wrap.`));
+      items.push(mkLine('-Xtrabond'),...(dConc>0?[mkLine(`-${Math.ceil(dConc/100)} Gallons MVB Moisture Barrier Epoxy primer (100% solids, 2:1 mix, ~100 sq ft/gal)`)]:[]),mkLine(`-${Math.ceil((dWood/18)*1.1)} pieces of Metal Lath`),mkLine(`-${Math.ceil(dWood/250)} boxes of Staples`),mkLine('-Roofing Paper'),mkLine('-Measuring buckets'),mkLine('-Air compressor'),mkLine('-Air hoses'),mkLine('-Staple guns. Air gun oil (oil your gun before, during, and after using it).'));
+      const sfSand=Math.ceil((Math.ceil(dWood/16.9*10)/10*12.8/50)*10)/10;const sfPc=Math.ceil(dWood/16)+Math.ceil(dConc/25);const sfDeco=Math.ceil(sqft/85);
+      items.push(mkLine(`-${sfSand} bags of Sand (50 lb bags)`),mkLine('-PC-260 Slurry Mix: Mix one bucket of 260. Split the 260 in half. Then Add 320 ounces of Sand to 2.5 Gallons of 260.'),mkLine('-Mixing buckets. Gallon measure bucket.'),mkLine(`-${sfPc} Gallons PC-260`));
+      if(!isEarly){
+        const sfInfo=dSandFinishColorVal?SANDFINISH_COLORS[dSandFinishColorVal]:null;
+        items.push(mkLine(`-${Math.ceil(sqft/200)} Gallons of colored PG100${sfInfo?` "${sfInfo.deck}"`:''}`));
+        if(!dSandFinishColorVal)items.push({text:'-[SELECT SAND FINISH COLOR]',missing:true});
+        items.push(mkLine(`-${sfDeco} bags Decorative Sand${sfInfo?` (${sfInfo.mix})`:''}`));
+        items.push(mkLine(`-${Math.ceil(sqft/100)} Gallons PG100 Clear Sealer, two coats — roll thin and even. Avoid thick or direct sun.`));
+      }
+    }
+    steps=[...(tenting?['Tent']:[]),'Prep, drip edge, lathe, PC-260 Slurry'];
+    if(!isEarly)steps.push('Light coat of colored PC-260','Broadcast Decorative Sand','Sand and Seal (two coats)');
+    if(tenting)steps.push('Ask Melissa if tenting needs removal. Caulk screw holes');
   } else if(coat==='rock'){
     if(drip>0)items.push(mkLine(`-${(Math.ceil(drip/10)+1)} pieces ${dripColor} Drip Edge`));
     if(sqft>0){
@@ -834,7 +886,7 @@ function calcDeck(){
   }
 
   const JL={full:'Full deck',early:'Early Waterproofing',finish:'Finish Coats',reseal:'Reseal',topcoat:'Redo top coat'};
-  const CL={miracote:'Miracote',flake:'Polycoat Flake',rock:'Polycoat 1/2" Pebble Rock',plywood:'Direct to Plywood',mirastamp:'MiraStamp'};
+  const CL={miracote:'Miracote',flake:'Polycoat Flake',rock:'Polycoat 1/2" Pebble Rock',plywood:'Direct to Plywood',mirastamp:'MiraStamp',sandfinish:'Polycoat Sand Finish'};
   return{items,steps,badges:[JL[jt]||'',CL[coat]||'',sqft?sqft+' sq ft':''].filter(Boolean)};
 }
 
