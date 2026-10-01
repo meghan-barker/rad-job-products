@@ -427,7 +427,7 @@ const GC={
   "Micro Flake":{colors:["Snowbird","Powder Mountain","Snowbasin","Deer Valley","Wolf Mountain","Brighton","Canyons","Eagle Point"],type:"micro"},
   "Combo Flake":{colors:["Jordanelle","Timpanogos","Antelope Island","Lake Powell","Arches","Deer Creek","Zion","Slickrock"],type:"combo"},
   "Vinyl Flake":{colors:["Granite","Dolphin","Panther","Sage"],type:"vinyl"},
-  "Rock Flake":{colors:["Quicksilver","Midnight","Gotham","Eclipse"],type:"rock"},
+  "Rock Flake":{colors:["Quicksilver","Midnight","Gotham","Eclipse"],type:"rock"}, "Stone Flake":{colors:["BlackStone","WhiteStone","BrownStone","BlueStone"],type:"stone"},
   "Solid Color":{colors:["Gray","Tan"],type:"solid"},
   "Old — Micro":{colors:["Alta","Solitude","Sundance"],type:"micro"},
   "Old — Combo":{colors:["Sand Hollow","Snow Canyon","Bullfrog","Capitol Reef","Flaming Gorge","Rainbow Bridge"],type:"combo"},
@@ -440,12 +440,15 @@ const BV={Granite:"Light Gray PC847",Dolphin:"Porcelain White PC835",Panther:"Bl
 const C2={Arches:"Canyons + Sage","Deer Creek":"Deer Valley + Granite",Zion:"Wolf Mountain + Dolphin",Slickrock:"Powder Mountain + Dolphin","Sand Hollow":"Snowbird + Dolphin","Snow Canyon":"Cobalt","Capitol Reef":"Brighton + Chocolate","Flaming Gorge":"Alta + Granite","Rainbow Bridge":"Sundance + Saddle Tan"};
 const DMPC=["Dolphin Gray","Speedway Gray","Natural Gray","Bright Gray","Dodge City Tan","Sandpiper Beige","Olive Wood","Adobe","White","Provincial Tan","Dark Gray","Charcoal","Black","Ivory Cream","Toffee","Copper Kettle","Spanish Tile","Fired Brick","Redwood Tile","Slate Green"];
 // Polycoat flake colors = polycoat originals + combo flake colors from garage
-const POLYCOAT_FLAKE=["Snowbird","Powder Mountain","Snowbasin","Deer Valley","Wolf Mountain","Brighton","Canyons","Eagle Point","Alta","Sundance","Solitude","Jordanelle","Timpanogos","Antelope Island","Lake Powell","Arches","Deer Creek","Zion","Slickrock"];
+const POLYCOAT_FLAKE=["Snowbird","Powder Mountain","Snowbasin","Deer Valley","Wolf Mountain","Brighton","Canyons","Eagle Point","Alta","Sundance","Solitude","Jordanelle","Timpanogos","Antelope Island","Lake Powell","Arches","Deer Creek","Zion","Slickrock","BlackStone","WhiteStone","BrownStone","BlueStone"];
 const OS=["1/4\" (.5\"–0)","3/8\" (.75\"–0)","1/2\" (1\"–0)","3/4\" (1.5\"–0)",".875\" (1.75\"–0)","1\" (2\"–0)","1.25\" (2.5\"–0)","1.5\" (3\"–0)","1.75\" (3.5\"–0)","2\" (4\"–0)"];
 const OL=["1/8\" avg","1/4\" avg","1/2\" avg","3/4\" avg","1\" avg","1.5\" avg","2\" avg","3\" avg"];
 const OL_DIV=[45,22,11,8,5.5,3.66,2.75,1.83];               // v16 self-leveling bags, matches OL order
 const OS_DIV=[19.2,12.7,9.6,6.4,5.44,4.8,3.81,3.18,2.73,2.4]; // v16 RM3000 sloping bags, matches OS order
 const COMBO_COLOR={"White Marble":{base:"Angelic",accent:"Element"}};
+const STONE_GARAGE={"BlackStone":"Coatary Black","WhiteStone":"Dover White PC765","BrownStone":"Smoky Ash PC767","BlueStone":'"Deer Gray" (Light Gray PC847)'};
+const STONE_DECK={"BlackStone":"Black (verdia)","WhiteStone":"PG100 White","BrownStone":"PG100 Indian Sand","BlueStone":"PG100 Dolphin Gray"};
+function pg100Label(c){return STONE_DECK[c]||c}
 const ML=["Aquarius","Leo","Orion","Gemini","Aries","Pegasus","Libra","Scorpius","White Star","White Marble","Aries Marble","Stainless","Element","Shadow","Angelic","Myan Gold","Amethyst","Cabernet","Carbon","Desert Sun","Indigo","Java","Lunar Crest","Nebula","Ruby Red","Rustic","Sarah's Ribbon","Seven Seas","Skyline","Unique","Venom"];
 const MD={Aquarius:{e:"Dover White PC765",p:"Shimmer White & Graphite"},Leo:{e:"SeaWolf PC787",p:"Pewter & Shimmer White"},Orion:{e:"Smoky Ash PC767",p:"Pewter"},Gemini:{e:"Light Gray PC847",p:"Graphite"},Aries:{e:"Dark Gray PC848",p:"Charcoal"},Pegasus:{e:"Inca Gold PC744",p:"Morning Glow & Mocha"},Libra:{e:"Copper Wire PC714",p:"Copper Kettle"},Scorpius:{e:"Ginger Root PC754",p:"Mustard"},"White Star":{e:"Morning Mist PC845",p:"Shimmer White"},"White Marble":{e:"Morning Mist PC845",p:"Shimmer White"},"Aries Marble":{e:"Dark Gray PC848",p:"Charcoal"},Stainless:{e:"custom",p:"Stainless"},Element:{e:"SW7660 Earl Grey",p:"Element"},Shadow:{e:"SW7067 Cityscape",p:"Shadow"},Angelic:{e:"SW8917 Shell White",p:"Angelic"},"Myan Gold":{e:"SW9529 Twig Basket",p:"Myan Gold"},"Amethyst":{e:"SW6825 Izmir Purple",p:"Amethyst"},"Cabernet":{e:"SW7591 Red Barn",p:"Cabernet"},"Carbon":{e:"SW7048 Urbane Bronze",p:"Carbon"},"Desert Sun":{e:"SW6125 Craft Paper",p:"Desert Sun"},"Indigo":{e:"SW7615 Sea Serpent",p:"Indigo"},"Java":{e:"SW6041 Otter",p:"Java"},"Lunar Crest":{e:"SW7067 Cityscape",p:"Lunar Crest"},"Nebula":{e:"SW9140 Blustery Sky",p:"Nebula"},"Ruby Red":{e:"SW7579 Alaea",p:"Ruby Red"},"Rustic":{e:"SW6096 Jute Brown",p:"Rustic"},"Sarah's Ribbon":{e:"SW6223 Still Water",p:"Sarah's Ribbon"},"Seven Seas":{e:"SW6811 Honorable Blue",p:"Seven Seas"},"Skyline":{e:"SW6508 Secure Blue",p:"Skyline"},"Unique":{e:"SW7019 Gauntlet Gray",p:"Unique"},"Venom":{e:"SW6718 Overt Green",p:"Venom"}};
 const GP=["Rectangle Stack (2'×4')","Rectangle Stack (3'×6')","Blue Stone","Chantilly Weave","Border + Drive Path","Custom"];
@@ -468,10 +471,10 @@ function isSel(id){return document.getElementById(id)?.classList.contains('on')}
 function one(pre,keys,val){keys.forEach(k=>{const e=document.getElementById(pre+k);if(e)e.classList.toggle('on',k===val)})}
 function gv(id){return parseFloat(document.getElementById(id)?.value)||0}
 function sv(id){return document.getElementById(id)?.value||''}
-function getBase(c,t){if(t==='micro')return BM[c]||'matching base';if(t==='combo')return BC[c]||'matching base';if(t==='vinyl')return BV[c]||'matching base';return null}
+function getBase(c,t){if(t==='micro')return BM[c]||'matching base';if(t==='combo')return BC[c]||'matching base';if(t==='vinyl')return BV[c]||'matching base';if(t==='stone')return STONE_GARAGE[c]||'matching base';return null}
 function getTypeForColor(c){for(const[,{colors,type}] of Object.entries(GC)){if(colors.includes(c))return type}return 'micro'}
-function flakeQty(s,t){if(t==='rock')return Math.ceil(s/800);if(t==='micro')return Math.ceil(s/300);if(t==='combo')return Math.ceil(s/400);if(t==='vinyl')return Math.ceil(s/600);return Math.ceil(s/600)}
-function tcQty(s,t){if(t==='rock')return Math.ceil(s/75);if(t==='micro')return Math.ceil(s/150);if(t==='combo')return Math.ceil(s/150);if(t==='vinyl')return Math.ceil(s/175);return Math.ceil(s/150)}
+function flakeQty(s,t){if(t==='rock')return Math.ceil(s/800);if(t==='micro'||t==='stone')return Math.ceil(s/300);if(t==='combo')return Math.ceil(s/400);if(t==='vinyl')return Math.ceil(s/600);return Math.ceil(s/600)}
+function tcQty(s,t){if(t==='rock')return Math.ceil(s/75);if(t==='micro'||t==='stone')return Math.ceil(s/150);if(t==='combo')return Math.ceil(s/150);if(t==='vinyl')return Math.ceil(s/175);return Math.ceil(s/150)}
 function epoxy(s){return Math.ceil(s/170)}
 function colorOptHTML(){return Object.entries(GC).map(([g,{colors}])=>`<optgroup label="${g}">${colors.map(c=>`<option value="${c}">${c}</option>`).join('')}</optgroup>`).join('')}
 function miss(txt){return`<span class="missing">${txt}</span>`}
@@ -591,7 +594,7 @@ function areaLines(name,color,type,sqft,sys){
   const lines=[];
   if(sys==='tileclad'){lines.push(mkLine(`-${epoxy(sqft)} Gallons ${base} Tile Clad Epoxy${lbl}`));}
   else lines.push(mkLine(`-${epoxy(sqft)} Gallons ${base} Colored Polyaspartic Flex${lbl}`));
-  if(!iS){const fb=flakeQty(sqft,type);if(iC&&C2[color]){const cf=C2[color];if(cf.includes('+')){const[f1,f2]=cf.split(' + ');lines.push(mkLine(`-${Math.ceil(fb*0.67)} box(es) '${f1}' Micro Flake${lbl}`));lines.push(mkLine(`-${Math.ceil(fb*0.33)} box(es) '${f2}' Vinyl Flake${lbl}`));}else lines.push(mkLine(`-${fb} box(es) '${color}' Combo Flake${lbl}`));}else lines.push(mkLine(`-${fb} box(es) '${color}' ${type==='micro'?'Micro':type==='vinyl'?'Vinyl':'Rock'} Flake${lbl}`));lines.push(mkLine(`-${tcQty(sqft,type)} gal Crystal Clear TC Polyaspartic${iR?' (2 coats)':''}${lbl}`));}
+  if(!iS){const fb=flakeQty(sqft,type);if(iC&&C2[color]){const cf=C2[color];if(cf.includes('+')){const[f1,f2]=cf.split(' + ');lines.push(mkLine(`-${Math.ceil(fb*0.67)} box(es) '${f1}' Micro Flake${lbl}`));lines.push(mkLine(`-${Math.ceil(fb*0.33)} box(es) '${f2}' Vinyl Flake${lbl}`));}else lines.push(mkLine(`-${fb} box(es) '${color}' Combo Flake${lbl}`));}else lines.push(mkLine(`-${fb} box(es) '${color}' ${type==='micro'?'Micro':type==='vinyl'?'Vinyl':type==='stone'?'Stone':'Rock'} Flake${lbl}`));lines.push(mkLine(`-${tcQty(sqft,type)} gal Crystal Clear TC Polyaspartic${iR?' (2 coats)':''}${lbl}`));}
   else{lines.push(mkLine(`-${tcQty(sqft,type)} gal Solid Color Polyaspartic (${color})${lbl}`));lines.push(mkLine(`-${Math.ceil(sqft/250)} pints SlowGo Color Packs${lbl}`));}
   return lines;
 }
@@ -751,7 +754,7 @@ function calcDeck(){
       const sand=Math.ceil((Math.ceil(dWood/16.9*10)/10*12.8/50)*10)/10;const pc=Math.ceil(dWood/16)+Math.ceil(dConc/25);const fb=Math.ceil(sqft/400);
       items.push(mkLine(`-${sand} bags of Sand (50 lb bags)`),mkLine('-PC-260 Slurry Mix: Mix one bucket of 260. Split the 260 in half. Then Add 320 ounces of Sand to 2.5 Gallons of 260.'),mkLine('-Mixing buckets. Gallon measure bucket.'),...(design?[mkLine('-Design Tape')]:[]),mkLine(`-${pc} Gallons ${design?'Colored ':''}PC-260`));
       if(!isEarly){
-        items.push(mkLine(`-${Math.ceil(sqft/225)} Gallons of colored PG100${flakeColor?` "${flakeColor}"`:''}`));
+        items.push(mkLine(`-${Math.ceil(sqft/225)} Gallons of colored PG100${flakeColor?` "${pg100Label(flakeColor)}"`:''}`));
         if(!flakeColor)items.push({text:'-[SELECT FLAKE COLOR]',missing:true});
         else if(C2[flakeColor]){const cf=C2[flakeColor];if(cf.includes(' + ')){const[f1,f2]=cf.split(' + ');items.push(mkLine(`-${Math.ceil(fb*0.67)} box(es) '${f1}' Micro Flake (Combo)`),mkLine(`-${Math.ceil(fb*0.33)} box(es) '${f2}' Vinyl Flake (Combo)`));}else items.push(mkLine(`-${fb} box(es) '${flakeColor}' Combo Flake`));}
         else items.push(mkLine(`-${fb} box(es) '${flakeColor}' Flakes`));
@@ -784,7 +787,7 @@ function calcDeck(){
     if(sqft>0){
       items.push(mkLine(`-${(Math.round(sqft/800*10)/10)} kits Dural Non-Sag & Joint Tape`),...(design?[mkLine('-Design Tape')]:[]),mkLine(`-${Math.ceil(sqft/20)} Gallons ${design?'Colored ':''}PC-260`));
       if(!isEarly){
-        items.push(mkLine(`-${(Math.ceil(sqft/225*10)/10)} Gallons of colored PG100${flakeColor?` "${flakeColor}"`:''}`));
+        items.push(mkLine(`-${(Math.ceil(sqft/225*10)/10)} Gallons of colored PG100${flakeColor?` "${pg100Label(flakeColor)}"`:''}`));
         if(!flakeColor)items.push({text:'-[SELECT FLAKE COLOR]',missing:true});
         else items.push(mkLine(`-${Math.ceil(sqft/400)} box(es) '${flakeColor}' Flakes`));
         items.push(mkLine(`-${(Math.ceil(sqft/200*10)/10)} Gallons PG100 or Multiglaze Clear. Roll thin and even; avoid thick or hot sun.`));
