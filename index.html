@@ -649,6 +649,13 @@ gAddSimple();gAddSplit();
 function mkLine(txt,missing=false){
   return {text:txt,missing};
 }
+function mpcColor(c,note=''){
+  // v16's Miracote colour tables mark Natural Gray "(No Color)" -- it's the
+  // plain/untinted MPC Liquid, not a colour-pack tint like every other option.
+  const n=note?` ${note}`:'';
+  if(c==='Natural Gray') return `(No Color)${n}`;
+  return `"${c}"${n} (½ color pack per bucket)`;
+}
 function areaLines(name,color,type,sqft,sys){
   if(!sqft)return[];
   const base=getBase(color,type)||'matching base';const iR=type==='rock',iS=type==='solid',iC=type==='combo';const lbl=name?` (${name})`:'';
@@ -778,7 +785,7 @@ function calcDeck(){
         // v16 collapses both coats into one line when the grout matches the colour
         items.push(mkLine(`-Both Overlay Coats: ${b1+b2} Bags MPC Regular ${color||'[SELECT COLOR]'} Powder`));
         if(!color) items.push({text:`-${l1+l2} Gallons MPC Liquid [SELECT COLOR]`,missing:true});
-        else items.push(mkLine(`-${l1+l2} Gallons MPC Liquid "${color}" (½ color pack per bucket)`));
+        else items.push(mkLine(`-${l1+l2} Gallons MPC Liquid ${mpcColor(color)}`));
         if(jt!=='finish') items.push(mkLine('-HDWB Primer'));
         items.push(mkLine(`-${Math.ceil(sqft/200)} Gallons PG100 Polyglaze Sealer. Add 6 oz Hardener/Gallon.`),mkLine('-Shark Grip'));
       } else {
@@ -788,13 +795,13 @@ function calcDeck(){
         } else {
           items.push(mkLine(`-1st coat: ${b1} Bags MPC Regular Gray Powder`));
           if(!groutLabel) items.push({text:`-${l1} Gallons MPC Liquid [SELECT GROUT COLOR]`,missing:true});
-          else items.push(mkLine(`-${l1} Gallons MPC Liquid "${groutLabel}" (½ color pack per bucket)`));
+          else items.push(mkLine(`-${l1} Gallons MPC Liquid ${mpcColor(groutLabel)}`));
         }
       }
       if(doTop){
         items.push(mkLine(`-${jt==='topcoat'?'Top coat':'2nd coat'}: ${b2} Bags MPC Regular White Powder`));
         if(!color) items.push({text:`-${l2} Gallons MPC Liquid [SELECT COLOR]`,missing:true});
-        else items.push(mkLine(`-${l2} Gallons MPC Liquid "${color}" (½ color pack per bucket)`));
+        else items.push(mkLine(`-${l2} Gallons MPC Liquid ${mpcColor(color)}`));
         if(jt!=='finish') items.push(mkLine('-HDWB Primer'));
         items.push(mkLine(`-${Math.ceil(sqft/200)} Gallons PG100 Polyglaze Sealer. Add 6 oz Hardener/Gallon.`),mkLine('-Shark Grip'));
       }
@@ -905,13 +912,13 @@ function calcOverlay(){
   let items=[],steps=[];
   if(fin==='interior'){
     if(!isTC){items.push(mkLine('-Grinder'),mkLine('-Quickpatch, Mapei Planiprep SC, other patches. Overfill — patch shrinks.'),mkLine('-Clear Xtrabond for cracks; colored for joints (Limestone, Dark Gray, Black, Clear)'),mkLine('-Fine grit sandpaper'));if(plySqft>0)items.push(mkLine(`-Note: ${plySqft} sq ft over plywood — use ML Primer for plywood sections, HDWB for concrete`));}
-    if(total>0){items.push(mkLine(`-${ru16(total/150,0)} Gallons HDWB / ML Primer${plySqft>0?` (ML Primer for ${plySqft} sq ft plywood)`:''}`),mkLine(`-${ru16(total/250,0)} Bags MPC Regular White Powder. Magic trowel on 1st coat.`),mkLine(`-${ru16(total/400,0)} Bags MPC Smooth White Powder. Hand trowel 2nd coat with square trowel.`));if(!color)items.push({text:`-${ru16(total/400,0)*2.5} Gallons MPC Liquid [SELECT COLOR] (½ color pack per bucket)`,missing:true});else items.push(mkLine(`-${ru16(total/400,0)*2.5} Gallons MPC Liquid "${color}" (½ color pack per bucket)`));items.push(mkLine('-Mirastain: bring Gray and Tan colors in case needed'),mkLine(`-${ru16(total/250,0)*2.5/5} LIP Color Pack`),mkLine(`-${ru16(total/250,1)} Gallons WB Epoxy Gloss or Satin, 1st coat (dilute 30% water. Roll thin both ways, 3/16" roller.)`),mkLine(`-${ru16(total/450,1)} Gallons Seal Krete Dura-Shell WB Urethane Matte`));}
+    if(total>0){items.push(mkLine(`-${ru16(total/150,0)} Gallons HDWB / ML Primer${plySqft>0?` (ML Primer for ${plySqft} sq ft plywood)`:''}`),mkLine(`-${ru16(total/250,0)} Bags MPC Regular White Powder. Magic trowel on 1st coat.`),mkLine(`-${ru16(total/400,0)} Bags MPC Smooth White Powder. Hand trowel 2nd coat with square trowel.`));if(!color)items.push({text:`-${ru16(total/400,0)*2.5} Gallons MPC Liquid [SELECT COLOR] (½ color pack per bucket)`,missing:true});else items.push(mkLine(`-${ru16(total/400,0)*2.5} Gallons MPC Liquid ${mpcColor(color)}`));items.push(mkLine('-Mirastain: bring Gray and Tan colors in case needed'),mkLine(`-${ru16(total/250,0)*2.5/5} LIP Color Pack`),mkLine(`-${ru16(total/250,1)} Gallons WB Epoxy Gloss or Satin, 1st coat (dilute 30% water. Roll thin both ways, 3/16" roller.)`),mkLine(`-${ru16(total/450,1)} Gallons Seal Krete Dura-Shell WB Urethane Matte`));}
     if(slope&&slopeSqft>0){const si=OS.indexOf(slope),sd=si>=0?OS_DIV[si]:0;items.push(mkLine(`-${sd?Math.ceil(slopeSqft/sd):'?'} Bags RM3000 for ${slopeSqft} sq ft slope (${slope}); Metal Straight Edge, Straight Wood 2x4`));}
     if(level&&slopeSqft>0){const li=OL.indexOf(level),ld=li>=0?OL_DIV[li]:0;items.push(mkLine(`-${ld?Math.ceil(slopeSqft/ld):'?'} Self-Leveling Bags (TechLevel or Mapei PlaniLevel) for ${slopeSqft} sq ft (${level})`));}
     steps=isTC?['Sand lightly','MPC Regular coat','Sand & MPC Smooth coat','Stain if needed, HDWB prime, WB Epoxy seal']:['Grind, patch, prime, MPC Regular','Sand & MPC Smooth','Sand by hand or drywall sander, stain if needed, HDWB prime, WB Epoxy seal'];
   }else if(fin==='exterior'){
     if(!isTC)items.push(mkLine('-Grinder, Hammer Drill, Pressure Washer'),mkLine('-Quickpatch, RM2, & PlaniTopX Patches'),mkLine('-Diamond V Blade, Concrete Saw — cut MPC all the way through joints'),mkLine('-Xtrabond and Silica Sand'));
-    if(total>0){items.push(mkLine(`-${ru16(total/250,0)} Bags MPC Regular White Powder (1st coat)`),mkLine(`-${ru16(total/220,0)} Bags MPC Regular White Powder (2nd coat)`));items.push(mkLine(`-${ru16(total/250,0)*2.5} Gallons MPC Liquid "${groutC}" — 1st coat / grout (½ color pack per bucket)`));if(!color)items.push({text:`-${ru16(total/220,0)*2.5} Gallons MPC Liquid [SELECT COLOR] — 2nd coat (½ color pack per bucket)`,missing:true});else items.push(mkLine(`-${ru16(total/220,0)*2.5} Gallons MPC Liquid "${color}" — 2nd coat (½ color pack per bucket)`));items.push(mkLine(`-${Math.ceil(total/435)} Gallons PG100 Sealer. Apply thin.`),mkLine('-Shark Grip'));}
+    if(total>0){items.push(mkLine(`-${ru16(total/250,0)} Bags MPC Regular White Powder (1st coat)`),mkLine(`-${ru16(total/220,0)} Bags MPC Regular White Powder (2nd coat)`));items.push(mkLine(`-${ru16(total/250,0)*2.5} Gallons MPC Liquid ${mpcColor(groutC,'— 1st coat / grout')}`));if(!color)items.push({text:`-${ru16(total/220,0)*2.5} Gallons MPC Liquid [SELECT COLOR] — 2nd coat (½ color pack per bucket)`,missing:true});else items.push(mkLine(`-${ru16(total/220,0)*2.5} Gallons MPC Liquid ${mpcColor(color,'— 2nd coat')}`));items.push(mkLine(`-${Math.ceil(total/435)} Gallons PG100 Sealer. Apply thin.`),mkLine('-Shark Grip'));}
     steps=isTC?['Clean surface','MPC 2nd coat','Seal with PG100 & Shark Grip']:['Grind, power wash, patch','MPC Regular (1st coat)','Sand & MPC 2nd coat (Swirl/Broom/Smooth)','Seal with Shark Grip'];
   }else if(fin==='venetian'){
     const kits=ru16(sqft/300,0), ltKits=ru16(sqft/225,0), hdwb=ru16(sqft/150,0);
