@@ -726,7 +726,7 @@ function calcGarage(){
   if(!gIsSplit){const color=gSingleColor,type=gSingleType||'micro';[...document.getElementById('g-areas-simple').querySelectorAll('.area-simple')].forEach(row=>{const name=row.querySelector('input:not([type=number])')?.value||'';const sqft=parseFloat(row.querySelector('input[type=number]')?.value)||0;totalSqft+=sqft;if(!color&&sqft>0)items.push({text:'-[SELECT COLOR]',missing:true});else items.push(...areaLines(name,color||'',type,sqft,sys));});}
   else{[...document.getElementById('g-areas-split').querySelectorAll('.area-split')].forEach(block=>{const name=block.querySelector('input:not([type=number])')?.value||'';const color=block.querySelector('select')?.value||'';const type=getTypeForColor(color);const sqft=parseFloat(block.querySelector('input[type=number]')?.value)||0;totalSqft+=sqft;if(!color&&sqft>0)items.push({text:`-[SELECT COLOR for ${name||'area'}]`,missing:true});else items.push(...areaLines(name,color,type,sqft,sys));});}
   if(texture)items.push(mkLine('-Texture additive (~84 oz per coat)'));
-  if(shimmers.length)items.push(mkLine(`-Shimmer: ${shimmers.join(', ')} (Shimmer Dust bags or Shimmer Flake)`));
+  if(shimmers.length)items.push(mkLine(`-Shimmer: ${shimmers.length>1?'1 bag each of':'2 bags of'}: ${shimmers.join(', ')}. Mix ratio: 4 oz of TOTAL Shimmer powder (all colors combined) per 1 Gallon of Clear. Mix well and keep mixing while applying the Top Coat.`));
   const type=gSingleType||'micro',isRock=type==='rock';
   let steps=[];
   if(waterproof&&hasDesign)steps=['Grind, seal joints & perimeter, Epoxy Prime','Waterproof with colored PC-260','Tape design & flake','Seal with Crystal Clear TC'+(texture?' with Texture':'')+(shimmers.length?' and Shimmer':'')+'. Remove design tape. Clean up'];
