@@ -192,6 +192,13 @@ AACH4AAAAAAIIfAAAAAIDgBwAAAAAg+AEAAAAACH4AAAAAAIIfAAAAAIDgBwAAAAAEPwAAAAAAwQ8AAA
     <div class="ct">Color</div>
     <div class="og" id="d-color-grid"></div>
   </div>
+  <div class="card" id="d-miracote-design-card" style="display:none">
+    <div class="ct">Design</div>
+    <div class="og">
+      <button class="ob on" id="d-mdes-no" onclick="dMiracoteDesign(false)">No design</button>
+      <button class="ob" id="d-mdes-yes" onclick="dMiracoteDesign(true)">Yes — two-tone (grout differs)</button>
+    </div>
+  </div>
   <div class="card" id="d-grout-card" style="display:none">
     <div class="ct">Grout / 1st coat color</div>
     <div class="og" style="margin-bottom:8px">
@@ -495,7 +502,7 @@ const MD={Aquarius:{e:"Dover White PC765",p:"Shimmer White & Graphite"},Leo:{e:"
 const GP=["Rectangle Stack (2'×4')","Rectangle Stack (3'×6')","Blue Stone","Chantilly Weave","Border + Drive Path","Custom"];
 
 let gSysVal='coatary',gIsSplit=false,gHasDesign=false,gSingleColor=null,gSingleType=null,gSimpleN=0,gSplitN=0;
-let dJTVal=null,dCoatVal=null,dColorVal=null,dGroutVal=null,dGroutColorVal=null,dFlakeColorVal=null,dRockColorVal=null,dSandFinishColorVal=null;
+let dJTVal=null,dCoatVal=null,dColorVal=null,dMiracoteDesignVal=false,dGroutVal=null,dGroutColorVal=null,dFlakeColorVal=null,dRockColorVal=null,dSandFinishColorVal=null;
 const ROCK_COLORS=["Greyblend","Ozark brown","Rocky Mountain"];
 const SANDFINISH_COLORS={
   Provo:     {mix:"50% Black Sand & 50% Silver Sand", concrete:"Battleship (RAD) / Dark Gray (Coatary)", deck:"Battleship Grey"},
@@ -558,7 +565,10 @@ function dCoat(v){
   const hM=v==='miracote',hF=v==='flake',hR=v==='rock',hMS=v==='mirastamp',hSF=v==='sandfinish';
   // Color: show for miracote + mirastamp; hide for early waterproofing
   document.getElementById('d-color-card').style.display=((hM||hMS)&&!isEarly)?'block':'none';
-  const jtNow=dJTVal||'full';document.getElementById('d-grout-card').style.display=(hM&&!isEarly&&jtNow!=='topcoat'&&jtNow!=='reseal')?'block':'none';
+  const jtNow=dJTVal||'full';
+  const showMiracoteDesign=hM&&!isEarly&&jtNow!=='topcoat'&&jtNow!=='reseal';
+  document.getElementById('d-miracote-design-card').style.display=showMiracoteDesign?'block':'none';
+  document.getElementById('d-grout-card').style.display=(showMiracoteDesign&&dMiracoteDesignVal)?'block':'none';
   document.getElementById('d-flake-color-card').style.display=(hF&&!isEarly)?'block':'none';
   document.getElementById('d-rock-color-card').style.display=(hR&&!isEarly)?'block':'none';
   document.getElementById('d-sandfinish-color-card').style.display=(hSF&&!isEarly)?'block':'none';
@@ -574,6 +584,18 @@ function dCoat(v){
   if(addOpts){
     const plankBtn=document.getElementById('d-plank');
     if(plankBtn) plankBtn.style.display=hM?'block':'none';
+  }
+}
+function dMiracoteDesign(v){
+  dMiracoteDesignVal=v;
+  document.getElementById('d-mdes-no').classList.toggle('on',!v);
+  document.getElementById('d-mdes-yes').classList.toggle('on',v);
+  document.getElementById('d-grout-card').style.display=v?'block':'none';
+  if(!v){
+    // No design -- grout and overlay color collapse into one selection (handled in calcDeck).
+    dGroutVal=null;dGroutColorVal=null;
+    one('d-grout-',['charcoal','slightly','same'],'__none__');
+    document.querySelectorAll('#d-grout-color-grid .ob').forEach(b=>b.classList.remove('on'));
   }
 }
 function dGrout(v){
@@ -722,7 +744,7 @@ function calcDeck(){
   /* v16 treats wood and concrete as separate areas. `sqft` is their SUM (used by every 'Both Wood & Concrete Areas' formula); dWood / dConc drive the area-specific lines. */const dWood=gv('d-woodsqft'),dConc=gv('d-consqft'),sqft=dWood+dConc,drip=gv('d-drip'),flash=gv('d-flash'),dripColor=sv('d-drip-color');
   const jt=dJTVal||'full',coat=dCoatVal||'miracote';
   const color=dColorVal,flakeColor=dFlakeColorVal;
-  const grout=dGroutVal,groutColor=dGroutColorVal;
+  const grout=dMiracoteDesignVal?dGroutVal:'same',groutColor=dMiracoteDesignVal?dGroutColorVal:null;
   const tenting=isSel('d-tenting'),plank=isSel('d-plank'),design=isSel('d-design');
   const isEarly=jt==='early';
   const doPrep=jt==='full'||jt==='early';
