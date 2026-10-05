@@ -960,14 +960,14 @@ function calcOverlay(){
   }else if(fin==='sandfinish'){
     if(sqft>0){
       const sfInfo=oSandFinishColorVal?SANDFINISH_COLORS[oSandFinishColorVal]:null;
-      items.push(mkLine(`-${ru16(sqft/100,0)} Gallons MVB Moisture Barrier Epoxy Primer`),
+      items.push(mkLine(`-${ru16(sqft/100,0)} Gallons MVB Moisture Barrier Epoxy primer`),
                  mkLine(`-${ru16(sqft/1200,0)} bags Quartz Primer Sand, 50 Grit`),
                  mkLine(`-${ru16(sqft/140,0)} Gallons Colored Poly${sfInfo?` "${sfInfo.concrete}"`:''}`));
       if(!oSandFinishColorVal) items.push({text:'-[SELECT SAND FINISH COLOR]',missing:true});
       items.push(mkLine(`-${ru16(sqft/85,0)} bags Decorative Sand${sfInfo?` (${sfInfo.mix})`:''}`),
                  mkLine(`-${ru16(sqft/80,0)} Gallons Urethane Top Coat PU-60`));
     }
-    steps=['Prime: MVB Moisture Barrier Epoxy Primer, broadcast Quartz Primer Sand into wet primer for grip',
+    steps=['Prime: MVB Moisture Barrier Epoxy primer, broadcast Quartz Primer Sand into wet primer for grip',
            'Apply Colored Poly base coat',
            'Broadcast Decorative Sand into wet base coat',
            'Seal with Urethane Top Coat PU-60'];
