@@ -891,10 +891,13 @@ function calcDeck(){
       const bags=Math.ceil((sqft/12.5)+(sqft/12.5*0.075));
       const buckets=Math.ceil(bags/5);
       const uvr=Math.ceil(buckets/4*3)+Math.ceil(buckets/4*1);
-      items.push(mkLine(`-${pc} Gallons Colored PC-260 (2 Coats)${dRockColorVal?` — "${ROCK_BASE[dRockColorVal]||dRockColorVal}"`:''}`),dRockColorVal?mkLine(`-${bags} Bags of 1/2" Rock ("${dRockColorVal}")`):mkLine(`-${bags} Bags of 1/2" Rock`),mkLine(`-${uvr} Kits of urethane UVR Resin (Contec, Orem). Mix 5 bags rock : 1 kit UVR (4 bags, then resin, then 5th bag).`),mkLine('-Resin Rock Catalyst'),mkLine('-Mixing buckets, gallon measure bucket'));
-      if(!isEarly)items.push(mkLine(`-${(Math.ceil(sqft/200*10)/10)} Gallons of 'PG 100' top-coat`),mkLine('-Floor Pole Screeder / squeegee'));
+      items.push(mkLine(`-${pc} Gallons Colored PC-260 (2 Coats)${dRockColorVal?` — "${ROCK_BASE[dRockColorVal]||dRockColorVal}"`:''}`));
+      if(!isEarly){
+        items.push(dRockColorVal?mkLine(`-${bags} Bags of 1/2" Rock ("${dRockColorVal}")`):mkLine(`-${bags} Bags of 1/2" Rock`),mkLine(`-${uvr} Kits of urethane UVR Resin (Contec, Orem). Mix 5 bags rock : 1 kit UVR (4 bags, then resin, then 5th bag).`),mkLine('-Resin Rock Catalyst'),mkLine('-Mixing buckets, gallon measure bucket'),mkLine(`-${(Math.ceil(sqft/200*10)/10)} Gallons of 'PG 100' top-coat`),mkLine('-Floor Pole Screeder / squeegee'));
+      }
     }
-    steps=[...(tenting?['Tent']:[]),'Prep, drip edge, Xtrabond joints','Colored PC-260 base (2 coats)','Broadcast 1/2" Rock with UVR Resin (5:1)','PG100 top-coat & seal'];
+    steps=[...(tenting?['Tent']:[]),'Prep, drip edge, Xtrabond joints','Colored PC-260 base (2 coats)'];
+    if(!isEarly)steps.push('Broadcast 1/2" Rock with UVR Resin (5:1)','PG100 top-coat & seal');
     if(tenting)steps.push('Ask about tenting removal. Caulk screw holes');
   } else if(coat==='plywood'){
     // v16 "Micro Flake / Direct to Plywood Waterproofing" — flake finish applied direct to plywood
