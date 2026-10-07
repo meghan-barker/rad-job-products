@@ -729,7 +729,16 @@ function calcGarage(){
   let totalSqft=0;
   if(!gIsSplit){const color=gSingleColor,type=gSingleType||'micro';[...document.getElementById('g-areas-simple').querySelectorAll('.area-simple')].forEach(row=>{const name=row.querySelector('input:not([type=number])')?.value||'';const sqft=parseFloat(row.querySelector('input[type=number]')?.value)||0;totalSqft+=sqft;if(!color&&sqft>0)items.push({text:'-[SELECT COLOR]',missing:true});else items.push(...areaLines(name,color||'',type,sqft,sys));});}
   else{[...document.getElementById('g-areas-split').querySelectorAll('.area-split')].forEach(block=>{const name=block.querySelector('input:not([type=number])')?.value||'';const color=block.querySelector('select')?.value||'';const type=getTypeForColor(color);const sqft=parseFloat(block.querySelector('input[type=number]')?.value)||0;totalSqft+=sqft;if(!color&&sqft>0)items.push({text:`-[SELECT COLOR for ${name||'area'}]`,missing:true});else items.push(...areaLines(name,color,type,sqft,sys));});}
-  if(texture)items.push(mkLine('-Texture additive (~84 oz per coat)'));
+  if(texture){
+    // v16 src data row 21: 6 oz 36 Grit White Aluminum Oxide per gallon of
+    // Crystal Clear, using the fixed per-flake-type gallon reference in rows
+    // 17-20 (NOT this job's actual sqft-scaled topcoat) -- except Solid Color,
+    // which uses roundup(GarageSqFt/250, 0.5) per row 10/F10.
+    const tType=gSingleType||'micro';
+    const TEXTURE_GAL={micro:3,combo:3,vinyl:2,rock:5,stone:3};
+    const tGal=tType==='solid'?Math.ceil((totalSqft/250)*2)/2:(TEXTURE_GAL[tType]||3);
+    items.push(mkLine(`-Clear Coat Texture: Mix 6 ounces of 36 Grit White Aluminum Oxide with one gallon of Crystal Clear. You'll need ${tGal*6} ounces total. Keep mixing it so it doesn't all settle to the bottom. And be careful rolling it out so we don't get weird lines.`));
+  }
   if(shimmers.length)items.push(mkLine(`-Shimmer: ${shimmers.length>1?'1 bag each of':'2 bags of'}: ${shimmers.join(', ')}. Mix ratio: 4 oz of TOTAL Shimmer powder (all colors combined) per 1 Gallon of Clear. Mix well and keep mixing while applying the Top Coat.`));
   const type=gSingleType||'micro',isRock=type==='rock';
   let steps=[];
